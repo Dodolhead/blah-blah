@@ -37,6 +37,8 @@ public class Farm {
         return time;
     }
 
+    
+
     public Season getSeason() {
         return season;
     }

@@ -9,7 +9,7 @@ public class FarmMapTes {
         Gold playerGold = new Gold(1000);
         Inventory playerInventory = new Inventory();
         Location playerLocation = new Location("House", new Point(10, 10));
-        Player player = new Player("John", "Male", "Sunny Farm", null, playerGold, 
+        Player player = new Player("John", "Male", "Sunny Farm", playerGold, 
                                 playerInventory, playerLocation);
         
         Point playerPositionFarm = player.getPlayerLocation().getCurrentPoint();

@@ -54,10 +54,12 @@ public class GiftingAction implements Action {
     @Override
     public boolean execute(Player p){
         if (p.getEnergy() < ENERGY_COST) {
+            System.out.println("You don't have enough energy to do this action");
             return false;
         }
 
         if (!p.getPlayerInventory().hasItemAndAmount(giftitem.getItemName(), amount)){
+            System.out.println("You don't have the item you want to gift");
             return false;
         } 
     
@@ -67,11 +69,7 @@ public class GiftingAction implements Action {
         farm.getTime().skipTimeMinute(TIME_COST);
     
         // Update heartPoints NPC
-        if (recipient.getHeartPoints() > 0) {
-            recipient.increaseHeartPoints(heartPoints);
-        } else if (heartPoints < 0) {
-            recipient.decreaseHeartPoints(Math.abs(heartPoints));
-        }
+        recipient.increaseHeartPoints(heartPoints);
     
         // Berikan item ke NPC
         recipient.receiveGift(giftitem, amount);
@@ -79,6 +77,7 @@ public class GiftingAction implements Action {
         // Hapus item dari inventory
         p.getPlayerInventory().removeItem(giftitem, amount);
 
+        System.out.println("Successfully gifted the item, earned " + heartPoints + " heart points.");
         return true;
     }
 

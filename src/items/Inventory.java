@@ -89,6 +89,18 @@ public class Inventory {
     }
 
     public void printInventory() {
+        boolean hasAnyItem = false;
+        for (Map<String, Integer> itemMap : inventoryStorage.values()) {
+            if (itemMap != null && !itemMap.isEmpty()) {
+                hasAnyItem = true;
+                break;
+            }
+        }
+    
+        if (!hasAnyItem) {
+            System.out.println("No items in inventory.");
+            return;
+        }
         System.out.println("======= INVENTORY STORAGE =======");
         System.out.println("---------------------------------");
         

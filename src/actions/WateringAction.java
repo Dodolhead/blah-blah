@@ -27,18 +27,18 @@ public class WateringAction implements Action {
     /*========== OTHER METHOD =========== */
     //jujur gw bingung apa lagi yg perlu dilakuin buat nge-"watering"
     @Override
-    public boolean execute(Player p){
-        if (!p.getPlayerInventory().hasItem("Watering Can")){
+    public boolean execute(Player player){
+        if (!player.getPlayerInventory().hasItem("Watering Can")){
             return false;
         }
 
-        if (p.getEnergy() < ENERGY_COST) {
+        if (player.getEnergy() < ENERGY_COST) {
             return false;
         }
     
         // Substract energi dan waktu
-        p.setEnergy(p.getEnergy() - ENERGY_COST);
-        Farm farm = FarmManager.getFarmByName(p.getFarm());
+        player.setEnergy(player.getEnergy() - ENERGY_COST);
+        Farm farm = FarmManager.getFarmByName(player.getFarm());
         farm.getTime().skipTimeMinute(TIME_COST);
     
         return true;

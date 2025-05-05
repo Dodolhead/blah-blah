@@ -16,9 +16,10 @@ public class NPC {
     private List<Item> hatedItem;
     private String relationshipStatus;
     private Map<Item, Integer> npcItemStorage;
+    private int proposedDay = -1;
     
 
-    public NPC(String npcName, List<Item> lovedItem, List<Item> likedItem, List<Item> hatedItem, String relationshipStatus, List<Item> npcItemStorage) {
+    public NPC(String npcName, String relationshipStatus) {
         this.npcName = npcName;
         this.heartPoints = INITIAL_HEART_POINTS;
         this.lovedItem = new ArrayList<Item>();
@@ -85,5 +86,12 @@ public class NPC {
         hatedItem.add(item);
     }
 
+    public int getProposedDay() {
+        return proposedDay;
+    }
+    
+    public void setProposedDay(int day) {
+        this.proposedDay = day;
+    }
 
 }

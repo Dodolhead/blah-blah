@@ -5,7 +5,6 @@ import src.entities.*;
 import src.items.*;
 
 import java.util.Scanner;
-import java.util.ArrayList;
 import java.util.List;
 
 public class WorldMapTes {
@@ -18,26 +17,18 @@ public class WorldMapTes {
 
         // Dummy objek pendukung konstruktor Player
         System.out.println("\n=== NPC Setup ===");
-        
-        List<Item> lovedItems = new ArrayList<>();
-        
-        List<Item> likedItems = new ArrayList<>();
-        
-        List<Item> hatedItems = new ArrayList<>();
-        List<Item> npcStorage = new ArrayList<>();
 
 
-        NPC alice = new NPC("Alice", lovedItems, likedItems, hatedItems, "Single", npcStorage);
+        NPC alice = new NPC("Alice", "Single");
         System.out.println("Created NPC: " + alice.getNpcName());
         Gold playerGold = new Gold(100);
         Inventory inventory = new Inventory();
 
         // Membuat objek Player dengan konstruktor lengkap
         Player player = new Player(
-            "Qika",           // playerName
+            "Bro",           // playerName
             "Male",         // gender
-            "QikaFarm",       // farmName
-            alice,     // partner
+            "BroFarm",       // farmName  // partner
             playerGold,       // gold
             inventory,        // inventory
             startingLocation // lokasi awal    

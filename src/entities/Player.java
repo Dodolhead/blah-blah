@@ -9,22 +9,19 @@ public class Player {
     private String playerName;
     private String gender;
     private int energy;
-    private int heartPoints;
     private int MAX_ENERGY = 100;
     private String farmName;
-    private NPC partner;
+    private NPC partner = null;
     private Gold playerGold;
     private Inventory playerInventory;
     private Location playerLocation;
     private List<String> visitedPlace;
 
-    public Player(String playerName, String gender, String farmName, NPC partner, Gold playerGold, Inventory playerInventory, Location playerLocation) {
+    public Player(String playerName, String gender, String farmName, Gold playerGold, Inventory playerInventory, Location playerLocation) {
         this.playerName = playerName;
         this.gender = gender;
         this.energy = MAX_ENERGY;
-        this.heartPoints = 0;
         this.farmName = farmName;
-        this.partner = partner;
         this.playerGold = playerGold;
         this.playerInventory = playerInventory;
         this.playerLocation = playerLocation;
@@ -45,15 +42,12 @@ public class Player {
         return energy;
     }
 
-    public int getHeartPoints() {
-        return heartPoints;
-    }
-
     public String getFarm() {
         return farmName;
     }
 
     public NPC getPartner() {
+        if (partner == null) {return null;}
         return partner;
     }
 
@@ -81,10 +75,6 @@ public class Player {
     
     public void setEnergy(int energy) {
         this.energy = energy;
-    }
-    
-    public void setHeartPoints(int heartPoints) {
-        this.heartPoints = heartPoints;
     }
     
     public void setFarmName(String farmName) {

@@ -3,9 +3,6 @@ package src;
 import src.entities.*;
 import src.map.*;
 import src.items.*;
-import java.util.ArrayList;
-import java.util.List;
-
 public class HouseMapTes {
     public static void main(String[] args) {
 
@@ -28,17 +25,11 @@ public class HouseMapTes {
 
         // 4. Membuat NPC dengan preferensi item
         System.out.println("\n=== NPC Setup ===");
-        
-        List<Item> lovedItems = new ArrayList<>();
-        lovedItems.add(diamond);
-        
-        List<Item> likedItems = new ArrayList<>();
-        likedItems.add(ancientCoin);
-        
-        List<Item> hatedItems = new ArrayList<>();
-        List<Item> npcStorage = new ArrayList<>();
 
-        NPC alice = new NPC("Alice", lovedItems, likedItems, hatedItems, "Single", npcStorage);
+        NPC alice = new NPC("Alice", "Single");
+
+        alice.addLovedItem(diamond);
+        alice.addLikedItem(ancientCoin);
         System.out.println("Created NPC: " + alice.getNpcName());
         System.out.println("Loves: " + alice.getLovedItem().get(0).getItemName());
 
@@ -48,7 +39,7 @@ public class HouseMapTes {
         Gold playerGold = new Gold(1000);
         Location playerLocation = new Location("House", new Point(12, 12));
         
-        Player player = new Player("John", "Male", "Sunny Farm", null, playerGold, 
+        Player player = new Player("John", "Male", "Sunny Farm", playerGold, 
                                 playerInventory, playerLocation);
         
         // Menambahkan item ke inventory
