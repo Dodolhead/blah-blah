@@ -4,37 +4,21 @@ import src.entities.*;
 import src.map.Point;
 
 public class WateringAction implements Action {
-    private int energyCost;
-    private int timeCost;
+    private int ENERGY_COST = 5;
+    private int TIME_COST = 5;
     private Point tile;
 
     public WateringAction(Point tile){
-        this.energyCost = 5;
-        this.timeCost = 5;
         this.tile = tile;
     }
 
-        /*============= GETTER =============== */
-    public int getEnergyCost(){
-        return energyCost;
-    }
-
-    public int getTimeCost(){
-        return timeCost;
-    }
+    /*============= GETTER =============== */
 
     public Point getTile(){
         return tile;
     }
 
     /*============= SETTER =============== */
-    public void setEnergyCost(int energyCost){
-        this.energyCost = energyCost;
-    }
-
-    public void setTimeCost(int timeCost){
-        this.timeCost = timeCost;
-    }
 
     public void setTile(Point tile){
         this.tile = tile;
@@ -44,14 +28,18 @@ public class WateringAction implements Action {
     //jujur gw bingung apa lagi yg perlu dilakuin buat nge-"watering"
     @Override
     public boolean execute(Player p){
-        if (p.getEnergy() < energyCost) {
+        if (!p.getPlayerInventory().hasItem("Watering Can")){
+            return false;
+        }
+
+        if (p.getEnergy() < ENERGY_COST) {
             return false;
         }
     
         // Substract energi dan waktu
-        p.setEnergy(p.getEnergy() - energyCost);
+        p.setEnergy(p.getEnergy() - ENERGY_COST);
         Farm farm = FarmManager.getFarmByName(p.getFarm());
-        farm.getTime().skipTimeMinute(timeCost);
+        farm.getTime().skipTimeMinute(TIME_COST);
     
         return true;
     }

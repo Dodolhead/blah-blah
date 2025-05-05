@@ -65,7 +65,7 @@ public class HouseMapTes {
         
         // Memberi hadiah ke NPC
         if (player.getPlayerInventory().getItemAmount(diamond) > 0) {
-            alice.receiveGift(diamond);
+            alice.receiveGift(diamond, 1);
             alice.increaseHeartPoints(50);
             player.getPlayerInventory().removeItem(diamond, 1);
             System.out.println("Gave " + diamond.getItemName() + " to Alice!");

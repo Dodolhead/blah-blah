@@ -1,54 +1,42 @@
 package src.actions;
 
 import src.entities.*;
+import src.map.*;
 
 public class MarryAction implements Action {
-    private int energyCost ;
-    private int timeCost;
-    private int heartPoints;
+    private int ENERGY_COST = 80;
+    private int TIME_TARGET_IN_HOUR = 22;
+    private NPC targetNpc;
 
-    public MarryAction(){
-        this.energyCost = 80;
-        this.timeCost = 22;
-        this.heartPoints = 150;
+    public MarryAction(NPC targetNpc){
+        this.targetNpc = targetNpc;
     }
 
-    /*============= GETTER =============== */
-    public int getEnergyCost(){
-        return energyCost;
-    }
-
-    public int getTimeCost(){
-        return timeCost;
-    }
-
-    public int getHeartPoints(){
-        return heartPoints;
-    }
-
-    /*============= SETTER =============== */
-    public void setEnergyCost(int energyCost){
-        this.energyCost = energyCost;
-    }
-
-    public void setTimeCost(int timeCost){
-        this.timeCost = timeCost;
-    }
-
-    public void setHeartPoints(int heartPoints){
-        this.heartPoints = heartPoints;
+    public NPC getTargetNpc(){
+        return targetNpc;
     }
 
     /*========== OTHER METHOD =========== */
     @Override
     public boolean execute(Player p){
-        if (p.getEnergy() < energyCost) {
+        // marry harus minimal 1 hari setelah propose kasih kondisi nanti
+
+        
+        if (!targetNpc.getRelationshipStatus().equals("Fiance")){
+            return false;
+        }
+        if (!p.getPlayerInventory().hasItem("Proposal Ring")){
+            return false;
+        }  
+
+        if (p.getEnergy() < ENERGY_COST) {
             return false;
         } 
-        p.setEnergy(p.getEnergy() - energyCost);
-        p.setHeartPoints(p.getHeartPoints() + heartPoints);
+
+        p.setEnergy(p.getEnergy() - ENERGY_COST);
         Farm farm = FarmManager.getFarmByName(p.getFarm());
-        farm.getTime().skipTimeMinute(timeCost);
+        farm.getTime().skipTimeMinute(farm.getTime().timeDifference(TIME_TARGET_IN_HOUR, 0));
+        p.setPlayerLocation(new Location("House", new Point(8, 8)));
         return true;
 
     }

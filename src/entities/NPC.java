@@ -1,28 +1,31 @@
 package src.entities;
 
+import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import src.items.*;
+
 
 public class NPC {
     private String npcName;
     private int heartPoints;
     private int INITIAL_HEART_POINTS = 0;
-    private List<Item> lovedItem = new ArrayList<Item>();
-    private List<Item> likedItem = new ArrayList<Item>();
-    private List<Item> hatedItem = new ArrayList<Item>();
+    private List<Item> lovedItem;
+    private List<Item> likedItem;
+    private List<Item> hatedItem;
     private String relationshipStatus;
-    private List<Item> npcItemStorage = new ArrayList<Item>();
+    private Map<Item, Integer> npcItemStorage;
     
 
     public NPC(String npcName, List<Item> lovedItem, List<Item> likedItem, List<Item> hatedItem, String relationshipStatus, List<Item> npcItemStorage) {
         this.npcName = npcName;
         this.heartPoints = INITIAL_HEART_POINTS;
-        this.lovedItem = lovedItem;
-        this.likedItem = likedItem;
-        this.hatedItem = hatedItem;
+        this.lovedItem = new ArrayList<Item>();
+        this.likedItem = new ArrayList<Item>();
+        this.hatedItem = new ArrayList<Item>();
         this.relationshipStatus = relationshipStatus;
-        this.npcItemStorage = npcItemStorage;
+        this.npcItemStorage = new HashMap<>();
         NPCManager.addNPC(this);
     }
 
@@ -66,8 +69,20 @@ public class NPC {
         this.heartPoints -= heartPoints;
     }
 
-    public void receiveGift(Item item) {
-        npcItemStorage.add(item);
+    public void receiveGift(Item item, int amount) {
+        npcItemStorage.put(item, amount);
+    }
+
+    public void addLovedItem(Item item) {
+        lovedItem.add(item);
+    }
+
+    public void addLikedItem(Item item) {
+        likedItem.add(item);
+    }
+
+    public void addHatedItem(Item item) {
+        hatedItem.add(item);
     }
 
 

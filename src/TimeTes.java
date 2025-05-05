@@ -34,6 +34,8 @@ public class TimeTes {
             e.printStackTrace();
         }
 
+        System.out.println(gameTime.timeDifference(22,0));
+
         // Stop waktu
         gameTime.stopTime();
         System.out.println("\nGame time stopped.");

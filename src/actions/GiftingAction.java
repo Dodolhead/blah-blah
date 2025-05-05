@@ -4,34 +4,31 @@ import src.entities.*;
 import src.items.*;
 
 public class GiftingAction implements Action {
-    private int energyCost ;
-    private int timeCost;
-    private int heartPoints;
+    private int ENERGY_COST = 5;
+    private int TIME_COST = 10;
     private Item giftitem;
     private NPC recipient;
+    private int heartPoints;
+    private int amount;
 
 
-    public GiftingAction(Item giftitem, NPC recipient){
-        this.energyCost = 5;
-        this.timeCost = 10;
-        this.heartPoints = 10;
+    public GiftingAction(Item giftitem, NPC recipient, int amount){
         this.giftitem = giftitem;
         this.recipient = recipient;
+        this.amount = amount;
+
+        if (recipient.getLovedItem().contains(giftitem)){
+            this.heartPoints = 25;
+        } else if(recipient.getLikedItem().contains(giftitem)){
+            this.heartPoints = 20;
+        } else if(recipient.getHatedItem().contains(giftitem)){
+            this.heartPoints = -25;
+        } else{
+            this.heartPoints = 0;
+        }
     }
 
     /*============= GETTER =============== */
-    public int getEnergyCost(){
-        return energyCost;
-    }
-
-    public int getTimeCost(){
-        return timeCost;
-    }
-
-    public int getHeartPoints(){
-        return heartPoints;
-    }
-
     public Item getGiftItem(){
         return giftitem;
     }    
@@ -40,19 +37,11 @@ public class GiftingAction implements Action {
         return recipient;
     }
 
+    public int getAmount(){
+        return amount;
+    }
+
     /*============= SETTER =============== */
-    public void setEnergyCost(int energyCost){
-        this.energyCost = energyCost;
-    }
-
-    public void setTimeCost(int timeCost){
-        this.timeCost = timeCost;
-    }
-
-    public void setHeartPoints(int heartPoints){
-        this.heartPoints = heartPoints;
-    }
-
     public void setGiftItem(Item gifItem){
         this.giftitem = gifItem;
     }
@@ -64,41 +53,31 @@ public class GiftingAction implements Action {
     /*========== OTHER METHOD =========== */
     @Override
     public boolean execute(Player p){
-        if (p.getEnergy() < energyCost) {
+        if (p.getEnergy() < ENERGY_COST) {
             return false;
         }
-    
-        if (p.getPlayerInventory().getItemAmount(giftitem) <= 0) {
+
+        if (!p.getPlayerInventory().hasItemAndAmount(giftitem.getItemName(), amount)){
             return false;
-        }
-    
-        if(recipient.getLovedItem().contains(giftitem)){
-            this.heartPoints = 25;
-        } else if(recipient.getLikedItem().contains(giftitem)){
-            this.heartPoints = 20;
-        } else if(recipient.getHatedItem().contains(giftitem)){
-            this.heartPoints = -25;
-        } else{
-            this.heartPoints = 0;
-        }
+        } 
     
         // Substract energi dan waktu
-        p.setEnergy(p.getEnergy() - energyCost);
+        p.setEnergy(p.getEnergy() - ENERGY_COST);
         Farm farm = FarmManager.getFarmByName(p.getFarm());
-        farm.getTime().skipTimeMinute(timeCost);
+        farm.getTime().skipTimeMinute(TIME_COST);
     
         // Update heartPoints NPC
-        if (heartPoints > 0) {
+        if (recipient.getHeartPoints() > 0) {
             recipient.increaseHeartPoints(heartPoints);
         } else if (heartPoints < 0) {
             recipient.decreaseHeartPoints(Math.abs(heartPoints));
         }
     
         // Berikan item ke NPC
-        recipient.receiveGift(giftitem);
+        recipient.receiveGift(giftitem, amount);
     
         // Hapus item dari inventory
-        p.getPlayerInventory().removeItem(giftitem, 1);
+        p.getPlayerInventory().removeItem(giftitem, amount);
 
         return true;
     }

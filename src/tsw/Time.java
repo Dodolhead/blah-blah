@@ -110,4 +110,11 @@ public class Time implements Runnable{
             lock.notify();
         }
     }
+
+    public synchronized int timeDifference(int targetHour, int targetMinute) {
+        int currentTotal = this.hour * 60 + this.minute;
+        int targetTotal = targetHour * 60 + targetMinute;
+        return targetTotal - currentTotal;
+    }
+    
 }
