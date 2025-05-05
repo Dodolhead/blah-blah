@@ -9,19 +9,21 @@ public class Player {
     private String playerName;
     private String gender;
     private int energy;
+    private int heartPoints;
     private int MAX_ENERGY = 100;
-    private String farmName;
+    private Farm farm;
     private NPC partner;
     private Gold playerGold;
     private Inventory playerInventory;
     private Location playerLocation;
     private List<String> visitedPlace;
 
-    public Player(String playerName, String gender, String farmName, NPC partner, Gold playerGold, Inventory playerInventory, Location playerLocation, PlayerManager playerManagerList) {
+    public Player(String playerName, String gender, Farm farm, NPC partner, Gold playerGold, Inventory playerInventory, Location playerLocation, PlayerManager playerManagerList) {
         this.playerName = playerName;
         this.gender = gender;
         this.energy = MAX_ENERGY;
-        this.farmName = farmName;
+        this.heartPoints = 0;
+        this.farm = farm;
         this.partner = partner;
         this.playerGold = playerGold;
         this.playerInventory = playerInventory;
@@ -30,6 +32,7 @@ public class Player {
         playerManagerList.addPlayer(this);
     }
 
+    /*============= GETTER =============== */
     public String getPlayerName() {
         return playerName;
     }
@@ -42,8 +45,12 @@ public class Player {
         return energy;
     }
 
-    public String getFarmName() {
-        return farmName;
+    public int getHeartPoints() {
+        return heartPoints;
+    }
+
+    public Farm getFarm() {
+        return farm;
     }
 
     public NPC getPartner() {
@@ -63,10 +70,44 @@ public class Player {
         return playerLocation;
     }
 
+    /*========== OTHER METHOD =========== */
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+    
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+    
+    public void setEnergy(int energy) {
+        this.energy = energy;
+    }
+    
+    public void setHeartPoints(int heartPoints) {
+        this.heartPoints = heartPoints;
+    }
+    
+    public void setFarm(Farm farmName) {
+        this.farm = farmName;
+    }
+    
+    public void setPartner(NPC partner) {
+        this.partner = partner;
+    }
+    
+    public void setPlayerGold(Gold playerGold) {
+        this.playerGold = playerGold;
+    }
+    
+    public void setPlayerInventory(Inventory playerInventory) {
+        this.playerInventory = playerInventory;
+    }
+
     public void setPlayerLocation(Location playerLocation) {
         this.playerLocation = playerLocation;
     }
 
+    /*========== OTHER METHOD =========== */
     public void addPlayerEnergy(int amount) {
         this.energy += amount;
     }
