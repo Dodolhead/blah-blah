@@ -15,7 +15,7 @@ public class NPC {
     private List<Item> npcItemStorage = new ArrayList<Item>();
     
 
-    public NPC(String npcName, List<Item> lovedItem, List<Item> likedItem, List<Item> hatedItem, String relationshipStatus, NPCManager npcManagerList, List<Item> npcItemStorage) {
+    public NPC(String npcName, List<Item> lovedItem, List<Item> likedItem, List<Item> hatedItem, String relationshipStatus, List<Item> npcItemStorage) {
         this.npcName = npcName;
         this.heartPoints = INITIAL_HEART_POINTS;
         this.lovedItem = lovedItem;
@@ -23,7 +23,7 @@ public class NPC {
         this.hatedItem = hatedItem;
         this.relationshipStatus = relationshipStatus;
         this.npcItemStorage = npcItemStorage;
-        npcManagerList.addNPC(this);
+        NPCManager.addNPC(this);
     }
 
     public String getNpcName() {

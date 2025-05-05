@@ -50,7 +50,8 @@ public class WateringAction implements Action {
     
         // Substract energi dan waktu
         p.setEnergy(p.getEnergy() - energyCost);
-        p.getFarm().getTime().skipTimeMinute(timeCost);
+        Farm farm = FarmManager.getFarmByName(p.getFarm());
+        farm.getTime().skipTimeMinute(timeCost);
     
         return true;
     }

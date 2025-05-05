@@ -6,12 +6,11 @@ import src.items.*;
 
 public class FarmMapTes {
     public static void main(String[] args) {
-        PlayerManager playerManager = new PlayerManager();
         Gold playerGold = new Gold(1000);
         Inventory playerInventory = new Inventory();
         Location playerLocation = new Location("House", new Point(10, 10));
         Player player = new Player("John", "Male", "Sunny Farm", null, playerGold, 
-                                playerInventory, playerLocation, playerManager);
+                                playerInventory, playerLocation);
         
         Point playerPositionFarm = player.getPlayerLocation().getCurrentPoint();
         // Membuat objek FarmMap

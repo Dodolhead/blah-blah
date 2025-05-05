@@ -26,13 +26,11 @@ public class WorldMapTes {
         List<Item> hatedItems = new ArrayList<>();
         List<Item> npcStorage = new ArrayList<>();
 
-        NPCManager npcManager = new NPCManager();
 
-        NPC alice = new NPC("Alice", lovedItems, likedItems, hatedItems, "Single", npcManager, npcStorage);
+        NPC alice = new NPC("Alice", lovedItems, likedItems, hatedItems, "Single", npcStorage);
         System.out.println("Created NPC: " + alice.getNpcName());
         Gold playerGold = new Gold(100);
         Inventory inventory = new Inventory();
-        PlayerManager playerManager = new PlayerManager();
 
         // Membuat objek Player dengan konstruktor lengkap
         Player player = new Player(
@@ -42,8 +40,7 @@ public class WorldMapTes {
             alice,     // partner
             playerGold,       // gold
             inventory,        // inventory
-            startingLocation, // lokasi awal
-            playerManager     // manager
+            startingLocation // lokasi awal    
         );
 
         // Buat FarmMap dan WorldMap

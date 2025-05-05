@@ -18,6 +18,7 @@ public class Farm {
         time = new Time();
         season = new Season();
         weather = new Weather();
+        FarmManager.registerFarm(this);
     }
 
     public String getFarmName() {

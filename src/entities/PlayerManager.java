@@ -4,24 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerManager {
-    private List<Player> playerList;
+    private static List<Player> playerList = new ArrayList<>();
 
-    public PlayerManager() {
-        this.playerList = new ArrayList<Player>();
-    }
-    public void addPlayer(Player player) {
+    public static void addPlayer(Player player) {
         playerList.add(player);
     }
 
-    public void removePlayer(Player player) {
+    public static void removePlayer(Player player) {
         playerList.remove(player);
     }
 
-    public int getPlayerCount() {
+    public static int getPlayerCount() {
         return playerList.size();
     }
 
-    public List<Player> getPlayerList() {
+    public static List<Player> getPlayerList() {
         return playerList;
+    }
+
+    public static Player getPlayerByName(String name) {
+        for (Player player : playerList) {
+            if (player.getPlayerName().equals(name)) {
+                return player;
+            }
+        }
+        return null;
     }
 }

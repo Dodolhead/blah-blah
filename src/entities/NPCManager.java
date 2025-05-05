@@ -3,26 +3,22 @@ package src.entities;
 import java.util.List;
 import java.util.ArrayList;
 
-public class NPCManager{
-    private List<NPC> npcList;
+public class NPCManager {
+    private static List<NPC> npcList = new ArrayList<>();
 
-    public NPCManager() {
-        this.npcList = new ArrayList<NPC>();
-    }
-    public void addNPC(NPC npc) {
+    public static void addNPC(NPC npc) {
         npcList.add(npc);
     }
 
-    public void removeNPC(NPC npc) {
+    public static void removeNPC(NPC npc) {
         npcList.remove(npc);
     }
 
-    public int getNPCCount() {
+    public static int getNPCCount() {
         return npcList.size();
     }
 
-    public List<NPC> getNPCList() {
+    public static List<NPC> getNPCList() {
         return npcList;
     }
-    
 }

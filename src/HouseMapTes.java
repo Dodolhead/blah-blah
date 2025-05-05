@@ -8,10 +8,6 @@ import java.util.List;
 
 public class HouseMapTes {
     public static void main(String[] args) {
-        // 1. Inisialisasi Manager
-        PlayerManager playerManager = new PlayerManager();
-    
-        NPCManager npcManager = new NPCManager();
 
         // 2. Membuat Item dan Misc
         System.out.println("\n=== Item Creation ===");
@@ -42,7 +38,7 @@ public class HouseMapTes {
         List<Item> hatedItems = new ArrayList<>();
         List<Item> npcStorage = new ArrayList<>();
 
-        NPC alice = new NPC("Alice", lovedItems, likedItems, hatedItems, "Single", npcManager, npcStorage);
+        NPC alice = new NPC("Alice", lovedItems, likedItems, hatedItems, "Single", npcStorage);
         System.out.println("Created NPC: " + alice.getNpcName());
         System.out.println("Loves: " + alice.getLovedItem().get(0).getItemName());
 
@@ -53,7 +49,7 @@ public class HouseMapTes {
         Location playerLocation = new Location("House", new Point(12, 12));
         
         Player player = new Player("John", "Male", "Sunny Farm", null, playerGold, 
-                                playerInventory, playerLocation, playerManager);
+                                playerInventory, playerLocation);
         
         // Menambahkan item ke inventory
         player.getPlayerInventory().addItem(diamond, 1);

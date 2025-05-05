@@ -2,7 +2,7 @@ package src;
 
 import src.tsw.*;
 
-public class Main {
+public class TimeTes {
     public static void main(String[] args) {
         Time gameTime = new Time();
 

@@ -47,7 +47,8 @@ public class MarryAction implements Action {
         } 
         p.setEnergy(p.getEnergy() - energyCost);
         p.setHeartPoints(p.getHeartPoints() + heartPoints);
-        p.getFarm().getTime().skipTimeMinute(timeCost);
+        Farm farm = FarmManager.getFarmByName(p.getFarm());
+        farm.getTime().skipTimeMinute(timeCost);
         return true;
 
     }
