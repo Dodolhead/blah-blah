@@ -1,9 +1,9 @@
 package src;
 
 import src.map.*;
+import src.actions.MovingAction;
 import src.entities.*;
 import src.items.*;
-
 public class FarmMapTes {
     public static void main(String[] args) {
         Gold playerGold = new Gold(1000);
@@ -41,6 +41,11 @@ public class FarmMapTes {
         playerPositionFarm.movePlayer("down", farmMap.getFarmMapDisplay());
         farmMap.displayFarmMap();
         farmMap.displayObjectPositions();
+
+        MovingAction move = new MovingAction(24, 0, farmMap.getFarmMapDisplay());
+        move.execute(player);
+        farmMap.displayFarmMap();
+
     }
 }
 

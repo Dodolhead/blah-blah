@@ -185,14 +185,15 @@ public class FarmMap {
         for (int i = 0; i < farmSizeHeight; i++) {
             for (int j = 0; j < farmSizeWidth; j++) {
                 if (playerPositionFarm.getY() == i && playerPositionFarm.getX() == j) {
-                    System.out.print('P');
+                    System.out.print("P ");
                 } else {
-                    System.out.print(farmMapDisplay[i][j]);
+                    System.out.print(farmMapDisplay[i][j] + " ");
                 }
             }
             System.out.println(); 
         }
     }
+    
 
     public boolean isAtEdge(Point playerPositionFarm) {
         int x = playerPositionFarm.getX();

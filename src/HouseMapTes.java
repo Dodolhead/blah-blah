@@ -1,5 +1,6 @@
 package src;
 
+import src.actions.MovingAction;
 import src.entities.*;
 import src.map.*;
 import src.items.*;
@@ -117,8 +118,15 @@ public class HouseMapTes {
         // playerPos.movePlayer("left", houseMap.getHouseMapDisplay());
         // System.out.println("Moved left to: (" + playerPos.getX() + "," + playerPos.getY() + ")");
 
+        
         houseMap.displayHouse();
 
         houseMap.displayObjectPositions();
+
+        MovingAction move = new MovingAction(24, 0, houseMap.getHouseMapDisplay());
+        move.execute(player);
+
+        houseMap.displayHouse();
+
     }
 }
