@@ -19,11 +19,23 @@ public class Point {
         return y;
     }
 
-    public void moveTo(int dx, int dy) {
-        this.x = dx;
-        this.y = dy;
+    public boolean moveTo(int dx, int dy, char[][] mapDisplay) {
+        if (dx < 0 || dy < 0 || dx >= mapDisplay.length || dy >= mapDisplay[0].length) {
+            System.out.println("Cannot move: Out of bounds!");
+            return false;
+        }
+    
+        if (mapDisplay[dx][dy] == '.') {
+            this.x = dx;
+            this.y = dy;
+            System.out.println("Moved to (" + dx + ", " + dy + ")");
+            return true;
+        } else {
+            System.out.println("Cannot move: Collision detected at (" + dx + ", " + dy + ")");
+            return false;
+        }
     }
-
+    
     public boolean movePlayer(String direction, char[][] mapDisplay) {
         int newX = this.x;
         int newY = this.y;

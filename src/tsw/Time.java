@@ -116,5 +116,11 @@ public class Time implements Runnable{
         int targetTotal = targetHour * 60 + targetMinute;
         return targetTotal - currentTotal;
     }
+
+    public synchronized String getTimeDay() {
+        return String.format("SEASON: %s - Day-%d - %02d:%02d", season.getCurrentSeason(), day, hour, minute);
+    }
+    
+    
     
 }

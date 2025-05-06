@@ -85,9 +85,9 @@ public class HouseMap {
         for (int i = 0; i < houseSizeHeight; i++) {
             for (int j = 0; j < houseSizeWidth; j++) {
                 if (playerPositionHouse.getY() == i && playerPositionHouse.getX() == j) {
-                    System.out.print('P');
+                    System.out.print("P ");
                 } else {
-                    System.out.print(houseMapDisplay[i][j]);
+                    System.out.print(houseMapDisplay[i][j] + " ");
                 }
             }
             System.out.println(); 

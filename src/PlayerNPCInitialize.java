@@ -1,5 +1,6 @@
 package src;
 
+import src.actions.ShowingTimeAction;
 import src.entities.*;
 import src.items.Gold;
 import src.items.Inventory;
@@ -35,5 +36,25 @@ public class PlayerNPCInitialize {
         System.out.println("Player Name: " + player.getPlayerName());
         System.out.println("Farm Name: " + player.getFarm());
         System.out.println("Partner Loved Item: " + player.getPartner().getLovedItem().get(0).getItemName());
+
+        Farm anjayFarm = new Farm(player.getFarm(), player);
+
+        player.getPlayerInventory().addItem(ancientCoin, 1);
+
+        
+        OpeningInventoryAction openInvent = new OpeningInventoryAction();
+        openInvent.execute(player);
+        try{
+            Thread.sleep(5000);
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+
+        ShowingTimeAction showTime = new ShowingTimeAction();
+        showTime.execute(player);
+
+        anjayFarm.getTime().stopTime();
+
     }
 }
