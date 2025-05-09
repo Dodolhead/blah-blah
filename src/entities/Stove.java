@@ -6,11 +6,13 @@ import src.map.HouseMap;
 import src.map.Point;
 
 public class Stove extends Furniture{
-    private int fuelRemaining = 0;
-    private String currentFuelType = "";
+    private int fuelRemaining;
+    private String currentFuelType;
 
     public Stove() {
         super("stove", "Stove", "Tungku untuk memasak makanan", 1, 1, 'S');
+        currentFuelType = "Empty";
+        fuelRemaining = 0;
     }
 
     public boolean isNearby(Player player, HouseMap houseMap) {
@@ -41,8 +43,16 @@ public class Stove extends Furniture{
         return false;
     }
 
-    public boolean addFuel(String fuelName, Player player) {
+    public void setFuelType(String fuelType) {
+        this.currentFuelType = fuelType;
+    }
+
+    public boolean addFuel(String fuelName, Player player, HouseMap houseMap) {
         if (!player.getPlayerInventory().hasItem(fuelName)) return false;
+        
+        if (!isNearby(player, houseMap)){
+            return false;
+        }
 
         if (fuelName.equals("Coal")) {
             fuelRemaining += 2;
@@ -53,7 +63,7 @@ public class Stove extends Furniture{
         }
 
         player.getPlayerInventory().removeItemByName(fuelName, 1);
-        currentFuelType = fuelName;
+        setFuelType(fuelName);
         return true;
     }
 
@@ -61,7 +71,7 @@ public class Stove extends Furniture{
         if (fuelRemaining > 0) {
             fuelRemaining--;
             if (fuelRemaining == 0) {
-                currentFuelType = "";
+                setFuelType("Empty");
             }
             return true;
         }
@@ -81,11 +91,12 @@ public class Stove extends Furniture{
         if (!isNearby(player, houseMap)){
             return false;
         }
-        if (!addFuel(currentFuelType, player)){
+        if (currentFuelType.equals("Empty")) {
             System.out.println("You don't have a fuel to cook.");
             return false;
         }
         cookingAction.execute(player);
+        consumeFuel();
         return true;
     }
     

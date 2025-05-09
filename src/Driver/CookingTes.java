@@ -1,4 +1,4 @@
-package src;
+package src.Driver;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +7,7 @@ import src.actions.MovingAction;
 import src.entities.*;
 import src.map.*;
 import src.items.*;
-public class Main {
+public class CookingTes {
     public static void main(String[] args) {
 
         // 2. Membuat Item dan Misc
@@ -45,6 +45,7 @@ public class Main {
         
         Player player = new Player("John", "Male", "Sunny Farm", playerGold, 
                                 playerInventory, playerLocation);
+        Farm anjayFarm = new Farm(player.getFarm(), player);
         
         // Menambahkan item ke inventory
         player.getPlayerInventory().addItem(diamond, 1);
@@ -88,6 +89,7 @@ public class Main {
         System.out.println("- " + stove.getFurnitureName() + " (logo: '" + stove.getFurnitureLogo() + "')");
 
         houseMap.displayHouse();
+        
 
         // 8. Player Movement
         System.out.println("\n=== Player Movement ===");
@@ -116,7 +118,7 @@ public class Main {
         // playerPos.movePlayer("left", houseMap.getHouseMapDisplay());
         // System.out.println("Moved left to: (" + playerPos.getX() + "," + playerPos.getY() + ")");
 
-        playerPos.movePlayer("down", houseMap.getHouseMapDisplay());
+        // playerPos.movePlayer("down", houseMap.getHouseMapDisplay());
 
         // playerPos.movePlayer("left", houseMap.getHouseMapDisplay());
         // System.out.println("Moved left to: (" + playerPos.getX() + "," + playerPos.getY() + ")");
@@ -132,7 +134,7 @@ public class Main {
 
         System.out.println("\n=== Cooking Test ===");
 
-        // 1. Tambahkan bahan makanan
+        // 1. Tambahkan bahan makanan ke inventory
         Food egg = new Food("Egg", 5, new Gold(50), new Gold(30));
         Food tomato = new Food("Tomato", 4, new Gold(40), new Gold(25));
         Misc firewood = new Misc("Fire Wood", "Kayu bakar");
@@ -141,33 +143,41 @@ public class Main {
         player.getPlayerInventory().addItem(tomato, 1);
         player.getPlayerInventory().addItem(firewood, 1);
 
-        // 2. Buat recipe omelette
-        Map<Item, Integer> ingredients = new HashMap<>();
-        ingredients.put(egg, 1);
-        ingredients.put(tomato, 1);
+        // 2. Tambahkan recipe item ke inventory
+        Misc omeletteRecipeItem = new Misc("Omelette Recipe", "Resep membuat omelette");
+        player.getPlayerInventory().addItem(omeletteRecipeItem, 1);
+
+        // 3. Buat objek recipe
+        Map<String, Integer> ingredients = new HashMap<>();
+        ingredients.put("egg", 1);
+        ingredients.put("tomato", 1);
 
         Food omelette = new Food("Omelette", 15, new Gold(120), new Gold(80));
-        Recipe omeletteRecipe = new Recipe("Omelette Recipe","ini resep omelet", "recipe_1" , ingredients);
+        Recipe omeletteRecipe = new Recipe("Omelette Recipe", "ini resep omelet", "recipe_1", ingredients, omelette);
 
-        // 3. Dekatkan player ke stove
+        // 4. Set lokasi player ke House
         // player.getPlayerLocation().setCurrentPoint(new Point(10, 9));
 
-        // 4. Masukkan fuel ke stove
+        // 5. Tambahkan bahan bakar ke kompor
         System.out.println("Menambahkan bahan bakar...");
-        stove.addFuel("Fire Wood", player);
+        player.getPlayerInventory().printInventory();
+        stove.addFuel("Fire Wood", player, houseMap);
         System.out.println("Sisa fuel: " + stove.getFuelRemaining());
 
-        // 5. Masak
+        // 6. Memasak makanan
         System.out.println("Memasak omelette...");
         boolean success = stove.useStove(player, houseMap, omeletteRecipe);
 
         if (success) {
             System.out.println("Berhasil memasak omelette!");
             player.getPlayerInventory().printInventory();
+            System.out.println("Sisa bahan bakar: " + stove.getFuelRemaining());
         } else {
             System.out.println("Gagal memasak!");
         }
+        System.out.println("Energy: " + player.getEnergy());
 
+        // anjayFarm.getTime().stopTime();
 
     }
 }

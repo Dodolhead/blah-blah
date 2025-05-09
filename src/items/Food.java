@@ -14,6 +14,7 @@ public class Food extends Item {
         return giveEnergy;
     }
 
+
     public Gold getbuyPrice(){
         return buyPrice;
     }
