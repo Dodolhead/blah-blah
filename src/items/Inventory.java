@@ -1,9 +1,10 @@
 package src.items;
-import java.util.Map;
+
 import java.util.HashMap;
+import java.util.Map;
 
 public class Inventory {
-    private Map<Class<?>, Map<String, Integer>> inventoryStorage;
+    private Map<Class<?>, Map<Item, Integer>> inventoryStorage;
     private static final Map<String, Class<?>> typeToClassMap = Map.of(
         "Fish", Fish.class,
         "Crop", Crop.class,
@@ -19,127 +20,94 @@ public class Inventory {
             inventoryStorage.put(itemClass, new HashMap<>());
         }
     }
-    
 
-    public Map<Class<?>, Map<String, Integer>> getInventoryStorage(){
+    public Map<Class<?>, Map<Item, Integer>> getInventoryStorage() {
         return inventoryStorage;
     }
 
-    public int getItemAmount(Item items) {
-        String type = items.getItemType();
-        String name = items.getItemName();
-    
-        Class<?> kelas = typeToClassMap.get(type);
-        if (kelas == null) {
-            System.out.println("Item type not registered");
-            return 0;  
-        }
-        Map<String, Integer> storage = inventoryStorage.get(kelas);
-        if (storage == null) {
-            System.out.println("Storage for item type " + type + " not found.");
-            return 0; 
-        }
-        return storage.getOrDefault(name, 0);  
+    public int getItemAmount(Item item) {
+        Class<?> cls = typeToClassMap.get(item.getItemType());
+        Map<Item, Integer> storage = inventoryStorage.get(cls);
+        if (storage == null) return 0;
+        return storage.getOrDefault(item, 0);
     }
-    
 
-    public boolean addItem(Item addedItem, int amount) {
-        String type = addedItem.getItemType();
-        String name = addedItem.getItemName();
-    
-        Class<?> kelas = typeToClassMap.get(type);
-        if (kelas != null) {
-            int currentAmount = getItemAmount(addedItem);
-            Map<String, Integer> storage = inventoryStorage.get(kelas);
-            storage.put(name, currentAmount + amount);
-            return true;
-        } else {
-            System.out.println("Item type not registered");
-            return false;
-        }
+    public boolean addItem(Item item, int amount) {
+        Class<?> cls = typeToClassMap.get(item.getItemType());
+        if (cls == null) return false;
+        Map<Item, Integer> storage = inventoryStorage.get(cls);
+        storage.put(item, getItemAmount(item) + amount);
+        return true;
     }
-    
-    public boolean removeItem(Item removedItem, int amount) {
-        String type = removedItem.getItemType();
-        String name = removedItem.getItemName();
-    
-        Class<?> kelas = typeToClassMap.get(type);
-        if (kelas != null) {
-            int currentAmount = getItemAmount(removedItem);
-    
-            if (currentAmount == 0) {
-                System.out.println("Item not found in inventory.");
-                return false;
-            }
-    
-            int newAmount = currentAmount - amount;
-            Map<String, Integer> storage = inventoryStorage.get(kelas);
-    
-            if (newAmount <= 0) {
-                storage.remove(name);
-                return true;
-            } else {
-                storage.put(name, newAmount);
-                return true;
-            }
-        } else {
-            System.out.println("Item type not registered");
-            return false;
-        }
+
+    public boolean removeItem(Item item, int amount) {
+        Class<?> cls = typeToClassMap.get(item.getItemType());
+        if (cls == null) return false;
+        Map<Item, Integer> storage = inventoryStorage.get(cls);
+        int current = getItemAmount(item);
+        if (current == 0) return false;
+        if (current <= amount) storage.remove(item);
+        else storage.put(item, current - amount);
+        return true;
     }
 
     public void printInventory() {
-        boolean hasAnyItem = false;
-        for (Map<String, Integer> itemMap : inventoryStorage.values()) {
-            if (itemMap != null && !itemMap.isEmpty()) {
-                hasAnyItem = true;
-                break;
-            }
-        }
-    
+        boolean hasAnyItem = inventoryStorage.values().stream().anyMatch(map -> !map.isEmpty());
         if (!hasAnyItem) {
             System.out.println("No items in inventory.");
             return;
         }
         System.out.println("======= INVENTORY STORAGE =======");
-        System.out.println("---------------------------------");
-        
-        for (Class<?> itemClass : typeToClassMap.values()) {
-            Map<String, Integer> items = inventoryStorage.get(itemClass);
-            
-            if (items != null && !items.isEmpty()) {
-                System.out.println("Items of type: " + itemClass.getSimpleName());
-                
-                // Iterasi melalui item dan jumlahnya
-                for (Map.Entry<String, Integer> itemEntry : items.entrySet()) {
-                    String itemName = itemEntry.getKey();
-                    int itemAmount = itemEntry.getValue();
-                    System.out.println("  " + itemName + ": " + itemAmount);
+        for (Class<?> cls : typeToClassMap.values()) {
+            Map<Item, Integer> map = inventoryStorage.get(cls);
+            if (map != null && !map.isEmpty()) {
+                System.out.println("Items of type: " + cls.getSimpleName());
+                for (Map.Entry<Item, Integer> entry : map.entrySet()) {
+                    System.out.println("  " + entry.getKey().getItemName() + ": " + entry.getValue());
                 }
-                
                 System.out.println("---------------------------------");
             }
         }
     }
 
     public boolean hasItem(String itemName) {
-        for (Map<String, Integer> itemMap : inventoryStorage.values()) {
-            if (itemMap.containsKey(itemName)) {
-                return true;
+        for (Map<Item, Integer> map : inventoryStorage.values()) {
+            for (Item item : map.keySet()) {
+                if (item.getItemName().equalsIgnoreCase(itemName)) return true;
             }
         }
         return false;
     }
 
     public boolean hasItemAndAmount(String itemName, int requiredAmount) {
-        for (Map<String, Integer> itemMap : inventoryStorage.values()) {
-            if (itemMap.containsKey(itemName)) {
-                int currentAmount = itemMap.get(itemName);
-                return currentAmount >= requiredAmount;
+        for (Map<Item, Integer> map : inventoryStorage.values()) {
+            for (Map.Entry<Item, Integer> entry : map.entrySet()) {
+                if (entry.getKey().getItemName().equalsIgnoreCase(itemName) && entry.getValue() >= requiredAmount) {
+                    return true;
+                }
             }
         }
         return false;
     }
-    
-    
+
+    public boolean hasItemOfType(Class<?> cls, String keyword) {
+        Map<Item, Integer> map = inventoryStorage.getOrDefault(cls, Map.of());
+        for (Item item : map.keySet()) {
+            if (item.getItemName().toLowerCase().contains(keyword.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasItemType(Class<?> subclass) {
+        for (Map<Item, Integer> map : inventoryStorage.values()) {
+            for (Item item : map.keySet()) {
+                if (subclass.isInstance(item)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

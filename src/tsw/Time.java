@@ -1,5 +1,4 @@
 package src.tsw;
-import java.lang.Thread;
 
 public class Time implements Runnable{
     private int hour = 6;
@@ -120,7 +119,9 @@ public class Time implements Runnable{
     public synchronized String getTimeDay() {
         return String.format("SEASON: %s - Day-%d - %02d:%02d", season.getCurrentSeason(), day, hour, minute);
     }
-    
+    public Season.Seasons getCurrentSeason() {
+        return season.getCurrentSeason();
+    }
     
     
 }
