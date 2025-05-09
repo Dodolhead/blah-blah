@@ -1,5 +1,6 @@
 package src.Driver;
 
+
 import src.actions.MarryingAction;
 import src.actions.ProposingAction;
 import src.entities.*;
@@ -11,7 +12,7 @@ public class ProposeAndMarryTes {
     public static void main(String[] args) {
         // Setup NPC dan player
         NPC luna = new NPC("Luna", "Single");
-        luna.setHeartPoints(150); // agar lamaran diterima
+        luna.setHeartPoints(140); // agar lamaran diterima
 
         Item proposalRing = new Misc("Proposal Ring", "Special ring for proposing");
         luna.addLovedItem(proposalRing);
@@ -42,7 +43,7 @@ public class ProposeAndMarryTes {
         marry.execute(player);
 
         if (player.getPartner() == null) {
-            System.out.println("Player belum punya partner.");
+            System.out.println("Player doesn't have a partner.");
         } else {
             System.out.println("Current Partner: " + player.getPartner().getNpcName());
         }

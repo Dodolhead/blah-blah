@@ -30,9 +30,6 @@ public class Time implements Runnable{
                 advanceTime(5);
                 Thread.sleep(1000);
                 changeDay();
-                if (day % 10 == 0) {
-                    season.changeSeaons();
-                }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -83,6 +80,7 @@ public class Time implements Runnable{
         if (day > lastDay) {
             System.out.println("Day-" + day + " has started");
             weather.nextDayWeather();
+            season.updateSeasonByDay(day);
             lastDay = day;
         }
     }
@@ -117,11 +115,22 @@ public class Time implements Runnable{
     }
 
     public synchronized String getTimeDay() {
-        return String.format("SEASON: %s - Day-%d - %02d:%02d", season.getCurrentSeason(), day, hour, minute);
+        return String.format("SEASON: %s - WEATHER: %s - Day-%d - %02d:%02d", season.getCurrentSeason(), weather.getCurrentWeather() ,day, hour, minute);
     }
     public Season.Seasons getCurrentSeason() {
         return season.getCurrentSeason();
     }
+
+    public Weather.WeatherCondition getCurrentWeather() {
+        return weather.getCurrentWeather();
+    }
     
+    public synchronized void skipDays(int daysToAdd) {
+        day += daysToAdd;
+        for (int i = 0; i < daysToAdd; i++) {
+            changeDay();
+        }
+    }
+
     
 }

@@ -72,8 +72,8 @@ public class Inventory {
 
     public boolean hasItem(String itemName) {
         for (Map<Item, Integer> map : inventoryStorage.values()) {
-            for (Item item : map.keySet()) {
-                if (item.getItemName().equalsIgnoreCase(itemName)) return true;
+            for (Item items : map.keySet()) {
+                if (items.getItemName().equalsIgnoreCase(itemName)) return true;
             }
         }
         return false;

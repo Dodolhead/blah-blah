@@ -1,14 +1,12 @@
 package src.Driver;
 
+import src.actions.OpeningInventoryAction;
 import src.actions.ShowingTimeAction;
 import src.entities.*;
-import src.items.Gold;
-import src.items.Inventory;
-import src.items.Item;
-import src.items.Misc;
+import src.items.*;
 import src.map.*;
 
-public class PlayerNPCInitialize {
+public class PlayerNPCTes {
         public static void main(String[] args) {
         // Buat item sesuai permintaan
         Item diamond = new Misc("Diamond", "Gem");
@@ -35,11 +33,11 @@ public class PlayerNPCInitialize {
 
         System.out.println("Player Name: " + player.getPlayerName());
         System.out.println("Farm Name: " + player.getFarm());
-        System.out.println("Partner Loved Item: " + player.getPartner().getLovedItem().get(0).getItemName());
 
         Farm anjayFarm = new Farm(player.getFarm(), player);
 
         player.getPlayerInventory().addItem(ancientCoin, 1);
+        player.getPlayerInventory().addItem(diamond, 5);
 
         
         OpeningInventoryAction openInvent = new OpeningInventoryAction();
@@ -51,7 +49,26 @@ public class PlayerNPCInitialize {
             System.out.println(e);
         }
 
+        System.out.println(player.getPlayerInventory().getItemAmount(ancientCoin));
+        
         ShowingTimeAction showTime = new ShowingTimeAction();
+        showTime.execute(player);
+
+
+        anjayFarm.getTime().skipDays(10);
+
+        showTime.execute(player);
+
+        anjayFarm.getTime().skipDays(10);
+
+        showTime.execute(player);
+        
+        anjayFarm.getTime().skipDays(10);
+
+        showTime.execute(player);
+        
+        anjayFarm.getTime().skipDays(10);
+
         showTime.execute(player);
 
         anjayFarm.getTime().stopTime();

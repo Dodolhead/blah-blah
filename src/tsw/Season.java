@@ -2,7 +2,7 @@ package src.tsw;
 
 public class Season {
     public enum Seasons {
-        SUMMER, AUTUMN, WINTER, SPRING;
+        SPRING, SUMMER, AUTUMN, WINTER;
     }
 
     public Seasons currentSeason;
@@ -11,22 +11,12 @@ public class Season {
         this.currentSeason = Seasons.SPRING;
     }
 
-    public void changeSeaons(){
-        switch (currentSeason) {
-            case SUMMER:
-                currentSeason = Seasons.AUTUMN;
-                break;
-            case AUTUMN:
-                currentSeason = Seasons.WINTER;
-                break;
-            case WINTER:
-                currentSeason = Seasons.SPRING;
-                break;
-            case SPRING:
-                currentSeason = Seasons.SUMMER;
-                break;
-        }
+    public void updateSeasonByDay(int day) {
+        Seasons[] allSeasons = Seasons.values();
+        int seasonIndex = (day - 1) / 10 % allSeasons.length;
+        currentSeason = allSeasons[seasonIndex];
     }
+
 
     public Seasons getCurrentSeason() {
         return currentSeason;

@@ -1,6 +1,6 @@
 package src.Driver;
 
-import src.actions.*;
+import src.actions.OpeningInventoryAction;
 import src.entities.Player;
 import src.items.Gold;
 import src.items.Inventory;
@@ -9,7 +9,7 @@ import src.items.Food;
 import src.map.Location;
 import src.map.Point;
 
-public class OpenInventoryTest {
+public class OpenInventoryTes {
     public static void main(String[] args) {
         // 1. Inisialisasi objek-objek yang diperlukan
         Gold playerGold = new Gold(1000);
