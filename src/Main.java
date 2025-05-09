@@ -1,10 +1,13 @@
-package src.Driver;
+package src;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import src.actions.MovingAction;
 import src.entities.*;
 import src.map.*;
 import src.items.*;
-public class HouseMapTes {
+public class Main {
     public static void main(String[] args) {
 
         // 2. Membuat Item dan Misc
@@ -126,6 +129,45 @@ public class HouseMapTes {
         move.execute(player);
 
         houseMap.displayHouse();
+
+        System.out.println("\n=== Cooking Test ===");
+
+        // 1. Tambahkan bahan makanan
+        Food egg = new Food("Egg", 5, new Gold(50), new Gold(30));
+        Food tomato = new Food("Tomato", 4, new Gold(40), new Gold(25));
+        Misc firewood = new Misc("Fire Wood", "Kayu bakar");
+
+        player.getPlayerInventory().addItem(egg, 1);
+        player.getPlayerInventory().addItem(tomato, 1);
+        player.getPlayerInventory().addItem(firewood, 1);
+
+        // 2. Buat recipe omelette
+        Map<Item, Integer> ingredients = new HashMap<>();
+        ingredients.put(egg, 1);
+        ingredients.put(tomato, 1);
+
+        Food omelette = new Food("Omelette", 15, new Gold(120), new Gold(80));
+        Recipe omeletteRecipe = new Recipe("Omelette Recipe","ini resep omelet", "recipe_1" , ingredients);
+
+        // 3. Dekatkan player ke stove
+        // player.getPlayerLocation().setCurrentPoint(new Point(10, 9));
+
+        // 4. Masukkan fuel ke stove
+        System.out.println("Menambahkan bahan bakar...");
+        stove.addFuel("Fire Wood", player);
+        System.out.println("Sisa fuel: " + stove.getFuelRemaining());
+
+        // 5. Masak
+        System.out.println("Memasak omelette...");
+        boolean success = stove.useStove(player, houseMap, omeletteRecipe);
+
+        if (success) {
+            System.out.println("Berhasil memasak omelette!");
+            player.getPlayerInventory().printInventory();
+        } else {
+            System.out.println("Gagal memasak!");
+        }
+
 
     }
 }

@@ -34,12 +34,12 @@ public class MarryingAction implements Action {
         }
         
         if (!player.getPlayerInventory().hasItem("Proposal Ring")){
-            System.out.println("You don't have the required item");
+            System.out.println("You don't have the required item.");
             return false;
         }  
 
         if (player.getEnergy() < ENERGY_COST) {
-            System.out.println("You don't have enough energy to do this action");
+            System.out.println("You don't have enough energy to do this action.");
             return false;
         } 
 

@@ -1,6 +1,6 @@
 package src.entities;
 
-public abstract class Furniture {
+public class Furniture {
     private String itemID;
     private String furnitureName;
     private String furnitureDescription;
@@ -51,7 +51,5 @@ public abstract class Furniture {
         furnitureSizeX = furnitureSizeY;
         furnitureSizeY = temp;
     }
-
-    public abstract void useFurniture(Player p);
 
 }

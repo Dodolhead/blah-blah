@@ -12,7 +12,7 @@ public class Bed extends Furniture {
         return maxPersonSize;
     }
 
-    public void useFurniture(Player p){
+    public void useBed(Player p){
         //nanti sleep ini kl dh ada actionny
     }
 }

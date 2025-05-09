@@ -5,7 +5,7 @@ public class TV extends Furniture{
         super("tv", "Television (TV)", furnitureDescription, furnitureSizeX, furnitureSizeY, 'T');
     }
 
-    public void useFurniture(Player p) {
+    public void useTV(Player p) {
         //nanti tv ini kl dah jadi actionny
     }
 

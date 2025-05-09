@@ -5,4 +5,8 @@ public class MountainLake {
     public MountainLake() {
         desc = "wowww cooooool!!! mountainlake :)";
     }
+
+    public String getMountainLakeDesc() {
+        return desc;
+    }
 }

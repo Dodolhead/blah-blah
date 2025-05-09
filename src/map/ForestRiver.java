@@ -5,4 +5,8 @@ public class ForestRiver {
     public ForestRiver() {
         desc = "wowww cooooool!!! forestriver :)";
     }
+
+    public String getForestRiverDesc(){
+        return desc;
+    }
 }

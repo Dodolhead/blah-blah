@@ -1,11 +1,12 @@
 package src.items;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class Inventory {
     private Map<Class<?>, Map<Item, Integer>> inventoryStorage;
-    private static final Map<String, Class<?>> typeToClassMap = Map.of(
+    public static final Map<String, Class<?>> typeToClassMap = Map.of(
         "Fish", Fish.class,
         "Crop", Crop.class,
         "Seed", Seed.class,
@@ -23,6 +24,35 @@ public class Inventory {
 
     public Map<Class<?>, Map<Item, Integer>> getInventoryStorage() {
         return inventoryStorage;
+    }
+
+    public boolean removeItemByName(String itemName, int amount) {
+        for (Map.Entry<Class<?>, Map<Item, Integer>> entry : inventoryStorage.entrySet()) {
+            Map<Item, Integer> map = entry.getValue();
+            for (Item item : new HashSet<>(map.keySet())) {
+                if (item.getItemName().equalsIgnoreCase(itemName)) {
+                    int current = map.get(item);
+                    if (current <= amount) {
+                        map.remove(item);
+                    } else {
+                        map.put(item, current - amount);
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public int getItemAmountByName(String itemName) {
+        for (Map<Item, Integer> map : inventoryStorage.values()) {
+            for (Map.Entry<Item, Integer> entry : map.entrySet()) {
+                if (entry.getKey().getItemName().equalsIgnoreCase(itemName)) {
+                    return entry.getValue();
+                }
+            }
+        }
+        return 0;
     }
 
     public int getItemAmount(Item item) {
@@ -110,4 +140,20 @@ public class Inventory {
         }
         return false;
     }
+
+    public boolean hasItemTypeWithAmount(Class<?> subclass, int amount) {
+        int total = 0;
+        for (Map<Item, Integer> map : inventoryStorage.values()) {
+            for (Map.Entry<Item, Integer> entry : map.entrySet()) {
+                Item item = entry.getKey();
+                if (subclass.isInstance(item)) {
+                    total += entry.getValue();
+                    if (total >= amount) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
 }
