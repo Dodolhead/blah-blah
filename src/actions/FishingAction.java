@@ -3,7 +3,6 @@ package src.actions;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.Scanner;
 import src.entities.*;
 import src.items.*;
 import src.tsw.*;
@@ -13,53 +12,48 @@ public class FishingAction implements Action {
     private String fishingLocation;
     private static final Map<String, Map<String, FishInfo>> fishDatabase = new HashMap<>();
     private Random random = new Random();
-    private Scanner scanner = new Scanner(System.in);
     
     // Inner class untuk menyimpan informasi ikan
     private static class FishInfo {
-        String name;
         String[] seasons;
         String timeRange;
         String[] weather;
         String[] locations;
         String rarity;
-        int basePrice;
-        
-        FishInfo(String name, String[] seasons, String timeRange, String[] weather, String[] locations, String rarity, int basePrice) {
-            this.name = name;
+    
+        FishInfo(String[] seasons, String timeRange, String[] weather, String[] locations, String rarity) {
             this.seasons = seasons;
             this.timeRange = timeRange;
             this.weather = weather;
             this.locations = locations;
             this.rarity = rarity;
-            this.basePrice = basePrice;
         }
-    }
+    }    
     
     static {
         // Inisialisasi database ikan
         
         // Common Fish
         Map<String, FishInfo> commonFish = new HashMap<>();
-        commonFish.put("Bullhead", new FishInfo("Bullhead", new String[]{"ANY"}, "ANY", new String[]{"ANY"}, new String[]{"Mountain Lake"}, "common", 10));
-        commonFish.put("Carp", new FishInfo("Carp", new String[]{"ANY"}, "ANY", new String[]{"ANY"}, new String[]{"Mountain Lake", "Pond"}, "common", 10));
-        commonFish.put("Chub", new FishInfo("Chub", new String[]{"ANY"}, "ANY", new String[]{"ANY"}, new String[]{"Forest River", "Mountain Lake"}, "common", 10));
+        commonFish.put("Bullhead", new FishInfo(new String[]{"ANY"}, "ANY", new String[]{"ANY"}, new String[]{"Mountain Lake"}, "common"));
+        commonFish.put("Carp", new FishInfo(new String[]{"ANY"}, "ANY", new String[]{"ANY"}, new String[]{"Mountain Lake", "Pond"}, "common"));
+        commonFish.put("Chub", new FishInfo(new String[]{"ANY"}, "ANY", new String[]{"ANY"}, new String[]{"Forest River", "Mountain Lake"}, "common"));
         fishDatabase.put("common", commonFish);
         
         // Regular Fish
         Map<String, FishInfo> regularFish = new HashMap<>();
-        regularFish.put("Largemouth Bass", new FishInfo("Largemouth Bass", new String[]{"ANY"}, "06.00-18.00", new String[]{"ANY"}, new String[]{"Mountain Lake"}, "regular", 5));
-        regularFish.put("Rainbow Trout", new FishInfo("Rainbow Trout", new String[]{"SUMMER"}, "06.00-18.00", new String[]{"SUNNY"}, new String[]{"Forest River", "Mountain Lake"}, "regular", 5));
-        regularFish.put("Sardine", new FishInfo("Sardine", new String[]{"ANY"}, "06.00-18.00", new String[]{"ANY"}, new String[]{"Ocean"}, "regular", 5));
-        regularFish.put("Salmon", new FishInfo("Salmon", new String[]{"FALL"}, "06.00-18.00", new String[]{"ANY"}, new String[]{"Forest River"}, "regular", 5));
+        regularFish.put("Largemouth Bass", new FishInfo(new String[]{"ANY"}, "06.00-18.00", new String[]{"ANY"}, new String[]{"Mountain Lake"}, "regular"));
+        regularFish.put("Rainbow Trout", new FishInfo(new String[]{"SUMMER"}, "06.00-18.00", new String[]{"SUNNY"}, new String[]{"Forest River", "Mountain Lake"}, "regular"));
+        regularFish.put("Sardine", new FishInfo(new String[]{"ANY"}, "06.00-18.00", new String[]{"ANY"}, new String[]{"Ocean"}, "regular"));
+        regularFish.put("Salmon", new FishInfo(new String[]{"FALL"}, "06.00-18.00", new String[]{"ANY"}, new String[]{"Forest River"}, "regular"));
         fishDatabase.put("regular", regularFish);
         
         // Legendary Fish
         Map<String, FishInfo> legendaryFish = new HashMap<>();
-        legendaryFish.put("Angler", new FishInfo("Angler", new String[]{"FALL"}, "08.00-20.00", new String[]{"ANY"}, new String[]{"Pond"}, "legendary", 25));
-        legendaryFish.put("Crimsonfish", new FishInfo("Crimsonfish", new String[]{"SUMMER"}, "08.00-20.00", new String[]{"ANY"}, new String[]{"Ocean"}, "legendary", 25));
-        legendaryFish.put("Glacierfish", new FishInfo("Glacierfish", new String[]{"WINTER"}, "08.00-20.00", new String[]{"ANY"}, new String[]{"Forest River"}, "legendary", 25));
-        legendaryFish.put("Legend", new FishInfo("Legend", new String[]{"SPRING"}, "08.00-20.00", new String[]{"RAINY"}, new String[]{"Mountain Lake"}, "legendary", 25));
+        legendaryFish.put("Angler", new FishInfo(new String[]{"FALL"}, "08.00-20.00", new String[]{"ANY"}, new String[]{"Pond"}, "legendary"));
+        legendaryFish.put("Crimsonfish", new FishInfo(new String[]{"SUMMER"}, "08.00-20.00", new String[]{"ANY"}, new String[]{"Ocean"}, "legendary"));
+        legendaryFish.put("Glacierfish", new FishInfo(new String[]{"WINTER"}, "08.00-20.00", new String[]{"ANY"}, new String[]{"Forest River"}, "legendary"));
+        legendaryFish.put("Legend", new FishInfo(new String[]{"SPRING"}, "08.00-20.00", new String[]{"RAINY"}, new String[]{"Mountain Lake"}, "legendary"));
         fishDatabase.put("legendary", legendaryFish);
     }
     
@@ -153,10 +147,6 @@ public class FishingAction implements Action {
             attempts++;
             
             System.out.print("Percobaan ke-" + attempts + ", masukkan tebakan Anda: ");
-            
-            // Dalam implementasi nyata, gunakan input dari user
-            // Untuk pengujian otomatis, gunakan angka acak atau logic lain
-            // int guess = scanner.nextInt();
             
             // Untuk pengujian, kita buat tebakan acak
             int guess = random.nextInt(maxNumber) + 1;

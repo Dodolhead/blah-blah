@@ -81,9 +81,4 @@ public class SleepingAction implements Action {
         }
         return false;
     }
-
-    // Tambahkan jika perlu reset tidur harian di luar class ini:
-    public void resetSleepStatus() {
-        hasSleptToday = false;
-    }
 }
