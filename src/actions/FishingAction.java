@@ -72,14 +72,16 @@ public class FishingAction implements Action {
     public boolean execute(Player player) {
         // Periksa apakah pemain memiliki Fishing Rod
         boolean hasFishingRod = false;
-        for (Class<?> kelas : player.getPlayerInventory().getInventoryStorage().keySet()) {
-            if (kelas == Equipment.class) {
-                for (String itemName : player.getPlayerInventory().getInventoryStorage().get(kelas).keySet()) {
-                    if (itemName.contains("Fishing Rod")) {
-                        hasFishingRod = true;
-                        break;
-                    }
+        
+        for (Map<Item, Integer> map : player.getPlayerInventory().getInventoryStorage().values()) {
+            for (Map.Entry<Item, Integer> entry : map.entrySet()) {
+                if (entry.getKey() instanceof FishingRod) {
+                    hasFishingRod = true;
+                    break;
                 }
+            }
+            if (hasFishingRod) {
+                break;  // keluar dari loop jika sudah menemukan fishing rod
             }
         }
 
