@@ -1,5 +1,6 @@
 package src.actions;
 
+import java.util.ArrayList;
 import src.entities.*;
 import src.map.*;
 import src.tsw.*;
@@ -8,7 +9,8 @@ public class SleepingAction implements Action {
     private Time gameTime;
     private FarmMap farmMap;
     private static final int MAX_ENERGY = 100;
-    
+    private boolean hasSleptToday = false; // status tidur hari ini
+
     public SleepingAction(Time gameTime, FarmMap farmMap) {
         this.gameTime = gameTime;
         this.farmMap = farmMap;
@@ -16,85 +18,72 @@ public class SleepingAction implements Action {
 
     @Override
     public boolean execute(Player player) {
-        // Periksa apakah player berada di rumah
         Point playerPos = player.getPlayerLocation().getCurrentPoint();
-        char[][] farmDisplay = farmMap.getFarmMapDisplay();
-        
-        boolean insideHouse = false;
-        if (isInHouse(playerPos, farmMap)) {
-            insideHouse = true;
+
+        // Deteksi waktu paksa tidur (pukul 2 pagi) jika belum tidur
+        if (gameTime.getHour() == 2 && !hasSleptToday) {
+            System.out.println("Sudah pukul 02.00! Anda kelelahan dan tertidur di tempat...");
+            return sleep(player, true); // paksa tidur meskipun bukan di dalam rumah
         }
-        
-        if (!insideHouse) {
-            System.out.println("Anda hanya bisa tidur di dalam rumah!");
+
+        if (!isInHouseOrBed(playerPos, farmMap)) {
+            System.out.println("Anda hanya bisa tidur di dalam rumah atau di tempat tidur!");
             return false;
         }
-        
-        // Mulai proses tidur
+
+        return sleep(player, false); // tidur normal
+    }
+
+    private boolean sleep(Player player, boolean isForcedSleep) {
         System.out.println("Memulai tidur...");
-        
-        // Hitung energi yang akan dipulihkan berdasarkan kondisi
+
         int currentEnergy = player.getEnergy();
         int restoredEnergy;
-        
+
         if (currentEnergy <= 0) {
-            // Jika energi habis, hanya pulihkan 10 poin
             restoredEnergy = 10;
-            System.out.println("Energi sangat lemah, hanya pulih sebanyak 10 poin");
+            System.out.println("Energi habis, hanya pulih sebanyak 10 poin.");
         } else if (currentEnergy < (0.1 * MAX_ENERGY)) {
-            // Jika energi kurang dari 10% MAX_ENERGY, pulihkan setengah
             restoredEnergy = MAX_ENERGY / 2;
-            System.out.println("Energi lemah, pulih sebanyak setengah maksimum (" + restoredEnergy + " poin)");
+            System.out.println("Energi lemah, pulih setengah dari maksimum: " + restoredEnergy + " poin.");
         } else {
-            // Pulihkan penuh
             restoredEnergy = MAX_ENERGY;
-            System.out.println("Energi pulih sepenuhnya (" + restoredEnergy + " poin)");
+            System.out.println("Energi pulih sepenuhnya: " + restoredEnergy + " poin.");
         }
-        
-        // Set energi player
+
         player.setEnergy(restoredEnergy);
-        
-        // Time skip ke pagi hari berikutnya
+        hasSleptToday = true;
+
+        // Skip waktu ke pukul 06:00 pagi
         int currentHour = gameTime.getHour();
-        int hoursToSkip = 0;
-        
-        // Hitung berapa jam yang perlu dilewati untuk sampai ke pukul 06:00 pagi berikutnya
-        if (currentHour >= 6) {
-            // Jika sekarang pukul 06:00 atau lebih, lewati ke pukul 06:00 hari berikutnya
-            hoursToSkip = 24 - currentHour + 6;
-        } else {
-            // Jika sekarang dini hari (00:00 - 05:59), lewati ke pukul 06:00 pagi ini
-            hoursToSkip = 6 - currentHour;
-        }
-        
-        // Time skip
+        int hoursToSkip = (currentHour >= 6) ? (24 - currentHour + 6) : (6 - currentHour);
+
         gameTime.pauseTime();
         gameTime.skipTimeHour(hoursToSkip);
         gameTime.resumeTime();
-        
+
         System.out.println("Tidur selesai. Sekarang pukul " + gameTime.getCurrentTime() + ", hari ke-" + gameTime.getDay());
         System.out.println("Energi sekarang: " + player.getEnergy());
-        
+
         return true;
     }
-    
-    private boolean isInHouse(Point playerPos, FarmMap farmMap) {
-        // Cek apakah posisi player ada di dalam area rumah
-        char[][] farmDisplay = farmMap.getFarmMapDisplay();
-        
-        for (Point housePoint : farmMap.getObjectPosition().get("House")) {
-            // Jika posisi player sama dengan posisi rumah, berarti player di dalam rumah
-            if (playerPos.getX() == housePoint.getX() && playerPos.getY() == housePoint.getY()) {
-                return true;
-            }
-            
-            // Atau jika posisi player bersebelahan dengan rumah
-            if (Math.abs(playerPos.getX() - housePoint.getX()) <= 1 && 
-                Math.abs(playerPos.getY() - housePoint.getY()) <= 1) {
+
+    private boolean isInHouseOrBed(Point playerPos, FarmMap farmMap) {
+        return isNearObject(playerPos, farmMap, "House") || isNearObject(playerPos, farmMap, "Beds");
+    }
+
+    private boolean isNearObject(Point playerPos, FarmMap farmMap, String objectName) {
+        for (Point point : farmMap.getObjectPosition().getOrDefault(objectName, new ArrayList<>())) {
+            if (Math.abs(playerPos.getX() - point.getX()) <= 1 &&
+                Math.abs(playerPos.getY() - point.getY()) <= 1) {
                 return true;
             }
         }
-        
         return false;
+    }
+
+    // Tambahkan jika perlu reset tidur harian di luar class ini:
+    public void resetSleepStatus() {
+        hasSleptToday = false;
     }
 }
