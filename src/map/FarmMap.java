@@ -4,19 +4,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import src.items.*;
 
 
 public class FarmMap {
     private static int farmSizeWidth = 32;
     private static int farmSizeHeight = 32;
     private Point playerPositionFarm;
-    private Map<String, List<Point>> objectPosition ;
+    private Map<String, List<Point>> objectPosition;
     private char[][] farmMapDisplay;
+    private Map<Point, Seed> plantedSeeds;
 
     public FarmMap(Point playerPositionFarm) {
         this.playerPositionFarm = playerPositionFarm;
         this.objectPosition = new HashMap<>();
         this.farmMapDisplay = new char[farmSizeHeight][farmSizeWidth];
+        this.plantedSeeds = new HashMap<>();
 
         objectPosition.put("House", new ArrayList<>());
         objectPosition.put("Pond", new ArrayList<>());
@@ -27,6 +30,10 @@ public class FarmMap {
 
         placeObjectsRandomly();
         fillTillableLand();
+    }
+
+    public Map<Point, Seed> getPlantedSeeds() {
+        return plantedSeeds;
     }
 
     public Point getPlayerPosition(){

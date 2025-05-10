@@ -21,7 +21,7 @@ public class Seed extends Item {
         return harvestDays;
     }
 
-    public String getSeason(){
+    public String getValidSeason(){
         return validSeason;
     }
 

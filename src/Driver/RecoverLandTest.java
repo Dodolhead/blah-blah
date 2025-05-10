@@ -1,6 +1,6 @@
 package src.Driver;
 
-import src.actions.RecoverLandAction;
+import src.actions.RecoveringLandAction;
 import src.entities.*;
 import src.items.*;
 import src.map.*;
@@ -51,7 +51,7 @@ public class RecoverLandTest {
         farmMap.displayFarmMap();
 
         // Jalankan RecoverLandAction
-        RecoverLandAction recoverLand = new RecoverLandAction(farmMap, gameTime);
+        RecoveringLandAction recoverLand = new RecoveringLandAction();
         System.out.println("\n==== MELAKUKAN RECOVER LAND ====");
         boolean success = recoverLand.execute(player);
 

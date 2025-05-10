@@ -6,69 +6,62 @@ import src.map.*;
 import src.tsw.*;
 
 public class PlantingAction implements Action {
-    private FarmMap farmMap;
-    private Time gameTime;
     private Seed seedToPlant;
+    private int ENERGY_COST = 5;
+    private int TIME_COST = 5;
 
-    public PlantingAction(FarmMap farmMap, Time gameTime, Seed seedToPlant) {
-        this.farmMap = farmMap;
-        this.gameTime = gameTime;
+    public PlantingAction(Seed seedToPlant) {
         this.seedToPlant = seedToPlant;
     }
 
     @Override
     public boolean execute(Player player) {
-        // Cek apakah pemain memiliki seed yang sesuai
+        Farm farm = FarmManager.getFarmByName(player.getFarm());
+        FarmMap farmMap = farm.getFarmMap();
+        Time gameTime = farm.getTime();
         if (player.getPlayerInventory().getItemAmount(seedToPlant) <= 0) {
-            System.out.println("Anda tidak memiliki " + seedToPlant.getItemName() + " untuk ditanam!");
+            System.out.println("You don't have enough " + seedToPlant.getItemName() + " to be planted!");
             return false;
         }
 
-        // Cek energi
-        if (player.getEnergy() < 5) {
-            System.out.println("Energi tidak cukup untuk melakukan planting!");
+
+        if (player.getEnergy() < ENERGY_COST) {
+            System.out.println("You don't have enough energy to do this action.");
             return false;
         }
 
-        // Ambil posisi pemain
-        Point playerPos = player.getPlayerLocation().getCurrentPoint();
-        int playerX = playerPos.getX();
-        int playerY = playerPos.getY();
+        Point pos = player.getPlayerLocation().getCurrentPoint();
+        int x = pos.getX();
+        int y = pos.getY();
+        char[][] map = farmMap.getFarmMapDisplay();
 
-        char[][] farmDisplay = farmMap.getFarmMapDisplay();
-        if (playerY >= 0 && playerY < farmDisplay.length && playerX >= 0 && playerX < farmDisplay[0].length) {
-            if (farmDisplay[playerY][playerX] == 't') {
-                // Ambil musim dari time
-                Season.Seasons currentSeason = gameTime.getCurrentSeason();
-                String seedSeason = seedToPlant.getSeason();
-
-                if (!isSeasonValid(currentSeason, seedSeason)) {
-                    System.out.println(seedToPlant.getItemName() + " tidak dapat ditanam pada musim " + currentSeason);
-                    return false;
-                }
-
-                // Lakukan planting
-                System.out.println("Memulai penanaman " + seedToPlant.getItemName() + "...");
-
-                farmDisplay[playerY][playerX] = 'l';
-                Point plantedPoint = new Point(playerX, playerY);
-                farmMap.getObjectPosition().get("Tilled").removeIf(p -> p.getX() == playerX && p.getY() == playerY);
-                farmMap.getObjectPosition().get("Planted").add(plantedPoint);
-
-                player.getPlayerInventory().removeItem(seedToPlant, 1);
-                player.subtractPlayerEnergy(5);
-                gameTime.skipTimeMinute(5);
-
-                System.out.println("Penanaman " + seedToPlant.getItemName() + " berhasil!");
-                return true;
-            } else {
-                System.out.println("Anda hanya bisa menanam pada tilled soil!");
-                return false;
-            }
-        } else {
-            System.out.println("Posisi tidak valid!");
+        if (y < 0 || y >= map.length || x < 0 || x >= map[0].length) {
+            System.out.println("You can't plant land outside the farm area.");
             return false;
         }
+
+        if (map[y][x] != 't') {
+            System.out.println("This tile is not plantable.");
+            return false;
+        }
+
+        if (!isSeasonValid(gameTime.getCurrentSeason(), seedToPlant.getValidSeason())) {
+            System.out.println("You can't plant " + seedToPlant.getItemName() + " in this season.");
+            return false;
+        }
+
+        map[y][x] = 'l';
+        Point currentTile = new Point(x, y);
+        farmMap.getObjectPosition().get("Tilled").removeIf(p -> p.getX() == x && p.getY() == y);
+        farmMap.getObjectPosition().get("Planted").add(currentTile);
+        farmMap.getPlantedSeeds().put(currentTile, seedToPlant);
+
+
+        player.subtractPlayerEnergy(ENERGY_COST);
+        gameTime.skipTimeMinute(TIME_COST);
+
+        System.out.println("Planting seed successful! You have planted a seed of " + seedToPlant.getItemName() + " on the land at (" + x + ", " + y + ").");
+        return true;
     }
 
     private boolean isSeasonValid(Season.Seasons currentSeason, String seedSeason) {

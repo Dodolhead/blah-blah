@@ -1,4 +1,4 @@
-package src.Driver;
+package src;
 
 import src.map.*;
 import src.actions.MovingAction;

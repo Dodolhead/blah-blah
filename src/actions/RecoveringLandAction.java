@@ -6,7 +6,7 @@ import src.map.*;
 import src.map.Point;
 import src.tsw.Time;
 
-public class TillingAction implements Action {
+public class RecoveringLandAction implements Action {
     private int ENERGY_COST = 5;
     private int TIME_COST = 5;
 
@@ -15,8 +15,8 @@ public class TillingAction implements Action {
         Farm farm = FarmManager.getFarmByName(player.getFarm());
         FarmMap farmMap = farm.getFarmMap();
         Time gameTime = farm.getTime();
-        if (!player.getPlayerInventory().hasItemType(Hoe.class)) {
-            System.out.println("You need a Hoe to till the land.");
+        if (!player.getPlayerInventory().hasItemType(Pickaxe.class)) {
+            System.out.println("You need a Pickaxe to recover the land.");
             return false;
         }
 
@@ -31,24 +31,25 @@ public class TillingAction implements Action {
         char[][] map = farmMap.getFarmMapDisplay();
 
         if (y < 0 || y >= map.length || x < 0 || x >= map[0].length) {
-            System.out.println("You can't till outside the farm area.");
+            System.out.println("You can't recover land outside the farm area.");
             return false;
         }
 
-        if (map[y][x] != '.') {
-            System.out.println("This tile is not tillable.");
+        if (map[y][x] != 't') {
+            System.out.println("This tile is recoverable.");
             return false;
         }
 
-        map[y][x] = 't';
+        map[y][x] = '.';
         Point currentTile = new Point(x, y);
-        farmMap.getObjectPosition().get("Tillable").removeIf(p -> p.getX() == x && p.getY() == y);
-        farmMap.getObjectPosition().get("Tilled").add(currentTile);
+        farmMap.getObjectPosition().get("Tilled").removeIf(p -> p.getX() == x && p.getY() == y);
+        farmMap.getObjectPosition().get("Tillable").add(currentTile);
 
         player.subtractPlayerEnergy(ENERGY_COST);
         gameTime.skipTimeMinute(TIME_COST);
 
-        System.out.println("Tilling successful! You have tilled the land at (" + x + ", " + y + ").");
+        System.out.println("Recovering land successful! You have recovered the land at (" + x + ", " + y + ").");
         return true;
     }
 }
+
