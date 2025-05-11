@@ -9,9 +9,6 @@ public class SleepingAction implements Action {
     private static final int MAX_ENERGY = 100;
     private boolean hasSleptToday = false; // status tidur hari ini
 
-    public SleepingAction() {
-    }
-
     @Override
     public boolean execute(Player player) {
         Farm farm = FarmManager.getFarmByName(player.getFarm());

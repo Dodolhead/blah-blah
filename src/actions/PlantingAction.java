@@ -54,9 +54,12 @@ public class PlantingAction implements Action {
         Point currentTile = new Point(x, y);
         farmMap.getObjectPosition().get("Tilled").removeIf(p -> p.getX() == x && p.getY() == y);
         farmMap.getObjectPosition().get("Planted").add(currentTile);
+
+
         farmMap.getPlantedSeeds().put(currentTile, seedToPlant);
-
-
+        farmMap.getPlantedDay().put(currentTile, gameTime.getDay());
+        
+        player.getPlayerInventory().removeItem(seedToPlant, 1);
         player.subtractPlayerEnergy(ENERGY_COST);
         gameTime.skipTimeMinute(TIME_COST);
 

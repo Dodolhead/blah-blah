@@ -12,7 +12,6 @@ public class FishingAction implements Action {
     private static final Map<String, Map<String, FishInfo>> fishDatabase = new HashMap<>();
     private Random random = new Random();
     
-    // Inner class untuk menyimpan informasi ikan
     private static class FishInfo {
         String[] seasons;
         String timeRange;
@@ -30,16 +29,12 @@ public class FishingAction implements Action {
     }    
     
     static {
-        // Inisialisasi database ikan
-        
-        // Common Fish
         Map<String, FishInfo> commonFish = new HashMap<>();
         commonFish.put("Bullhead", new FishInfo(new String[]{"ANY"}, "ANY", new String[]{"ANY"}, new String[]{"Mountain Lake"}, "common"));
         commonFish.put("Carp", new FishInfo(new String[]{"ANY"}, "ANY", new String[]{"ANY"}, new String[]{"Mountain Lake", "Pond"}, "common"));
         commonFish.put("Chub", new FishInfo(new String[]{"ANY"}, "ANY", new String[]{"ANY"}, new String[]{"Forest River", "Mountain Lake"}, "common"));
         fishDatabase.put("common", commonFish);
-        
-        // Regular Fish
+
         Map<String, FishInfo> regularFish = new HashMap<>();
         regularFish.put("Largemouth Bass", new FishInfo(new String[]{"ANY"}, "06.00-18.00", new String[]{"ANY"}, new String[]{"Mountain Lake"}, "regular"));
         regularFish.put("Rainbow Trout", new FishInfo(new String[]{"SUMMER"}, "06.00-18.00", new String[]{"SUNNY"}, new String[]{"Forest River", "Mountain Lake"}, "regular"));
@@ -47,7 +42,6 @@ public class FishingAction implements Action {
         regularFish.put("Salmon", new FishInfo(new String[]{"FALL"}, "06.00-18.00", new String[]{"ANY"}, new String[]{"Forest River"}, "regular"));
         fishDatabase.put("regular", regularFish);
         
-        // Legendary Fish
         Map<String, FishInfo> legendaryFish = new HashMap<>();
         legendaryFish.put("Angler", new FishInfo(new String[]{"FALL"}, "08.00-20.00", new String[]{"ANY"}, new String[]{"Pond"}, "legendary"));
         legendaryFish.put("Crimsonfish", new FishInfo(new String[]{"SUMMER"}, "08.00-20.00", new String[]{"ANY"}, new String[]{"Ocean"}, "legendary"));

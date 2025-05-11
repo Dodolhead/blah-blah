@@ -14,12 +14,15 @@ public class FarmMap {
     private Map<String, List<Point>> objectPosition;
     private char[][] farmMapDisplay;
     private Map<Point, Seed> plantedSeeds;
+    private Map<Point, Integer> plantedDay;
+
 
     public FarmMap(Point playerPositionFarm) {
         this.playerPositionFarm = playerPositionFarm;
         this.objectPosition = new HashMap<>();
         this.farmMapDisplay = new char[farmSizeHeight][farmSizeWidth];
         this.plantedSeeds = new HashMap<>();
+        this.plantedDay = new HashMap<>();
 
         objectPosition.put("House", new ArrayList<>());
         objectPosition.put("Pond", new ArrayList<>());
@@ -47,6 +50,11 @@ public class FarmMap {
     public Map<String, List<Point>> getObjectPosition(){
         return objectPosition;
     }
+
+    public Map<Point, Integer> getPlantedDay() {
+        return plantedDay;
+    }
+
 
     private void placeObjectsRandomly() {
         long timeSeed = System.currentTimeMillis(); 
@@ -211,6 +219,8 @@ public class FarmMap {
     public boolean canToggleWorldMap(WorldMap worldMap) {
         return isAtEdge(playerPositionFarm) && worldMap.getPlayerLocation().getName().equals("Farm");
     }
+
+
     
     
 }

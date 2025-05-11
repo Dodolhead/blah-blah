@@ -1,13 +1,14 @@
-package src;
+package src.actions;
 
 import src.map.*;
 import src.tsw.Time;
-import src.actions.MovingAction;
-import src.actions.PlantingAction;
+
+import java.util.Map;
+
 import src.entities.*;
 import src.items.*;
 
-public class Main {
+public class FarmMapTes {
     public static void main(String[] args) {
         Gold playerGold = new Gold(1000);
         Inventory playerInventory = new Inventory();
@@ -21,8 +22,7 @@ public class Main {
         Time gameTime = farm.getTime();
         Equipment hoe = new Hoe("Hoe", new Gold(5), new Gold(10));
         Equipment pickaxe = new Pickaxe("Pickaxe", new Gold(5), new Gold(10));
-        Seed wheatSeed = new Seed("Wheat Seed", new Gold(20), 3, "SPRING");
-        Seed parsnipSeed = new Seed("Parsnip Seed", new Gold(20), 3, "AUTUMN");
+        Seed wheatSeed = new Seed("Wheat Seeds", new Gold(60), 1, "SPRING");
 
         player.getPlayerInventory().addItem(pickaxe, 1);
         player.getPlayerInventory().addItem(hoe, 1);
@@ -68,12 +68,38 @@ public class Main {
         farmMap.displayFarmMap();
         System.out.println(gameTime.getTimeDay());
 
+        playerPositionFarm.movePlayer("left", farmMap.getFarmMapDisplay());
         hoe.use(player);
-        PlantingAction plant = new PlantingAction(parsnipSeed);
+        PlantingAction plant = new PlantingAction(wheatSeed);
         plant.execute(player);
         playerPositionFarm.movePlayer("right", farmMap.getFarmMapDisplay());
         farmMap.displayFarmMap();
 
+        
+
+        System.out.println("Data plantedSeeds:");
+        for (Map.Entry<Point, Seed> entry : farmMap.getPlantedSeeds().entrySet()) {
+            Point key = entry.getKey();
+            Seed value = entry.getValue();
+            System.out.println("Lokasi: " + key.printPoint() + ", Seed: " + value.getItemName()); // Menampilkan lokasi dan seed yang ditanam
+        }
+
+        // Loop untuk memeriksa plantedDay
+        System.out.println("\nData plantedDay:");
+        for (Map.Entry<Point, Integer> entry : farmMap.getPlantedDay().entrySet()) {
+            Point key = entry.getKey();
+            Integer value = entry.getValue();
+            System.out.println("Lokasi: " + key.printPoint() + ", Hari Ditanam: " + value); // Menampilkan lokasi dan hari tanam
+        }
+
+
+        playerPositionFarm.movePlayer("left", farmMap.getFarmMapDisplay());
+        HarvestingAction harvest = new HarvestingAction();
+        gameTime.skipDays(1);
+        harvest.execute(player);
+        player.getPlayerInventory().printInventory();
+        playerPositionFarm.movePlayer("left", farmMap.getFarmMapDisplay());
+        farmMap.displayFarmMap();
 
 
         gameTime.stopTime();

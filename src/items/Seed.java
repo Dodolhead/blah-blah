@@ -25,4 +25,19 @@ public class Seed extends Item {
         return validSeason;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Seed seed = (Seed) o;
+
+        return this.getItemName().equalsIgnoreCase(seed.getItemName());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getItemName().toLowerCase().hashCode();
+    }
+
 }
