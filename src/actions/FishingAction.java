@@ -5,11 +5,10 @@ import java.util.Map;
 import java.util.Random;
 import src.entities.*;
 import src.items.*;
+import src.map.FarmMap;
 import src.tsw.*;
 
 public class FishingAction implements Action {
-    private Time gameTime;
-    private String fishingLocation;
     private static final Map<String, Map<String, FishInfo>> fishDatabase = new HashMap<>();
     private Random random = new Random();
     
@@ -56,14 +55,13 @@ public class FishingAction implements Action {
         legendaryFish.put("Legend", new FishInfo(new String[]{"SPRING"}, "08.00-20.00", new String[]{"RAINY"}, new String[]{"Mountain Lake"}, "legendary"));
         fishDatabase.put("legendary", legendaryFish);
     }
-    
-    public FishingAction(Time gameTime, String fishingLocation) {
-        this.gameTime = gameTime;
-        this.fishingLocation = fishingLocation;
-    }
 
     @Override
     public boolean execute(Player player) {
+        Farm farm = FarmManager.getFarmByName(player.getFarm());
+        FarmMap farmMap = farm.getFarmMap();
+        Time gameTime = farm.getTime();
+        
         // Periksa apakah pemain memiliki Fishing Rod
         boolean hasFishingRod = false;
         

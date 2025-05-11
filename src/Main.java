@@ -1,11 +1,13 @@
 package src;
 
 import src.map.*;
+import src.tsw.Time;
 import src.actions.MovingAction;
+import src.actions.PlantingAction;
 import src.entities.*;
 import src.items.*;
 
-public class FarmMapTes {
+public class Main {
     public static void main(String[] args) {
         Gold playerGold = new Gold(1000);
         Inventory playerInventory = new Inventory();
@@ -14,9 +16,18 @@ public class FarmMapTes {
                                 playerInventory, playerLocation);
         
         Point playerPositionFarm = player.getPlayerLocation().getCurrentPoint();
-        // Membuat objek FarmMap
-        FarmMap farmMap = new FarmMap(playerPositionFarm);
-        
+        Farm farm = new Farm(player.getFarm(), player);
+        FarmMap farmMap = farm.getFarmMap();
+        Time gameTime = farm.getTime();
+        Equipment hoe = new Hoe("Hoe", new Gold(5), new Gold(10));
+        Equipment pickaxe = new Pickaxe("Pickaxe", new Gold(5), new Gold(10));
+        Seed wheatSeed = new Seed("Wheat Seed", new Gold(20), 3, "SPRING");
+        Seed parsnipSeed = new Seed("Parsnip Seed", new Gold(20), 3, "AUTUMN");
+
+        player.getPlayerInventory().addItem(pickaxe, 1);
+        player.getPlayerInventory().addItem(hoe, 1);
+        player.getPlayerInventory().addItem(wheatSeed, 1);
+
         // Menampilkan peta farm dan posisi objek
         System.out.println("Farm Map:");
         
@@ -46,6 +57,26 @@ public class FarmMapTes {
         MovingAction move = new MovingAction(24, 0, farmMap.getFarmMapDisplay());
         move.execute(player);
         farmMap.displayFarmMap();
+
+        hoe.use(player);
+        playerPositionFarm.movePlayer("right", farmMap.getFarmMapDisplay());
+        farmMap.displayFarmMap();
+
+        playerPositionFarm.movePlayer("left", farmMap.getFarmMapDisplay());
+        pickaxe.use(player);
+        playerPositionFarm.movePlayer("right", farmMap.getFarmMapDisplay());
+        farmMap.displayFarmMap();
+        System.out.println(gameTime.getTimeDay());
+
+        hoe.use(player);
+        PlantingAction plant = new PlantingAction(parsnipSeed);
+        plant.execute(player);
+        playerPositionFarm.movePlayer("right", farmMap.getFarmMapDisplay());
+        farmMap.displayFarmMap();
+
+
+
+        gameTime.stopTime();
     }
 }
 

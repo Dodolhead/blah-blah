@@ -15,7 +15,7 @@ public class Stove extends Furniture{
         fuelRemaining = 0;
     }
 
-    public boolean isNearby(Player player, HouseMap houseMap) {
+    public boolean isNearbyStove(Player player, HouseMap houseMap) {
         Point playerLoc = player.getPlayerLocation().getCurrentPoint();
         int x = playerLoc.getX();
         int y = playerLoc.getY();
@@ -50,7 +50,7 @@ public class Stove extends Furniture{
     public boolean addFuel(String fuelName, Player player, HouseMap houseMap) {
         if (!player.getPlayerInventory().hasItem(fuelName)) return false;
         
-        if (!isNearby(player, houseMap)){
+        if (!isNearbyStove(player, houseMap)){
             return false;
         }
 
@@ -88,7 +88,7 @@ public class Stove extends Furniture{
 
     public boolean useStove(Player player, HouseMap houseMap, Recipe recipe) {
         CookingAction cookingAction = new CookingAction(recipe);
-        if (!isNearby(player, houseMap)){
+        if (!isNearbyStove(player, houseMap)){
             return false;
         }
         if (currentFuelType.equals("Empty")) {

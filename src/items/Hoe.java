@@ -1,11 +1,14 @@
 package src.items;
 
+import src.actions.TillingAction;
+import src.entities.*;
 public class Hoe extends Equipment {
-    public Hoe(String hoeName, Gold sellPrice, Gold buyPrice, int useEnergy){
-        super(hoeName, sellPrice, buyPrice, useEnergy, "Hoe");
+    public Hoe(String hoeName, Gold sellPrice, Gold buyPrice){
+        super(hoeName, sellPrice, buyPrice, "Hoe");
     }
 
-    public void use(){
-        System.out.println("Hoe something...");
+    public void use(Player player){
+        TillingAction tillingAction = new TillingAction();
+        tillingAction.execute(player);
     }
 }

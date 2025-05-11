@@ -36,7 +36,7 @@ public class RecoveringLandAction implements Action {
         }
 
         if (map[y][x] != 't') {
-            System.out.println("This tile is recoverable.");
+            System.out.println("This tile is already recovered.");
             return false;
         }
 

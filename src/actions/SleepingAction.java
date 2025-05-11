@@ -6,24 +6,23 @@ import src.map.*;
 import src.tsw.*;
 
 public class SleepingAction implements Action {
-    private Time gameTime;
-    private FarmMap farmMap;
     private static final int MAX_ENERGY = 100;
     private boolean hasSleptToday = false; // status tidur hari ini
 
-    public SleepingAction(Time gameTime, FarmMap farmMap) {
-        this.gameTime = gameTime;
-        this.farmMap = farmMap;
+    public SleepingAction() {
     }
 
     @Override
     public boolean execute(Player player) {
+        Farm farm = FarmManager.getFarmByName(player.getFarm());
+        FarmMap farmMap = farm.getFarmMap();
+        Time gameTime = farm.getTime();
         Point playerPos = player.getPlayerLocation().getCurrentPoint();
 
-        // Deteksi waktu paksa tidur (pukul 2 pagi) jika belum tidur
+
         if (gameTime.getHour() == 2 && !hasSleptToday) {
             System.out.println("Sudah pukul 02.00! Anda kelelahan dan tertidur di tempat...");
-            return sleep(player, true); // paksa tidur meskipun bukan di dalam rumah
+            return sleep(player, true);
         }
 
         if (!isInHouseOrBed(playerPos, farmMap)) {
@@ -31,10 +30,12 @@ public class SleepingAction implements Action {
             return false;
         }
 
-        return sleep(player, false); // tidur normal
+        return sleep(player, false);
     }
 
     private boolean sleep(Player player, boolean isForcedSleep) {
+        Farm farm = FarmManager.getFarmByName(player.getFarm());
+        Time gameTime = farm.getTime();
         System.out.println("Memulai tidur...");
 
         int currentEnergy = player.getEnergy();

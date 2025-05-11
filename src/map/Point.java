@@ -25,7 +25,7 @@ public class Point {
             return false;
         }
     
-        if (mapDisplay[dx][dy] == '.') {
+        if (mapDisplay[dx][dy] == '.' || mapDisplay[dx][dy] == 't' || mapDisplay[dx][dy] == 'l') {
             this.x = dx;
             this.y = dy;
             System.out.println("Moved to (" + dx + ", " + dy + ")");
@@ -67,7 +67,7 @@ public class Point {
             return false;
         }
 
-        if (mapDisplay[newY][newX] != '.') {
+        if (mapDisplay[newY][newX] != '.' && mapDisplay[newY][newX] != 't' && mapDisplay[newY][newX] != 'l') {
             System.out.println("There's something in the way! Can't move there.");
             return false;
         }
