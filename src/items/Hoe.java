@@ -7,8 +7,8 @@ public class Hoe extends Equipment {
         super(hoeName, sellPrice, buyPrice, "Hoe");
     }
 
-    public void use(Player player){
+    public boolean use(Player player){
         TillingAction tillingAction = new TillingAction();
-        tillingAction.execute(player);
+        return tillingAction.execute(player);
     }
 }

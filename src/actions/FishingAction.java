@@ -24,21 +24,18 @@ public class FishingAction implements Action {
             Arrays.asList("ANY"),
             Arrays.asList("ANY"),
             Arrays.asList("Mountain Lake"),
-            new Gold(10),
             "common"
         ));
         commonFish.add(new Fish("Carp", 0, 24,
             Arrays.asList("ANY"),
             Arrays.asList("ANY"),
             Arrays.asList("Mountain Lake", "Pond"),
-            new Gold(10),
             "common"
         ));
         commonFish.add(new Fish("Chub", 0, 24,
             Arrays.asList("ANY"),
             Arrays.asList("ANY"),
             Arrays.asList("Forest River", "Mountain Lake"),
-            new Gold(12),
             "common"
         ));
         fishDatabase.put("common", commonFish);
@@ -49,84 +46,72 @@ public class FishingAction implements Action {
             Arrays.asList("ANY"),
             Arrays.asList("ANY"),
             Arrays.asList("Mountain Lake"),
-            new Gold(20),
             "regular"
         ));
         regularFish.add(new Fish("Rainbow Trout", 6, 18,
             Arrays.asList("SUMMER"),
             Arrays.asList("SUNNY"),
             Arrays.asList("Forest River", "Mountain Lake"),
-            new Gold(22),
             "regular"
         ));
         regularFish.add(new Fish("Sturgeon", 6, 18,
             Arrays.asList("SUMMER", "WINTER"),
             Arrays.asList("ANY"),
             Arrays.asList("Mountain Lake"),
-            new Gold(25),
             "regular"
         ));
         regularFish.add(new Fish("Midnight Carp", 20, 2,
             Arrays.asList("WINTER", "FALL"),
             Arrays.asList("ANY"),
             Arrays.asList("Mountain Lake", "Pond"),
-            new Gold(23),
             "regular"
         ));
         regularFish.add(new Fish("Flounder", 6, 22,
             Arrays.asList("SPRING", "SUMMER"),
             Arrays.asList("ANY"),
             Arrays.asList("Ocean"),
-            new Gold(21),
             "regular"
         ));
         regularFish.add(new Fish("Halibut", 6, 11,  // Note: only first time range handled
             Arrays.asList("ANY"),
             Arrays.asList("ANY"),
             Arrays.asList("Ocean"),
-            new Gold(20),
             "regular"
         ));
         regularFish.add(new Fish("Octopus", 6, 22,
             Arrays.asList("SUMMER"),
             Arrays.asList("ANY"),
             Arrays.asList("Ocean"),
-            new Gold(27),
             "regular"
         ));
         regularFish.add(new Fish("Pufferfish", 0, 16,
             Arrays.asList("SUMMER"),
             Arrays.asList("SUNNY"),
             Arrays.asList("Ocean"),
-            new Gold(26),
             "regular"
         ));
         regularFish.add(new Fish("Sardine", 6, 18,
             Arrays.asList("ANY"),
             Arrays.asList("ANY"),
             Arrays.asList("Ocean"),
-            new Gold(15),
             "regular"
         ));
         regularFish.add(new Fish("Super Cucumber", 18, 2,
             Arrays.asList("SUMMER", "FALL", "WINTER"),
             Arrays.asList("ANY"),
             Arrays.asList("Ocean"),
-            new Gold(30),
             "regular"
         ));
         regularFish.add(new Fish("Catfish", 6, 22,
             Arrays.asList("SPRING", "SUMMER", "FALL"),
             Arrays.asList("RAINY"),
             Arrays.asList("Forest River", "Pond"),
-            new Gold(24),
             "regular"
         ));
         regularFish.add(new Fish("Salmon", 6, 18,
             Arrays.asList("FALL"),
             Arrays.asList("ANY"),
             Arrays.asList("Forest River"),
-            new Gold(18),
             "regular"
         ));
         fishDatabase.put("regular", regularFish);
@@ -137,34 +122,30 @@ public class FishingAction implements Action {
             Arrays.asList("FALL"),
             Arrays.asList("ANY"),
             Arrays.asList("Pond"),
-            new Gold(50),
             "legendary"
         ));
         legendaryFish.add(new Fish("Crimsonfish", 8, 20,
             Arrays.asList("SUMMER"),
             Arrays.asList("ANY"),
             Arrays.asList("Ocean"),
-            new Gold(50),
             "legendary"
         ));
         legendaryFish.add(new Fish("Glacierfish", 8, 20,
             Arrays.asList("WINTER"),
             Arrays.asList("ANY"),
             Arrays.asList("Forest River"),
-            new Gold(50),
             "legendary"
         ));
         legendaryFish.add(new Fish("Legend", 8, 20,
             Arrays.asList("SPRING"),
             Arrays.asList("RAINY"),
             Arrays.asList("Mountain Lake"),
-            new Gold(50),
             "legendary"
         ));
         fishDatabase.put("legendary", legendaryFish);
     }
 
-    private boolean isValidFishingLocation(String location) {
+    public boolean isValidFishingLocation(String location) {
         return location.equals("Mountain Lake") || 
                location.equals("Forest River") || 
                location.equals("Ocean") || 
@@ -217,7 +198,6 @@ public class FishingAction implements Action {
         
         gameTime.pauseTime();
         
-        
         System.out.println("Hmm? you felt something bite your rod.");
         
         int maxAttempts;
@@ -262,9 +242,9 @@ public class FishingAction implements Action {
             }
         }
 
+        Fish caughtFish = findFishByName(fishType, fishName);
         if (caught) {
             System.out.println("You caught a " + fishName + "!");
-            Fish caughtFish = findFishByName(fishType, fishName);
             player.getPlayerInventory().addItem(caughtFish, 1);
         } else {
             System.out.println("The fish got away...");

@@ -1,5 +1,7 @@
 package src.tsw;
 
+import src.map.*;
+
 public class Time implements Runnable{
     private int hour = 6;
     private int minute = 0;
@@ -7,6 +9,7 @@ public class Time implements Runnable{
     private int lastDay = 1;
     private boolean running = true;
     private boolean paused = false;
+    private Store store;
     private final Object lock = new Object();
     Season season;
     Weather weather;
@@ -15,6 +18,7 @@ public class Time implements Runnable{
         Thread timeThread = new Thread(this);
         season = new Season();
         weather = new Weather();
+        store = new Store();
         timeThread.start();
     }
 
@@ -81,6 +85,7 @@ public class Time implements Runnable{
             System.out.println("Day-" + day + " has started");
             weather.nextDayWeather();
             season.updateSeasonByDay(day);
+            store.storeChange();
             lastDay = day;
         }
     }

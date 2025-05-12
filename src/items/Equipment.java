@@ -22,5 +22,5 @@ public abstract class Equipment extends Item{
         return equipmentType;
     }
     
-    public abstract void use(Player player);
+    public abstract boolean use(Player player);
 }

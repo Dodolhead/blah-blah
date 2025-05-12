@@ -8,8 +8,8 @@ public class WateringCan extends Equipment {
         super(wCanName, sellPrice, buyPrice, "WateringCan");
     }
 
-    public void use(Player player){
+    public boolean use(Player player){
         WateringAction watering = new WateringAction();
-        watering.execute(player);
+        return watering.execute(player);
     }
 }

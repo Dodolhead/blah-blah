@@ -8,8 +8,8 @@ public class Pickaxe extends Equipment {
         super(pickName, sellPrice, buyPrice, "Pickaxe");
     }
 
-    public void use(Player player){
+    public boolean use(Player player){
         RecoveringLandAction recoveringLandAction = new RecoveringLandAction();
-        recoveringLandAction.execute(player);
+        return recoveringLandAction.execute(player);
     }  
 }

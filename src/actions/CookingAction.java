@@ -47,17 +47,28 @@ public class CookingAction implements Action {
         for (Map.Entry<String, Integer> entry : recipe.getIngredients().entrySet()) {
             String keyword = entry.getKey();
             int amount = entry.getValue();
-            
+
             boolean removed = false;
 
             for (Class<?> cls : Inventory.typeToClassMap.values()) {
                 Map<Item, Integer> map = player.getPlayerInventory().getInventoryStorage().get(cls);
                 if (map != null) {
                     for (Item item : new HashSet<>(map.keySet())) {
-                        if (item.getItemName().toLowerCase().contains(keyword.toLowerCase())) {
-                            player.getPlayerInventory().removeItem(item, amount);
-                            removed = true;
-                            break;
+
+                        boolean matches = false;
+
+                        if (keyword.equalsIgnoreCase("Any Fish")) {
+                            matches = item instanceof Fish;
+                        } else {
+                            matches = item.getItemName().toLowerCase().contains(keyword.toLowerCase());
+                        }
+
+                        if (matches) {
+                            if (player.getPlayerInventory().getItemAmount(item) >= amount) {
+                                player.getPlayerInventory().removeItem(item, amount);
+                                removed = true;
+                                break;
+                            }
                         }
                     }
                 }
@@ -66,6 +77,7 @@ public class CookingAction implements Action {
 
             if (!removed) {
                 System.out.println("Failed to remove ingredient: " + keyword);
+                return false; // stop execution if any ingredient removal failed
             }
         }
 
@@ -81,7 +93,7 @@ public class CookingAction implements Action {
 
         new Thread(() -> {
             try {
-                Thread.sleep(12_000); // 12 detik == 1 jam in-game
+                Thread.sleep(12_000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 return;

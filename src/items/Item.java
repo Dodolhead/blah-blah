@@ -37,5 +37,9 @@ public class Item {
         return sellPrice;
     }
 
+    public void setSellPrice(Gold sellPrice) {
+        this.sellPrice = sellPrice;
+    }
+
 
 }
