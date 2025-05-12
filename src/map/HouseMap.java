@@ -11,19 +11,28 @@ public class HouseMap {
     private static int houseSizeHeight = 24;
     private char[][] houseMapDisplay;
     private Map<Furniture, List<Point>> furnitureLocation;
+    private Location playerLocation;
     private Point playerPositionHouse;
 
 
-    public HouseMap(Point playerPositionHouse) {
-        this.playerPositionHouse = playerPositionHouse;
+    public HouseMap(Location playerLocation) {
+        this.playerLocation = playerLocation;
         this.houseMapDisplay = new char[houseSizeHeight][houseSizeWidth];
         this.furnitureLocation = new HashMap<>();
+        playerPositionHouse = playerLocation.getCurrentPoint();
 
         for (int i = 0; i < houseSizeHeight; i++) {
             for (int j = 0; j < houseSizeWidth; j++) {
                 houseMapDisplay[i][j] = '.';
             }
         }
+
+        int midBottomX = houseSizeWidth / 2;
+        houseMapDisplay[houseSizeHeight - 1][midBottomX] = 'D';
+        Door door = new Door();
+        List<Point> doorPoints = new ArrayList<>();
+        doorPoints.add(new Point(midBottomX, houseSizeHeight - 1));
+        furnitureLocation.put(door, doorPoints);
     }
     
 
@@ -37,6 +46,10 @@ public class HouseMap {
 
     public Map<Furniture, List<Point>> getFurnitureLocation() {
         return furnitureLocation;
+    }
+
+    public void setPlayerPosition(Point playerPositionHouse) {
+        this.playerPositionHouse = playerPositionHouse;
     }
 
     public List<Point> getOccupiedPoints(Furniture furniture, int startX, int startY) {
@@ -84,7 +97,7 @@ public class HouseMap {
     public void displayHouse() {
         for (int i = 0; i < houseSizeHeight; i++) {
             for (int j = 0; j < houseSizeWidth; j++) {
-                if (playerPositionHouse.getY() == i && playerPositionHouse.getX() == j) {
+                if (playerLocation.getName().equals("House") && playerPositionHouse.getY() == i && playerPositionHouse.getX() == j) {
                     System.out.print("P ");
                 } else {
                     System.out.print(houseMapDisplay[i][j] + " ");

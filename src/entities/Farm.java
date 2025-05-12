@@ -12,7 +12,7 @@ public class Farm {
     public Farm(String farmName, Player farmOwnerPlayer) {
         this.farmName = farmName;
         this.farmOwnerPlayer = farmOwnerPlayer;
-        farmMap = new FarmMap(farmOwnerPlayer.getPlayerLocation().getCurrentPoint());
+        farmMap = new FarmMap(farmOwnerPlayer.getPlayerLocation());
         time = new Time();
         FarmManager.registerFarm(this);
     }

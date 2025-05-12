@@ -39,7 +39,7 @@ public class Bed extends Furniture {
             }
         }
 
-        System.out.println("You are not near a stove!");
+        System.out.println("You are not near a Bed!");
         return false;
     }
 

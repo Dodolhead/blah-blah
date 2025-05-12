@@ -10,7 +10,7 @@ public class Stove extends Furniture{
     private String currentFuelType;
 
     public Stove() {
-        super("stove", "Stove", "Tungku untuk memasak makanan", 1, 1, 'S');
+        super("stove", "Stove", "Stove for cooking food", 1, 1, 'S');
         currentFuelType = "Empty";
         fuelRemaining = 0;
     }

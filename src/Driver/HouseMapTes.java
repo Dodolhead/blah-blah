@@ -4,7 +4,8 @@ import src.actions.MovingAction;
 import src.entities.*;
 import src.map.*;
 import src.items.*;
-public class HouseMapTes2 {
+import src.tsw.*;
+public class HouseMapTes {
     public static void main(String[] args) {
 
         // 2. Membuat Item dan Misc
@@ -43,6 +44,11 @@ public class HouseMapTes2 {
         Player player = new Player("John", "Male", "Sunny Farm", playerGold, 
                                 playerInventory, playerLocation);
         
+
+        Farm anjayFarm = new Farm(player.getFarm(), player);
+        Farm farm = FarmManager.getFarmByName(player.getFarm());
+        FarmMap farmMap = farm.getFarmMap();
+        Time gameTime = farm.getTime();
         // Menambahkan item ke inventory
         player.getPlayerInventory().addItem(diamond, 1);
         player.getPlayerInventory().addItem(oldKey, 1);
@@ -68,12 +74,12 @@ public class HouseMapTes2 {
         // 7. House Map dan Furniture
         System.out.println("\n=== House Setup ===");
         
-        Point playerHousePosition = playerLocation.getCurrentPoint();
-        HouseMap houseMap = new HouseMap(playerHousePosition);
+        HouseMap houseMap = new HouseMap(playerLocation);
 
         // Membuat dan menempatkan furniture
         Bed bed = new Bed("bed1", "King Bed", "A comfortable king size bed", 2, 3, 2);
         Stove stove = new Stove();
+        Door door = new Door();
 
         // bed.rotateFurniture();
         
@@ -122,10 +128,44 @@ public class HouseMapTes2 {
 
         houseMap.displayObjectPositions();
 
-        MovingAction move = new MovingAction(23, 0, houseMap.getHouseMapDisplay());
+        MovingAction move = new MovingAction(12, 22, houseMap.getHouseMapDisplay());
         move.execute(player);
 
+        door.useDoor(player, farmMap, houseMap);
+        
+        System.out.println("Player is at: " + player.getPlayerLocation().getName() + ": " + player.getPlayerLocation().getCurrentPoint().getX() + ", " + player.getPlayerLocation().getCurrentPoint().getY());
         houseMap.displayHouse();
+        System.out.println("Player is at: " + player.getPlayerLocation().getName() + ": " + player.getPlayerLocation().getCurrentPoint().getX() + ", " + player.getPlayerLocation().getCurrentPoint().getY());
+        System.out.println("");
+        farmMap.displayFarmMap();
+        System.out.println("Player is at: " + player.getPlayerLocation().getName() + ": " + player.getPlayerLocation().getCurrentPoint().getX() + ", " + player.getPlayerLocation().getCurrentPoint().getY());
+        System.out.println("");
+        houseMap.displayHouse();
+        System.out.println("Player is at: " + player.getPlayerLocation().getName() + ": " + player.getPlayerLocation().getCurrentPoint().getX() + ", " + player.getPlayerLocation().getCurrentPoint().getY());
+
+        System.out.println("cek");
+        playerPos.movePlayer("down", farmMap.getFarmMapDisplay());
+        farmMap.displayFarmMap();
+        System.out.println("");
+        door.useDoor(player, farmMap, houseMap);
+        System.out.println("Player is at: " + player.getPlayerLocation().getName() + ": " + player.getPlayerLocation().getCurrentPoint().getX() + ", " + player.getPlayerLocation().getCurrentPoint().getY());
+        
+        houseMap.displayHouse();
+        
+        System.out.println("Player is at: " + player.getPlayerLocation().getName() + ": " + player.getPlayerLocation().getCurrentPoint().getX() + ", " + player.getPlayerLocation().getCurrentPoint().getY());
+        playerPos.movePlayer("up", farmMap.getFarmMapDisplay());
+        farmMap.displayFarmMap();
+        door.useDoor(player, farmMap, houseMap);
+        System.out.println("Player is at: " + player.getPlayerLocation().getName() + ": " + player.getPlayerLocation().getCurrentPoint().getX() + ", " + player.getPlayerLocation().getCurrentPoint().getY());
+
+        farmMap.displayFarmMap();
+        System.out.println("");
+
+        houseMap.displayHouse();
+        System.out.println("");
+        farmMap.displayFarmMap();
+
+        gameTime.stopTime();
 
     }
 }

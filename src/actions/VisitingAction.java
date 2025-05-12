@@ -24,7 +24,7 @@ public class VisitingAction implements Action {
             return false;
         }
 
-        FarmMap farmMap = new FarmMap(player.getPlayerLocation().getCurrentPoint());
+        FarmMap farmMap = new FarmMap(player.getPlayerLocation());
         if (!farmMap.isAtEdge(player.getPlayerLocation().getCurrentPoint())) {
             System.out.println("You need to be at the edge of the farm to visit another place.");
             return false;

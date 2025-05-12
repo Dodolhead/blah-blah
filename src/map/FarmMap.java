@@ -10,21 +10,24 @@ import src.items.*;
 public class FarmMap {
     private static int farmSizeWidth = 32;
     private static int farmSizeHeight = 32;
-    private Point playerPositionFarm;
+    private Location playerLocation;
     private Map<String, List<Point>> objectPosition;
     private char[][] farmMapDisplay;
+    private Point playerPositionFarm;
     private Map<Point, Seed> plantedSeeds;
     private Map<Point, Integer> plantedDay;
 
 
-    public FarmMap(Point playerPositionFarm) {
-        this.playerPositionFarm = playerPositionFarm;
+    public FarmMap(Location playerLocation) {
+        this.playerLocation = playerLocation;
         this.objectPosition = new HashMap<>();
         this.farmMapDisplay = new char[farmSizeHeight][farmSizeWidth];
         this.plantedSeeds = new HashMap<>();
         this.plantedDay = new HashMap<>();
+        playerPositionFarm = playerLocation.getCurrentPoint();
 
         objectPosition.put("House", new ArrayList<>());
+        objectPosition.put("HouseDoor", new ArrayList<>());
         objectPosition.put("Pond", new ArrayList<>());
         objectPosition.put("ShippingBin", new ArrayList<>());
         objectPosition.put("Tillable", new ArrayList<>());
@@ -53,6 +56,10 @@ public class FarmMap {
 
     public Map<Point, Integer> getPlantedDay() {
         return plantedDay;
+    }
+
+    public void setPlayerPosition(Point playerPositionFarm) {
+        this.playerPositionFarm = playerPositionFarm;
     }
 
 
@@ -85,6 +92,12 @@ public class FarmMap {
             if (canPlaceObjectAt("House", houseStartX, houseStartY, 6, 6) &&
                 !isNearPlayer(houseStartPoint, 6, 6, playerPositionFarm)) {
                 placeObjectAt("House", houseStartPoint, 6, 6); 
+                int doorX = houseStartPoint.getX() + 3; 
+                int doorY = houseStartPoint.getY() + 5;
+                farmMapDisplay[doorY][doorX] = 'D';
+                objectPosition.get("HouseDoor").add(new Point(doorX, doorY)); 
+                
+
                 housePlaced = true;
             }
             timeSeed += 1000; 
@@ -199,7 +212,7 @@ public class FarmMap {
     public void displayFarmMap() {
         for (int i = 0; i < farmSizeHeight; i++) {
             for (int j = 0; j < farmSizeWidth; j++) {
-                if (playerPositionFarm.getY() == i && playerPositionFarm.getX() == j) {
+                if (playerLocation.getName().equals("Farm") && playerPositionFarm.getY() == i && playerPositionFarm.getX() == j) {
                     System.out.print("P ");
                 } else {
                     System.out.print(farmMapDisplay[i][j] + " ");

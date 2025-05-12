@@ -33,6 +33,7 @@ public class Player {
     public String getPlayerName() {
         return playerName;
     }
+
     
     public String getGender() {
         return gender;
@@ -116,6 +117,16 @@ public class Player {
     public void addVisitedPlace(String place) {
         if (!visitedPlace.contains(place)) {
             visitedPlace.add(place);
+        }
+    }
+    public void setLocation(String locationName, int x, int y) {
+        this.playerLocation.setName(locationName);
+
+        if (this.playerLocation.getCurrentPoint() == null) {
+            this.playerLocation.setPoint(new Point(x, y));
+        } else {
+            this.playerLocation.getCurrentPoint().setX(x);
+            this.playerLocation.getCurrentPoint().setY(y);
         }
     }
 

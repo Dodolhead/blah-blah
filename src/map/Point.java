@@ -19,6 +19,14 @@ public class Point {
         return y;
     }
 
+    public void setX(int x){
+        this.x = x;
+    }
+
+    public void setY(int y){
+        this.y = y;
+    }
+
     public boolean moveTo(int dx, int dy, char[][] mapDisplay) {
         if (dx < 0 || dy < 0 || dx >= mapDisplay.length || dy >= mapDisplay[0].length) {
             System.out.println("Cannot move: Out of bounds!");
@@ -75,6 +83,11 @@ public class Point {
         this.x = newX;
         this.y = newY;
         System.out.println("Moved to: (" + this.x + "," + this.y + ")");
+
+        if (mapDisplay[newY][newX] == 'D') {
+            System.out.println("Door found! You can now move to a different map.");
+        }
+
         return true;
     }
 
