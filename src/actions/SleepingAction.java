@@ -1,82 +1,52 @@
 package src.actions;
 
-import java.util.ArrayList;
 import src.entities.*;
-import src.map.*;
 import src.tsw.*;
 
 public class SleepingAction implements Action {
     private static final int MAX_ENERGY = 100;
-    private boolean hasSleptToday = false; // status tidur hari ini
 
     @Override
     public boolean execute(Player player) {
         Farm farm = FarmManager.getFarmByName(player.getFarm());
-        FarmMap farmMap = farm.getFarmMap();
         Time gameTime = farm.getTime();
-        Point playerPos = player.getPlayerLocation().getCurrentPoint();
 
-
-        if (gameTime.getHour() == 2 && !hasSleptToday) {
-            System.out.println("Sudah pukul 02.00! Anda kelelahan dan tertidur di tempat...");
-            return sleep(player, true);
-        }
-
-        if (!isInHouseOrBed(playerPos, farmMap)) {
-            System.out.println("Anda hanya bisa tidur di dalam rumah atau di tempat tidur!");
+        if (!gameTime.isNight()){
+            System.out.println("You can only sleep at night!");
             return false;
         }
 
-        return sleep(player, false);
-    }
+        if (!player.getPlayerLocation().getName().equals("House")){
+            System.out.println("You need to be in the house to sleep.");
+            return false;
+        }
 
-    private boolean sleep(Player player, boolean isForcedSleep) {
-        Farm farm = FarmManager.getFarmByName(player.getFarm());
-        Time gameTime = farm.getTime();
-        System.out.println("Memulai tidur...");
+        System.out.println("Sleeping...");
 
         int currentEnergy = player.getEnergy();
         int restoredEnergy;
 
         if (currentEnergy <= 0) {
             restoredEnergy = 10;
-            System.out.println("Energi habis, hanya pulih sebanyak 10 poin.");
+            System.out.println("Your energy hits 0 or lower. Energy restored: " + restoredEnergy + " points.");
         } else if (currentEnergy < (0.1 * MAX_ENERGY)) {
             restoredEnergy = MAX_ENERGY / 2;
-            System.out.println("Energi lemah, pulih setengah dari maksimum: " + restoredEnergy + " poin.");
+            System.out.println("Your energy was low. Energy restored: " + restoredEnergy + " points.");
         } else {
             restoredEnergy = MAX_ENERGY;
-            System.out.println("Energi pulih sepenuhnya: " + restoredEnergy + " poin.");
+            System.out.println("Energy restored to maximum: " + restoredEnergy + " points.");
         }
 
-        player.setEnergy(restoredEnergy);
-        hasSleptToday = true;
+        player.setEnergy(currentEnergy + restoredEnergy);
 
-        // Skip waktu ke pukul 06:00 pagi
         int currentHour = gameTime.getHour();
         int hoursToSkip = (currentHour >= 6) ? (24 - currentHour + 6) : (6 - currentHour);
 
-        gameTime.pauseTime();
         gameTime.skipTimeHour(hoursToSkip);
-        gameTime.resumeTime();
 
-        System.out.println("Tidur selesai. Sekarang pukul " + gameTime.getCurrentTime() + ", hari ke-" + gameTime.getDay());
-        System.out.println("Energi sekarang: " + player.getEnergy());
+        System.out.println("You have slept for " + hoursToSkip + " hours. Now is " + gameTime.getCurrentTime() + ", day-" + gameTime.getDay() + ", your energy is " + player.getEnergy() + ".");
 
         return true;
-    }
 
-    private boolean isInHouseOrBed(Point playerPos, FarmMap farmMap) {
-        return isNearObject(playerPos, farmMap, "House") || isNearObject(playerPos, farmMap, "Beds");
-    }
-
-    private boolean isNearObject(Point playerPos, FarmMap farmMap, String objectName) {
-        for (Point point : farmMap.getObjectPosition().getOrDefault(objectName, new ArrayList<>())) {
-            if (Math.abs(playerPos.getX() - point.getX()) <= 1 &&
-                Math.abs(playerPos.getY() - point.getY()) <= 1) {
-                return true;
-            }
-        }
-        return false;
     }
 }

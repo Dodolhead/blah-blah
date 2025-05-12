@@ -24,17 +24,17 @@ public class ProposingAction implements Action{
     @Override
     public boolean execute(Player player){
         if (player.getEnergy() < energyCost){
-            System.out.println("You don't have enough energy to do this action");
+            System.out.println("You don't have enough energy to do this action.");
             return false;
         }
 
-        if (!player.getPlayerInventory().hasItem("Proposal Ring")){
-            System.out.println("You don't have the required item");
+        if (!player.getPlayerInventory().hasItem("Proposal Ring.")){
+            System.out.println("You don't have the required item.");
             return false;
         }
 
         if (!targetNpc.getRelationshipStatus().equals("Single")){
-            System.out.println("You can't propose to " + targetNpc.getNpcName());
+            System.out.println("You can't propose to " + targetNpc.getNpcName() + ".");
             return false;
         }
 
@@ -42,7 +42,7 @@ public class ProposingAction implements Action{
             player.setEnergy(player.getEnergy() - energyCost);
             Farm farm = FarmManager.getFarmByName(player.getFarm());
             farm.getTime().skipTimeHour(TIME_COST_IN_HOUR);
-            System.out.println("You propose to " + targetNpc.getNpcName() + ", and got Rejected 😭😂");
+            System.out.println("You propose to " + targetNpc.getNpcName() + ", and got rejected.");
             return true;
         }
 
@@ -53,7 +53,7 @@ public class ProposingAction implements Action{
         targetNpc.setRelationshipStatus("Fiance");
         targetNpc.setProposedDay(farm.getTime().getDay());
 
-        System.out.println("You propose to " + targetNpc.getNpcName() + ", and got Accepted 😎👑");
+        System.out.println("You propose to " + targetNpc.getNpcName() + ", and got accepted.");
         player.setPartner(targetNpc);
         return true;
     }

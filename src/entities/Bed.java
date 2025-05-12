@@ -1,5 +1,6 @@
 package src.entities;
 
+import src.actions.SleepingAction;
 import src.map.HouseMap;
 import src.map.Point;
 
@@ -44,9 +45,15 @@ public class Bed extends Furniture {
     }
 
 
-    public void useBed(Player p, HouseMap houseMap) {
+    public boolean useBed(Player player, HouseMap houseMap) {
+        if (!isNearbyBed(player, houseMap)){
+            return false;
+        }
 
+        SleepingAction sleeping = new SleepingAction();
 
-        //nanti sleep ini kl dh ada actionny
+        sleeping.execute(player);
+
+        return true;
     }
 }

@@ -2,116 +2,224 @@ package src.actions;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
+import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 import src.entities.*;
 import src.items.*;
-import src.map.FarmMap;
 import src.tsw.*;
 
 public class FishingAction implements Action {
-    private static final Map<String, Map<String, FishInfo>> fishDatabase = new HashMap<>();
-    private Random random = new Random();
-    
-    private static class FishInfo {
-        String[] seasons;
-        String timeRange;
-        String[] weather;
-        String[] locations;
-        String rarity;
-    
-        FishInfo(String[] seasons, String timeRange, String[] weather, String[] locations, String rarity) {
-            this.seasons = seasons;
-            this.timeRange = timeRange;
-            this.weather = weather;
-            this.locations = locations;
-            this.rarity = rarity;
-        }
-    }    
-    
+    private static final Map<String, List<Fish>> fishDatabase = new HashMap<>();
+    private int ENERGY_COST = 5;
+    private int TIME_COST = 15;
+
     static {
-        Map<String, FishInfo> commonFish = new HashMap<>();
-        commonFish.put("Bullhead", new FishInfo(new String[]{"ANY"}, "ANY", new String[]{"ANY"}, new String[]{"Mountain Lake"}, "common"));
-        commonFish.put("Carp", new FishInfo(new String[]{"ANY"}, "ANY", new String[]{"ANY"}, new String[]{"Mountain Lake", "Pond"}, "common"));
-        commonFish.put("Chub", new FishInfo(new String[]{"ANY"}, "ANY", new String[]{"ANY"}, new String[]{"Forest River", "Mountain Lake"}, "common"));
+        // COMMON FISH
+        List<Fish> commonFish = new ArrayList<>();
+        commonFish.add(new Fish("Bullhead", 0, 24,
+            Arrays.asList("ANY"),
+            Arrays.asList("ANY"),
+            Arrays.asList("Mountain Lake"),
+            new Gold(10),
+            "common"
+        ));
+        commonFish.add(new Fish("Carp", 0, 24,
+            Arrays.asList("ANY"),
+            Arrays.asList("ANY"),
+            Arrays.asList("Mountain Lake", "Pond"),
+            new Gold(10),
+            "common"
+        ));
+        commonFish.add(new Fish("Chub", 0, 24,
+            Arrays.asList("ANY"),
+            Arrays.asList("ANY"),
+            Arrays.asList("Forest River", "Mountain Lake"),
+            new Gold(12),
+            "common"
+        ));
         fishDatabase.put("common", commonFish);
 
-        Map<String, FishInfo> regularFish = new HashMap<>();
-        regularFish.put("Largemouth Bass", new FishInfo(new String[]{"ANY"}, "06.00-18.00", new String[]{"ANY"}, new String[]{"Mountain Lake"}, "regular"));
-        regularFish.put("Rainbow Trout", new FishInfo(new String[]{"SUMMER"}, "06.00-18.00", new String[]{"SUNNY"}, new String[]{"Forest River", "Mountain Lake"}, "regular"));
-        regularFish.put("Sardine", new FishInfo(new String[]{"ANY"}, "06.00-18.00", new String[]{"ANY"}, new String[]{"Ocean"}, "regular"));
-        regularFish.put("Salmon", new FishInfo(new String[]{"FALL"}, "06.00-18.00", new String[]{"ANY"}, new String[]{"Forest River"}, "regular"));
+        // REGULAR FISH (12 total)
+        List<Fish> regularFish = new ArrayList<>();
+        regularFish.add(new Fish("Largemouth Bass", 6, 18,
+            Arrays.asList("ANY"),
+            Arrays.asList("ANY"),
+            Arrays.asList("Mountain Lake"),
+            new Gold(20),
+            "regular"
+        ));
+        regularFish.add(new Fish("Rainbow Trout", 6, 18,
+            Arrays.asList("SUMMER"),
+            Arrays.asList("SUNNY"),
+            Arrays.asList("Forest River", "Mountain Lake"),
+            new Gold(22),
+            "regular"
+        ));
+        regularFish.add(new Fish("Sturgeon", 6, 18,
+            Arrays.asList("SUMMER", "WINTER"),
+            Arrays.asList("ANY"),
+            Arrays.asList("Mountain Lake"),
+            new Gold(25),
+            "regular"
+        ));
+        regularFish.add(new Fish("Midnight Carp", 20, 2,
+            Arrays.asList("WINTER", "FALL"),
+            Arrays.asList("ANY"),
+            Arrays.asList("Mountain Lake", "Pond"),
+            new Gold(23),
+            "regular"
+        ));
+        regularFish.add(new Fish("Flounder", 6, 22,
+            Arrays.asList("SPRING", "SUMMER"),
+            Arrays.asList("ANY"),
+            Arrays.asList("Ocean"),
+            new Gold(21),
+            "regular"
+        ));
+        regularFish.add(new Fish("Halibut", 6, 11,  // Note: only first time range handled
+            Arrays.asList("ANY"),
+            Arrays.asList("ANY"),
+            Arrays.asList("Ocean"),
+            new Gold(20),
+            "regular"
+        ));
+        regularFish.add(new Fish("Octopus", 6, 22,
+            Arrays.asList("SUMMER"),
+            Arrays.asList("ANY"),
+            Arrays.asList("Ocean"),
+            new Gold(27),
+            "regular"
+        ));
+        regularFish.add(new Fish("Pufferfish", 0, 16,
+            Arrays.asList("SUMMER"),
+            Arrays.asList("SUNNY"),
+            Arrays.asList("Ocean"),
+            new Gold(26),
+            "regular"
+        ));
+        regularFish.add(new Fish("Sardine", 6, 18,
+            Arrays.asList("ANY"),
+            Arrays.asList("ANY"),
+            Arrays.asList("Ocean"),
+            new Gold(15),
+            "regular"
+        ));
+        regularFish.add(new Fish("Super Cucumber", 18, 2,
+            Arrays.asList("SUMMER", "FALL", "WINTER"),
+            Arrays.asList("ANY"),
+            Arrays.asList("Ocean"),
+            new Gold(30),
+            "regular"
+        ));
+        regularFish.add(new Fish("Catfish", 6, 22,
+            Arrays.asList("SPRING", "SUMMER", "FALL"),
+            Arrays.asList("RAINY"),
+            Arrays.asList("Forest River", "Pond"),
+            new Gold(24),
+            "regular"
+        ));
+        regularFish.add(new Fish("Salmon", 6, 18,
+            Arrays.asList("FALL"),
+            Arrays.asList("ANY"),
+            Arrays.asList("Forest River"),
+            new Gold(18),
+            "regular"
+        ));
         fishDatabase.put("regular", regularFish);
-        
-        Map<String, FishInfo> legendaryFish = new HashMap<>();
-        legendaryFish.put("Angler", new FishInfo(new String[]{"FALL"}, "08.00-20.00", new String[]{"ANY"}, new String[]{"Pond"}, "legendary"));
-        legendaryFish.put("Crimsonfish", new FishInfo(new String[]{"SUMMER"}, "08.00-20.00", new String[]{"ANY"}, new String[]{"Ocean"}, "legendary"));
-        legendaryFish.put("Glacierfish", new FishInfo(new String[]{"WINTER"}, "08.00-20.00", new String[]{"ANY"}, new String[]{"Forest River"}, "legendary"));
-        legendaryFish.put("Legend", new FishInfo(new String[]{"SPRING"}, "08.00-20.00", new String[]{"RAINY"}, new String[]{"Mountain Lake"}, "legendary"));
+
+        // LEGENDARY FISH
+        List<Fish> legendaryFish = new ArrayList<>();
+        legendaryFish.add(new Fish("Angler", 8, 20,
+            Arrays.asList("FALL"),
+            Arrays.asList("ANY"),
+            Arrays.asList("Pond"),
+            new Gold(50),
+            "legendary"
+        ));
+        legendaryFish.add(new Fish("Crimsonfish", 8, 20,
+            Arrays.asList("SUMMER"),
+            Arrays.asList("ANY"),
+            Arrays.asList("Ocean"),
+            new Gold(50),
+            "legendary"
+        ));
+        legendaryFish.add(new Fish("Glacierfish", 8, 20,
+            Arrays.asList("WINTER"),
+            Arrays.asList("ANY"),
+            Arrays.asList("Forest River"),
+            new Gold(50),
+            "legendary"
+        ));
+        legendaryFish.add(new Fish("Legend", 8, 20,
+            Arrays.asList("SPRING"),
+            Arrays.asList("RAINY"),
+            Arrays.asList("Mountain Lake"),
+            new Gold(50),
+            "legendary"
+        ));
         fishDatabase.put("legendary", legendaryFish);
     }
 
+    private boolean isValidFishingLocation(String location) {
+        return location.equals("Mountain Lake") || 
+               location.equals("Forest River") || 
+               location.equals("Ocean") || 
+               location.equals("Pond");
+    }
+
+    private String determineFishType() {
+        int chance = nextInt(100);
+        
+        if (chance < 60) {
+            return "common";
+        } else if (chance < 95 && chance >= 60) {
+            return "regular";
+        } else {
+            return "legendary";
+        }
+    }
     @Override
     public boolean execute(Player player) {
+        boolean caught = false;
+
         Farm farm = FarmManager.getFarmByName(player.getFarm());
-        FarmMap farmMap = farm.getFarmMap();
         Time gameTime = farm.getTime();
-        
-        // Periksa apakah pemain memiliki Fishing Rod
-        boolean hasFishingRod = false;
-        
-        for (Map<Item, Integer> map : player.getPlayerInventory().getInventoryStorage().values()) {
-            for (Map.Entry<Item, Integer> entry : map.entrySet()) {
-                if (entry.getKey() instanceof FishingRod) {
-                    hasFishingRod = true;
-                    break;
-                }
-            }
-            if (hasFishingRod) {
-                break;  // keluar dari loop jika sudah menemukan fishing rod
-            }
-        }
-
-        // Jika tidak memiliki Fishing Rod, aksi tidak bisa dilakukan
-        if (!hasFishingRod) {
-            System.out.println("Anda tidak memiliki Fishing Rod untuk memancing!");
-            return false;
-        }
-
-        // Periksa apakah pemain memiliki cukup energi
-        if (player.getEnergy() < 5) {
-            System.out.println("Energi tidak cukup untuk memancing!");
-            return false;
-        }
-        
-        // Validasi lokasi memancing
-        if (!isValidFishingLocation(fishingLocation)) {
-            System.out.println("Anda tidak bisa memancing di lokasi ini!");
-            return false;
-        }
-        
-        // Mulai proses memancing
-        System.out.println("Memulai memancing di " + fishingLocation + "...");
-        
-        // Pause waktu game selama aksi berlangsung
-        gameTime.pauseTime();
-        
-        // Kurangi energi pemain
-        player.subtractPlayerEnergy(5);
-        
-        // Tentukan jenis ikan yang akan ditangkap berdasarkan lokasi, waktu, musim, dan cuaca
+        String fishingLocation = player.getPlayerLocation().getName();
         String fishType = determineFishType();
-        String fishName = selectRandomFish(fishType);
+        String fishName = selectRandomFish(fishType, player);
+        
+        
+        if (!player.getPlayerInventory().hasItem("Fishing Rod")) {
+            System.out.println("You need a Fishing Rod to fish!");
+            return false;
+        }
+
+        if (player.getEnergy() < ENERGY_COST) {
+            System.out.println("You don't have enough energy to do this action.");
+            return false;
+        }
+        
+        if (!isValidFishingLocation(fishingLocation)) {
+            System.out.println("You can't Fish in here");
+            return false;
+        }
         
         if (fishName == null) {
-            System.out.println("Tidak ada ikan yang bisa ditangkap saat ini di lokasi ini.");
-            gameTime.resumeTime();
-            gameTime.skipTimeMinute(15);
+            System.out.println("There is currently no fish that can be caught in this time and place.");
             return false;
         }
+
+        System.out.println("Fishing in " + fishingLocation + "...");
         
-        System.out.println("Anda mendapat kesempatan untuk menangkap: " + fishName + " (" + fishType + ")");
+        gameTime.pauseTime();
         
-        // Set batas percobaan dan range angka berdasarkan jenis ikan
+        
+        System.out.println("Hmm? you felt something bite your rod.");
+        
         int maxAttempts;
         int maxNumber;
         
@@ -121,195 +229,111 @@ public class FishingAction implements Action {
         } else if (fishType.equals("regular")) {
             maxAttempts = 10;
             maxNumber = 100;
-        } else { // legendary
+        } else {
             maxAttempts = 7;
             maxNumber = 500;
         }
-        
-        // Generate angka acak untuk ditebak
-        int targetNumber = random.nextInt(maxNumber) + 1;
-        
-        System.out.println("Untuk menangkap " + fishName + ", tebak angka 1-" + maxNumber);
-        System.out.println("Anda memiliki " + maxAttempts + " kesempatan.");
-        
-        boolean caught = false;
-        int attempts = 0;
-        
-        while (attempts < maxAttempts) {
-            attempts++;
+
+        int fishNumber = nextInt(maxNumber);
+        Scanner scanner = new Scanner(System.in);
+        for (int i = 1; i <= maxAttempts; i++) {
+            System.out.print("Attempt " + i + "/" + maxAttempts + " - Enter your guess (0 to " + (maxNumber) + "): ");
             
-            System.out.print("Percobaan ke-" + attempts + ", masukkan tebakan Anda: ");
-            
-            // Untuk pengujian, kita buat tebakan acak
-            int guess = random.nextInt(maxNumber) + 1;
-            System.out.println(guess);
-            
-            if (guess == targetNumber) {
+            int guess;
+            try {
+                guess = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter a number.");
+                continue;
+            }
+
+            if (guess < 0 || guess > maxNumber) {
+                System.out.println("Please enter a number between 0 and " + maxNumber);
+                continue;
+            }
+
+            if (guess == fishNumber) {
                 caught = true;
                 break;
-            } else if (guess < targetNumber) {
-                System.out.println("Terlalu kecil!");
+            } else if (guess < fishNumber) {
+                System.out.println("Too low!");
             } else {
-                System.out.println("Terlalu besar!");
+                System.out.println("Too high!");
             }
         }
-        
-        // Tambahkan waktu yang dihabiskan untuk memancing (15 menit)
-        gameTime.resumeTime();
-        gameTime.skipTimeMinute(15);
-        
+
         if (caught) {
-            System.out.println("Selamat! Anda berhasil menangkap " + fishName + "!");
-            
-            // Buat objek Fish dan tambahkan ke inventory
-            FishInfo fishInfo = fishDatabase.get(fishType).get(fishName);
-            int sellPrice = calculateFishPrice(fishInfo);
-            
-            Fish caughtFish = new Fish(fishName, fishInfo.timeRange, fishingLocation, new Gold(sellPrice), fishType);
+            System.out.println("You caught a " + fishName + "!");
+            Fish caughtFish = findFishByName(fishType, fishName);
             player.getPlayerInventory().addItem(caughtFish, 1);
-            
-            return true;
         } else {
-            System.out.println("Sayang sekali, ikan lolos!");
-            return false;
+            System.out.println("The fish got away...");
         }
+
+        player.subtractPlayerEnergy(ENERGY_COST);
+        gameTime.skipTimeMinute(TIME_COST);
+        gameTime.resumeTime();
+        scanner.close();
+        return true;
+
     }
-    
-    // Helper method untuk validasi lokasi memancing
-    private boolean isValidFishingLocation(String location) {
-        return location.equals("Mountain Lake") || 
-               location.equals("Forest River") || 
-               location.equals("Ocean") || 
-               location.equals("Pond");
-    }
-    
-    // Helper method untuk menentukan jenis ikan yang bisa ditangkap
-    private String determineFishType() {
-        // Logika untuk menentukan jenis ikan (common, regular, legendary)
-        // Berdasarkan probabilitas
-        int chance = random.nextInt(100);
-        
-        if (chance < 60) {
-            return "common";
-        } else if (chance < 95) {
-            return "regular";
-        } else {
-            return "legendary";
-        }
-    }
-    
-    // Helper method untuk memilih ikan secara acak berdasarkan jenis
-    private String selectRandomFish(String fishType) {
-        Map<String, FishInfo> availableFish = fishDatabase.get(fishType);
-        
-        // Filter ikan berdasarkan lokasi, waktu, musim, dan cuaca
-        Map<String, FishInfo> eligibleFish = new HashMap<>();
-        
+
+    private String selectRandomFish(String fishType, Player player) {
+        Farm farm = FarmManager.getFarmByName(player.getFarm());
+        Time gameTime = farm.getTime();
         Season.Seasons currentSeason = new Season().getCurrentSeason();
-        String seasonStr = currentSeason.toString();
-        
-        int currentHour = gameTime.getHour();
         Weather.WeatherCondition currentWeather = new Weather().getCurrentWeather();
+        int currentHour = gameTime.getHour();
+        String fishingLocation = player.getPlayerLocation().getName();
+
+        String seasonStr = currentSeason.toString();
         String weatherStr = currentWeather.toString();
-        
-        for (Map.Entry<String, FishInfo> entry : availableFish.entrySet()) {
-            FishInfo fish = entry.getValue();
-            
-            boolean locationMatch = false;
-            for (String loc : fish.locations) {
-                if (loc.equals(fishingLocation) || loc.equals("ANY")) {
-                    locationMatch = true;
-                    break;
-                }
-            }
-            
-            boolean seasonMatch = false;
-            for (String season : fish.seasons) {
-                if (season.equals(seasonStr) || season.equals("ANY")) {
-                    seasonMatch = true;
-                    break;
-                }
-            }
-            
-            boolean weatherMatch = false;
-            for (String weather : fish.weather) {
-                if (weather.equals(weatherStr) || weather.equals("ANY")) {
-                    weatherMatch = true;
-                    break;
-                }
-            }
-            
-            boolean timeMatch = false;
-            if (fish.timeRange.equals("ANY")) {
-                timeMatch = true;
-            } else {
-                String[] timeParts = fish.timeRange.split("-");
-                int startHour = Integer.parseInt(timeParts[0].split("\\.")[0]);
-                int endHour = Integer.parseInt(timeParts[1].split("\\.")[0]);
-                
-                if (currentHour >= startHour && currentHour <= endHour) {
-                    timeMatch = true;
-                }
-            }
-            
+
+        List<Fish> fishList = fishDatabase.getOrDefault(fishType, Collections.emptyList());
+        List<Fish> eligibleFish = new ArrayList<>();
+
+        for (Fish fish : fishList) {
+            boolean locationMatch = fish.getFishLocations().contains(fishingLocation) || fish.getFishLocations().contains("ANY");
+            boolean seasonMatch = fish.getAvailableSeasons().contains(seasonStr) || fish.getAvailableSeasons().contains("ANY");
+            boolean weatherMatch = fish.getWeathers().contains(weatherStr) || fish.getWeathers().contains("ANY");
+            boolean timeMatch = isTimeInRange(fish.getTimeStart(), fish.getTimeEnd(), currentHour);
+
             if (locationMatch && seasonMatch && weatherMatch && timeMatch) {
-                eligibleFish.put(entry.getKey(), fish);
+                eligibleFish.add(fish);
             }
         }
-        
+
         if (eligibleFish.isEmpty()) {
             return null;
         }
-        
-        // Pilih ikan secara acak dari yang eligible
-        int randomIndex = random.nextInt(eligibleFish.size());
-        int i = 0;
-        for (String fishName : eligibleFish.keySet()) {
-            if (i == randomIndex) {
-                return fishName;
-            }
-            i++;
+
+        int randomIndex = nextInt(eligibleFish.size());
+        return eligibleFish.get(randomIndex).getItemName();
+    }
+
+
+    private boolean isTimeInRange(int start, int end, int current) {
+        if (start <= end) {
+            return current >= start && current < end;
+        } else {
+            return current >= start || current < end;
         }
-        
+    }
+
+    private int nextInt(int bound) {
+        long seed = System.currentTimeMillis();
+        seed = (seed * 6364136223846793005L + 1) & 0x7FFFFFFFFFFFFFFFL;
+        return (int) (Math.abs(seed) % bound);
+    }
+
+    private Fish findFishByName(String fishType, String name) {
+        List<Fish> fishList = fishDatabase.getOrDefault(fishType, Collections.emptyList());
+        for (Fish fish : fishList) {
+            if (fish.getItemName().equalsIgnoreCase(name)) {
+                return fish;
+            }
+        }
         return null;
     }
-    
-    // Helper method untuk menghitung harga jual ikan
-    private int calculateFishPrice(FishInfo fish) {
-        // Formula sesuai spesifikasi:
-        // (4/banyak_season) × (24/jumlah_jam) × (2/jumlah_variasi_weather) × (4/banyak_lokasi) × C
-        
-        int seasonCount = fish.seasons.length;
-        if (seasonCount == 0 || (seasonCount == 1 && fish.seasons[0].equals("ANY"))) {
-            seasonCount = 4; // All seasons
-        }
-        
-        int hourCount = 24;
-        if (!fish.timeRange.equals("ANY")) {
-            String[] timeParts = fish.timeRange.split("-");
-            int startHour = Integer.parseInt(timeParts[0].split("\\.")[0]);
-            int endHour = Integer.parseInt(timeParts[1].split("\\.")[0]);
-            hourCount = endHour - startHour;
-        }
-        
-        int weatherCount = fish.weather.length;
-        if (weatherCount == 0 || (weatherCount == 1 && fish.weather[0].equals("ANY"))) {
-            weatherCount = 2; // All weather types
-        }
-        
-        int locationCount = fish.locations.length;
-        
-        int rarityMultiplier = 0;
-        if (fish.rarity.equals("common")) {
-            rarityMultiplier = 10;
-        } else if (fish.rarity.equals("regular")) {
-            rarityMultiplier = 5;
-        } else if (fish.rarity.equals("legendary")) {
-            rarityMultiplier = 25;
-        }
-        
-        int price = (int) ((4.0 / seasonCount) * (24.0 / hourCount) * (2.0 / weatherCount) * (4.0 / locationCount) * rarityMultiplier);
-        
-        return price;
-    }
+
 }

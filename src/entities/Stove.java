@@ -95,9 +95,8 @@ public class Stove extends Furniture{
             System.out.println("You don't have a fuel to cook.");
             return false;
         }
-        cookingAction.execute(player);
         consumeFuel();
-        return true;
+        return cookingAction.execute(player);
     }
     
 }

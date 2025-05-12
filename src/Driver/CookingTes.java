@@ -72,8 +72,7 @@ public class CookingTes {
         // 7. House Map dan Furniture
         System.out.println("\n=== House Setup ===");
         
-        Point playerHousePosition = playerLocation.getCurrentPoint();
-        HouseMap houseMap = new HouseMap(playerHousePosition);
+        HouseMap houseMap = new HouseMap(playerLocation);
 
         // Membuat dan menempatkan furniture
         Bed bed = new Bed("bed1", "King Bed", "A comfortable king size bed", 2, 3, 2);

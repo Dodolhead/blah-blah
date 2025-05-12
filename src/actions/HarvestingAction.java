@@ -49,19 +49,19 @@ public class HarvestingAction implements Action {
         seedToCropMap.put(melonSeed, melonCrop);
 
         // Fall Season
-        Seed cranberrySeed = new Seed("Cranberry Seeds", new Gold(100), 2, "AUTUMN");
+        Seed cranberrySeed = new Seed("Cranberry Seeds", new Gold(100), 2, "FALL");
         Crop cranberryCrop = new Crop("Cranberry", new Gold(0), new Gold(25), 10); 
         seedToCropMap.put(cranberrySeed, cranberryCrop);
 
-        Seed pumpkinSeed = new Seed("Pumpkin Seeds", new Gold(150), 7, "AUTUMN");
+        Seed pumpkinSeed = new Seed("Pumpkin Seeds", new Gold(150), 7, "FALL");
         Crop pumpkinCrop = new Crop("Pumpkin", new Gold(300), new Gold(250), 1);
         seedToCropMap.put(pumpkinSeed, pumpkinCrop);
 
-        Seed wheatSeedFall = new Seed("Wheat Seeds", new Gold(60), 1, "AUTUMN");
+        Seed wheatSeedFall = new Seed("Wheat Seeds", new Gold(60), 1, "FALL");
         Crop wheatCropFall = new Crop("Wheat", new Gold(50), new Gold(30), 3);
         seedToCropMap.put(wheatSeedFall, wheatCropFall);
 
-        Seed grapeSeed = new Seed("Grape Seeds", new Gold(60), 3, "AUTUMN");
+        Seed grapeSeed = new Seed("Grape Seeds", new Gold(60), 3, "FALL");
         Crop grapeCrop = new Crop("Grape", new Gold(100), new Gold(10), 20);
         seedToCropMap.put(grapeSeed, grapeCrop);
 

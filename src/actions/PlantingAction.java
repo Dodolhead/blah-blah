@@ -73,8 +73,8 @@ public class PlantingAction implements Action {
                 return seedSeason.toUpperCase().contains("SPRING");
             case SUMMER:
                 return seedSeason.toUpperCase().contains("SUMMER");
-            case AUTUMN:
-                return seedSeason.toUpperCase().contains("FALL") || seedSeason.toUpperCase().contains("AUTUMN");
+            case FALL:
+                return seedSeason.toUpperCase().contains("FALL");
             case WINTER:
                 return seedSeason.toUpperCase().contains("WINTER");
             default:

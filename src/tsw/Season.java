@@ -2,7 +2,7 @@ package src.tsw;
 
 public class Season {
     public enum Seasons {
-        SPRING, SUMMER, AUTUMN, WINTER;
+        SPRING, SUMMER, FALL, WINTER;
     }
 
     public Seasons currentSeason;

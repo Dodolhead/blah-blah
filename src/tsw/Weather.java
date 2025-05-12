@@ -39,6 +39,7 @@ public class Weather {
         }
     }
 
+
     public void nextDayWeather() {
         System.out.println("\nNew day, new weather!");
         changeWeatherRandomly();

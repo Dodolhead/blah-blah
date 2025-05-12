@@ -15,7 +15,7 @@ public class FarmMapTes {
     public static void main(String[] args) {
         Gold playerGold = new Gold(1000);
         Inventory playerInventory = new Inventory();
-        Location playerLocation = new Location("House", new Point(10, 10));
+        Location playerLocation = new Location("Farm", new Point(10, 10));
         Player player = new Player("John", "Male", "Sunny Farm", playerGold, 
                                 playerInventory, playerLocation);
         
@@ -31,6 +31,7 @@ public class FarmMapTes {
         player.getPlayerInventory().addItem(hoe, 1);
         player.getPlayerInventory().addItem(wheatSeed, 1);
 
+        player.getPlayerLocation().setName(null);
         // Menampilkan peta farm dan posisi objek
         System.out.println("Farm Map:");
         

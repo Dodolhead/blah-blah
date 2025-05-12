@@ -5,19 +5,21 @@ import src.items.*;
 import src.tsw.*;
 
 public class EatingAction implements Action {
-    private Time gameTime;
     private Item itemToEat;
+    private static final int TIME_COST = 5;
 
-    public EatingAction(Time gameTime, Item itemToEat) {
-        this.gameTime = gameTime;
+    public EatingAction(Item itemToEat) {
         this.itemToEat = itemToEat;
     }
 
     @Override
     public boolean execute(Player player) {
+        Farm farm = FarmManager.getFarmByName(player.getFarm());
+        Time gameTime = farm.getTime();
+
         int itemAmount = player.getPlayerInventory().getItemAmount(itemToEat);
         if (itemAmount <= 0) {
-            System.out.println("Anda tidak memiliki " + itemToEat.getItemName() + " untuk dimakan.");
+            System.out.println("You don't have a" + itemToEat.getItemName() + " to be eaten!");
             return false;
         }
 
@@ -31,18 +33,17 @@ public class EatingAction implements Action {
         }
 
         if (energyToRestore <= 0) {
-            System.out.println(itemToEat.getItemName() + " tidak memberikan energi apapun.");
+            System.out.println(itemToEat.getItemName() + " can't be eaten.");
             return false;
         }
 
-        System.out.println("Makan " + itemToEat.getItemName() + "...");
+        System.out.println("Eating " + itemToEat.getItemName() + "...");
 
         player.addPlayerEnergy(energyToRestore);
         player.getPlayerInventory().removeItem(itemToEat, 1);
-        gameTime.skipTimeMinute(5);
+        gameTime.skipTimeMinute(TIME_COST);
 
-        System.out.println("Berhasil makan " + itemToEat.getItemName() + ". Energi bertambah " + energyToRestore + ".");
-        System.out.println("Energi sekarang: " + player.getEnergy());
+        System.out.println("You have eaten a " + itemToEat.getItemName() + ". Your current energy: " +  player.getEnergy() + ".");
 
         return true;
     }

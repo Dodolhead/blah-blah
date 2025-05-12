@@ -75,7 +75,15 @@ public class Player {
     }
     
     public void setEnergy(int energy) {
-        this.energy = energy;
+        if (energy > MAX_ENERGY) {
+            this.energy = MAX_ENERGY;
+        }
+        else if (energy < -20) {
+            this.energy = -20;
+        }
+        else {
+            this.energy = energy;
+        }
     }
     
     public void setFarmName(String farmName) {
