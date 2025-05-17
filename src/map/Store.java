@@ -14,6 +14,7 @@ public class Store extends NPCHome {
     
     public Store(){
         super("Store", new NPC("Emily", "single"));
+        soldItem = new HashMap<>();
         for (Class<?> itemClass : typeToClassMap.values()) {
             soldItem.put(itemClass, new HashMap<>());
         }
