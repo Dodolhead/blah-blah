@@ -1,9 +1,16 @@
 package src.entities;
 
 import java.util.List;
+
+import javax.imageio.ImageIO;
+import src.engine.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import src.map.*;
+import src.engine.GamePanel;
 import src.items.*;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 public class Player {
     private String playerName;
@@ -16,20 +23,36 @@ public class Player {
     private Inventory playerInventory;
     private Location playerLocation;
     private List<String> visitedPlace;
+    GamePanel gp;
+    KeyHandler keyH;
+    public int speed;
 
-    public Player(String playerName, String gender, String farmName, Gold playerGold, Inventory playerInventory, Location playerLocation) {
+    public BufferedImage up,down,left,right;
+    public String direction;
+
+    public Player(String playerName, String gender, String farmName, GamePanel gp, KeyHandler keyH) {
         this.playerName = playerName;
         this.gender = gender;
-        this.energy = MAX_ENERGY;
         this.farmName = farmName;
-        this.playerGold = playerGold;
-        this.playerInventory = playerInventory;
-        this.playerLocation = playerLocation;
+        this.gp = gp;
+        this.keyH = keyH;
+
+        setDefaultValues();
+        getPlayerImage();
         visitedPlace = new ArrayList<>();
         PlayerManager.addPlayer(this);
     }
 
-    /*============= GETTER =============== */
+    
+    public void setDefaultValues() {
+        this.playerLocation = new Location("Farm", new Point(100, 100));
+        this.playerGold = new Gold(0);
+        this.playerInventory = new Inventory();
+        energy = MAX_ENERGY;
+        speed = 4;
+        direction = "down";
+    }
+
     public String getPlayerName() {
         return playerName;
     }
@@ -137,6 +160,59 @@ public class Player {
             this.playerLocation.getCurrentPoint().setY(y);
         }
     }
+
+    public void getPlayerImage(){
+        try {
+            up = ImageIO.read(getClass().getResourceAsStream("/res/player/024.png"));
+            down = ImageIO.read(getClass().getResourceAsStream("/res/player/bincat.png"));
+            left = ImageIO.read(getClass().getResourceAsStream("/res/player/bruh.jpeg"));
+            right = ImageIO.read(getClass().getResourceAsStream("/res/player/Mantap.png"));
+
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void update() {
+        if (keyH.upPressed == true) {
+            direction = "up";
+            playerLocation.getCurrentPoint().setY(playerLocation.getCurrentPoint().getY()-speed);
+        }
+        if (keyH.downPressed == true) {
+            direction = "down";
+            playerLocation.getCurrentPoint().setY(playerLocation.getCurrentPoint().getY()+speed);
+        }
+        if (keyH.leftPressed == true) {
+            direction = "left";
+            playerLocation.getCurrentPoint().setX(playerLocation.getCurrentPoint().getX()-speed);
+        }
+        if (keyH.rightPressed == true) {
+            direction = "right";
+            playerLocation.getCurrentPoint().setX(playerLocation.getCurrentPoint().getX()+speed);
+        }
+    }
+
+    public void draw(Graphics2D g2) {
+        BufferedImage image = null;
+
+        switch (direction) {
+            case "up":
+                image = up;
+                break;
+            case "down":
+                image = down;
+                break;
+            case "left":
+                image = left;
+                break;
+            case "right":
+                image = right;
+                break;
+        }
+        g2.drawImage(image, this.playerLocation.getCurrentPoint().getX(), this.playerLocation.getCurrentPoint().getY(), gp.tileSize, gp.tileSize, null);
+    }
+    
 
     
 }

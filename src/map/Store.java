@@ -1,7 +1,8 @@
 package src.map;
 
-import src.entities.*;
 import java.util.*;
+
+import src.entities.*;
 import src.items.*;
 
 public class Store extends NPCHome {

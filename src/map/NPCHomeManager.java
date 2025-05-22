@@ -1,8 +1,10 @@
 package src.map;
 
 import java.util.Map;
-import java.util.HashMap;
+
 import src.entities.*;
+
+import java.util.HashMap;
 
 public class NPCHomeManager {
     private static Map<String, NPC> npcHomeStorage = new HashMap<>();

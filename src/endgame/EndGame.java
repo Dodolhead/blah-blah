@@ -43,7 +43,7 @@ public class EndGame {
         int averageIncomePerSeason = totalSeasons > 0 ? totalIncome / totalSeasons : 0;
         int averageExpenditurePerSeason = totalSeasons > 0 ? totalExpenditure / totalSeasons : 0;
 
-        System.out.println("===== 🎉 END GAME STATISTICS 🎉 =====");
+        System.out.println("===== END GAME STATISTICS =====");
         System.out.println("Player Name: " + player.getPlayerName());
         System.out.println("Farm Name: " + player.getFarm());
         System.out.println("Total Days Played: " + totalDays);
@@ -52,13 +52,13 @@ public class EndGame {
         System.out.println("Average Season Income: " + averageIncomePerSeason + "g");
         System.out.println("Average Season Expenditure: " + averageExpenditurePerSeason + "g");
 
-        System.out.println("\n--- 🌱 Crops & Fishing ---");
+        System.out.println("\n--- Crops & Fishing ---");
         System.out.println("Crops Harvested: " + cropsHarvested);
         System.out.println("Fish Caught (Common): " + fishCaughtCommon);
         System.out.println("Fish Caught (Regular): " + fishCaughtRegular);
         System.out.println("Fish Caught (Legendary): " + fishCaughtLegendary);
 
-        System.out.println("\n--- 🤝 NPC Status ---");
+        System.out.println("\n--- NPC Status ---");
         for (NPC npc : NPCManager.getNPCList()) {
             System.out.println("NPC: " + npc.getNpcName());
             System.out.println("  Relationship Status: " + npc.getRelationshipStatus());

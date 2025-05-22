@@ -1,11 +1,12 @@
 package src.map;
 
 import java.util.Map;
+
+import src.entities.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import src.entities.*;
 public class HouseMap {
     private static int houseSizeWidth = 24;
     private static int houseSizeHeight = 24;
