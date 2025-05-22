@@ -4,7 +4,6 @@ del /S /Q out\*.class
 
 echo [2] Compiling Java files...
 javac -d out ^
-src\button\*.java ^
 src\endgame\*.java ^
 src\engine\*.java ^
 src\actions\*.java ^

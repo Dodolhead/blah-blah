@@ -16,18 +16,21 @@ public class GamePanel extends JPanel implements Runnable{
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
     TileManager tileM = new TileManager(this);
+    Farm farm;
 
     int FPS = 60;
-    Player player = new Player("anto", "male", "Farm", this, keyH);
+    Player player;
     
-    public GamePanel() {
+    public GamePanel(String playerName, String gender, String farmName) {
         this.setPreferredSize(new java.awt.Dimension(screenWidth, screenHeight));
-        this.setBackground(java.awt.Color.black);
+        this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
-    }
 
+        player = new Player(playerName, gender, farmName, this, keyH);
+        farm = new Farm(farmName, player);
+    }
 
 
     public void startGameThread(){
