@@ -1,9 +1,9 @@
 package src.gui;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
 public class MenuPanel extends JPanel implements ActionListener {
     private JButton play;
