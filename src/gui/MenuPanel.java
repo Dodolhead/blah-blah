@@ -43,7 +43,7 @@ public class MenuPanel extends JPanel implements ActionListener {
         exit.addActionListener(this);
 
         // Background label
-        ImageIcon background = new ImageIcon("res/menu/backgroundDefault.jpg");
+        ImageIcon background = new ImageIcon("res/menu/bg.jpg");
         JLabel bgLabel = new JLabel(background);
         bgLabel.setBounds(0, 0, 800, 600);
 
