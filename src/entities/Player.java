@@ -9,6 +9,7 @@ import src.map.*;
 import src.gui.*;
 import src.items.*;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public class Player {
@@ -25,9 +26,20 @@ public class Player {
     GamePanel gp;
     KeyHandler keyH;
     public int speed;
+    public int screenX;
+    public int screenY;
 
-    public BufferedImage up,down,left,right;
+    public BufferedImage up1,up2,down1,down2,left1,left2,right1,right2;
     public String direction;
+
+    public Rectangle playerHitBox;
+    public boolean collisionOn = false;
+
+    int spriteNum = 1;
+    int spriteCount = 0;
+
+    public boolean enteringHouse = false;
+
 
     public Player(String playerName, String gender, String farmName, GamePanel gp, KeyHandler keyH) {
         this.playerName = playerName;
@@ -35,7 +47,8 @@ public class Player {
         this.farmName = farmName;
         this.gp = gp;
         this.keyH = keyH;
-
+        
+        playerHitBox = new Rectangle(8,16,32,32);
         setDefaultValues();
         getPlayerImage();
         visitedPlace = new ArrayList<>();
@@ -44,7 +57,7 @@ public class Player {
 
     
     public void setDefaultValues() {
-        this.playerLocation = new Location("Farm", new Point(100, 100));
+        this.playerLocation = new Location("Farm", new Point(gp.tileSize*15, gp.tileSize*15));
         this.playerGold = new Gold(0);
         this.playerInventory = new Inventory();
         energy = MAX_ENERGY;
@@ -162,10 +175,14 @@ public class Player {
 
     public void getPlayerImage(){
         try {
-            up = ImageIO.read(getClass().getResourceAsStream("/res/player/024.png"));
-            down = ImageIO.read(getClass().getResourceAsStream("/res/player/bincat.png"));
-            left = ImageIO.read(getClass().getResourceAsStream("/res/player/bruh.jpeg"));
-            right = ImageIO.read(getClass().getResourceAsStream("/res/player/Mantap.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/024.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/res/player/025.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/res/player/bincat.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/res/player/025.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/res/player/bruh.jpeg"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/res/player/025.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/res/player/Mantap.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/res/player/025.png"));
 
         }
         catch (IOException e) {
@@ -174,22 +191,51 @@ public class Player {
     }
 
     public void update() {
-        if (keyH.upPressed == true) {
-            direction = "up";
-            playerLocation.getCurrentPoint().setY(playerLocation.getCurrentPoint().getY()-speed);
+        if (keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) {
+            if (keyH.upPressed == true) {
+                direction = "up";
+            }
+            if (keyH.downPressed == true) {
+                direction = "down";
+            }
+            if (keyH.leftPressed == true) {
+                direction = "left";
+            }
+            if (keyH.rightPressed == true) {
+                direction = "right";
+            }
+
+            collisionOn = false;
+            gp.cChecker.checkTile(this);
+
+            if (collisionOn == false){
+                switch(direction) {
+                    case "up":
+                        playerLocation.getCurrentPoint().setY(playerLocation.getCurrentPoint().getY()-speed);
+                        break;
+                    case "down":
+                        playerLocation.getCurrentPoint().setY(playerLocation.getCurrentPoint().getY()+speed);
+                        break;
+                    case "left":
+                        playerLocation.getCurrentPoint().setX(playerLocation.getCurrentPoint().getX()-speed);
+                        break;
+                    case "right":
+                        playerLocation.getCurrentPoint().setX(playerLocation.getCurrentPoint().getX()+speed);
+                        break;
+                }
+            }
+            spriteCount++;
+            if (spriteCount > 10) {
+                if (spriteNum == 1) {
+                    spriteNum = 2;
+                }
+                else if (spriteNum == 2) {
+                    spriteNum = 1;
+                }
+                spriteCount = 0;
+            }
         }
-        if (keyH.downPressed == true) {
-            direction = "down";
-            playerLocation.getCurrentPoint().setY(playerLocation.getCurrentPoint().getY()+speed);
-        }
-        if (keyH.leftPressed == true) {
-            direction = "left";
-            playerLocation.getCurrentPoint().setX(playerLocation.getCurrentPoint().getX()-speed);
-        }
-        if (keyH.rightPressed == true) {
-            direction = "right";
-            playerLocation.getCurrentPoint().setX(playerLocation.getCurrentPoint().getX()+speed);
-        }
+
     }
 
     public void draw(Graphics2D g2) {
@@ -197,21 +243,45 @@ public class Player {
 
         switch (direction) {
             case "up":
-                image = up;
+                if (spriteNum == 1){
+                    image = up1;
+                }
+                if (spriteNum == 2){
+                    image = up2;
+                }
                 break;
             case "down":
-                image = down;
+                if (spriteNum == 1){
+                    image = down1;
+                }
+                if (spriteNum == 2){
+                    image = down2;
+                }
                 break;
             case "left":
-                image = left;
+                if (spriteNum == 1){
+                    image = left1;
+                }
+                if (spriteNum == 2){
+                    image = left2;
+                }
                 break;
             case "right":
-                image = right;
+                if (spriteNum == 1){
+                    image = right1;
+                }
+                if (spriteNum == 2){
+                    image = right2;
+                }
                 break;
         }
-        g2.drawImage(image, this.playerLocation.getCurrentPoint().getX(), this.playerLocation.getCurrentPoint().getY(), gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
     }
     
+    public void setScreenPosition(int screenWidth, int screenHeight) {
+        this.screenX = screenWidth / 2 - (gp.tileSize / 2);
+        this.screenY = screenHeight / 2 - (gp.tileSize / 2);
+    }
 
     
 }

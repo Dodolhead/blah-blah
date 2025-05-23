@@ -16,7 +16,7 @@ public class CreatePlayerPanel extends JPanel {
         // Title
         JLabel titleLabel = new JLabel("Create Your Character");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setForeground(Color.BLUE);
+        titleLabel.setForeground(Color.BLACK);
         titleLabel.setBounds(250, 50, 300, 30);
 
         // Name input

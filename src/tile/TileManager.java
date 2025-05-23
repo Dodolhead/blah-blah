@@ -1,31 +1,26 @@
 package src.tile;
 import src.gui.*;
+
 import javax.imageio.*;
 import java.awt.*;
+import src.entities.*;
 
 
 public class TileManager {
     GamePanel gp;
-    Tile[] tile;
-    char[][] mapTiles;
+    public Tile[] tile;
+    public char[][] mapTiles;
 
-    public TileManager(GamePanel gp) {
+    public TileManager(GamePanel gp, Player player) {
         this.gp = gp;
-        tile = new Tile[10];
-        mapTiles = new char[][]{
-            {'t','.','.','.','.','.','.','.','.','.','.','.','.','.','.','t'},
-            {'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'},
-            {'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'},
-            {'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'},
-            {'.','.','.','.','.','.','.','t','.','.','.','.','.','.','.','.'},
-            {'.','.','p','p','.','.','.','.','t','.','.','.','.','.','.','.'},
-            {'.','.','p','p','.','.','.','.','.','.','.','.','.','.','.','.'},
-            {'.','.','.','.','.','.','.','.','.','.','.','.','p','p','.','.'},
-            {'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'},
-            {'.','.','.','.','.','.','.','t','.','.','.','.','.','.','.','.'},
-            {'.','.','p','p','.','.','.','.','.','.','.','.','.','.','.','.'},
-            {'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','t'}
-        };
+        Farm farm = FarmManager.getFarmByName(player.getFarm());
+        tile = new Tile[100];
+        if (player.getPlayerLocation().getName().equals("Farm")) {
+            mapTiles = farm.getFarmMap().getFarmMapDisplay();
+        }
+        else if (player.getPlayerLocation().getName().equals("House")) {
+            mapTiles = gp.houseMap.getHouseMapDisplay();
+        }
         getTileImage();
     }
 
@@ -42,20 +37,62 @@ public class TileManager {
             tile[2] = new Tile();
             tile[2].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/blah.jpg"));
             tile[2].collision = true;
+
+            tile[3] = new Tile();
+            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tt.jpg"));
+            tile[3].collision = false;
+
+            tile[4] = new Tile();
+            tile[4].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/images.png"));
+            tile[4].collision = false;
+
+            tile[5] = new Tile();
+            tile[5].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/download.jpg"));
+            tile[5].collision = true;
+
+            tile[6] = new Tile();
+            tile[6].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/bruh.jpeg"));
+            tile[6].collision = true;
+
+            tile[7] = new Tile();
+            tile[7].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/ll.jpeg"));
+            tile[7].collision = false;
+
+            tile[8] = new Tile();
+            tile[8].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/download.jpg"));
+            tile[8].collision = true;
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
     public void draw(Graphics2D g2) {
-        for (int row = 0; row < mapTiles.length; row++) {
-            for (int col = 0; col < mapTiles[row].length; col++) {
-                int x = col * gp.tileSize;
-                int y = row * gp.tileSize;
+        int playerWorldX = gp.player.getPlayerLocation().getCurrentPoint().getX();
+        int playerWorldY = gp.player.getPlayerLocation().getCurrentPoint().getY();
+        
+        int leftBound = playerWorldX - gp.player.screenX;
+        int rightBound = playerWorldX + gp.player.screenX;
+        int topBound = playerWorldY - gp.player.screenY;
+        int bottomBound = playerWorldY + gp.player.screenY;
+        
+        for (int row = 0; row < gp.maxWorldRow; row++) {
+            for (int col = 0; col < gp.maxWorldCol; col++) {
+                int worldX = col * gp.tileSize;
+                int worldY = row * gp.tileSize;
+                
+                if (worldX + gp.tileSize > leftBound && 
+                    worldX - gp.tileSize < rightBound &&
+                    worldY + gp.tileSize > topBound &&
+                    worldY - gp.tileSize < bottomBound) {
+                    
+                    int screenX = worldX - playerWorldX + gp.player.screenX;
+                    int screenY = worldY - playerWorldY + gp.player.screenY;
 
-                char tileChar = mapTiles[row][col];
-                int tileIndex = getTileIndex(tileChar);
-                g2.drawImage(tile[tileIndex].image, x, y, gp.tileSize, gp.tileSize, null);
+                    char tileChar = mapTiles[row][col];
+                    int tileIndex = getTileIndex(tileChar);
+                    g2.drawImage(tile[tileIndex].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                }
             }
         }
     }
@@ -63,8 +100,14 @@ public class TileManager {
     public int getTileIndex(char c) {
         return switch (c) {
             case '0', '.' -> 0;
-            case '1', 't' -> 1;
-            case '2', 'p' -> 2;
+            case '1', 'h' -> 1;
+            case '2', 's' -> 2;
+            case '3', 't' -> 3;
+            case '4', 'l' -> 4;
+            case '5', 'o' -> 5;
+            case '6', 'D' -> 6;
+            case '7', ',' -> 7;
+            case '8', 'W' -> 8;
             default -> 0;
         };
     }

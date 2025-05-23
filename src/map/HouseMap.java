@@ -16,25 +16,50 @@ public class HouseMap {
     private Point playerPositionHouse;
 
 
-    public HouseMap(Location playerLocation) {
-        this.playerLocation = playerLocation;
-        this.houseMapDisplay = new char[houseSizeHeight][houseSizeWidth];
-        this.furnitureLocation = new HashMap<>();
-        playerPositionHouse = playerLocation.getCurrentPoint();
+public HouseMap(Location playerLocation) {
+    this.playerLocation = playerLocation;
 
-        for (int i = 0; i < houseSizeHeight; i++) {
-            for (int j = 0; j < houseSizeWidth; j++) {
-                houseMapDisplay[i][j] = '.';
-            }
+    int originalWidth = houseSizeWidth;
+    int originalHeight = houseSizeHeight;
+    
+    int newWidth = originalWidth + 2;
+    int newHeight = originalHeight + 2;
+    
+    // Buat array baru dengan border
+    this.houseMapDisplay = new char[newHeight][newWidth];
+
+    for (int i = 0; i < newHeight; i++) {
+        for (int j = 0; j < newWidth; j++) {
+            houseMapDisplay[i][j] = ',';
         }
-
-        int midBottomX = houseSizeWidth / 2;
-        houseMapDisplay[houseSizeHeight - 1][midBottomX] = 'D';
-        Door door = new Door();
-        List<Point> doorPoints = new ArrayList<>();
-        doorPoints.add(new Point(midBottomX, houseSizeHeight - 1));
-        furnitureLocation.put(door, doorPoints);
     }
+
+    for (int i = 0; i < newHeight; i++) {
+        houseMapDisplay[i][0] = 'W';      
+        houseMapDisplay[i][newWidth - 1] = 'W';
+    }
+    for (int j = 0; j < newWidth; j++) {
+        houseMapDisplay[0][j] = 'W';        
+        houseMapDisplay[newHeight - 1][j] = 'W';
+    }
+
+    for (int i = 0; i < originalHeight; i++) {
+        for (int j = 0; j < originalWidth; j++) {
+            houseMapDisplay[i + 1][j + 1] = ','; 
+        }
+    }
+
+    int midBottomX = newWidth / 2;
+    houseMapDisplay[newHeight - 1][midBottomX] = 'D';
+    furnitureLocation = new HashMap<>();
+    Door door = new Door();
+    List<Point> doorPoints = new ArrayList<>();
+    doorPoints.add(new Point(midBottomX, newHeight - 1));
+    furnitureLocation.put(door, doorPoints);
+
+    playerPositionHouse = new Point(playerLocation.getCurrentPoint().getX() + 1, playerLocation.getCurrentPoint().getY() + 1);
+}
+
     
 
     public char[][] getHouseMapDisplay() {
