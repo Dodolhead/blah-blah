@@ -3,11 +3,10 @@ package src.entities;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import src.engine.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import src.map.*;
-import src.engine.GamePanel;
+import src.gui.*;
 import src.items.*;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;

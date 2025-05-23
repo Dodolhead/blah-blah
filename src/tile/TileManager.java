@@ -1,5 +1,5 @@
 package src.tile;
-import src.engine.*;
+import src.gui.*;
 import javax.imageio.*;
 import java.awt.*;
 

@@ -5,7 +5,7 @@ del /S /Q out\*.class
 echo [2] Compiling Java files...
 javac -d out ^
 src\endgame\*.java ^
-src\engine\*.java ^
+src\gui\*.java ^
 src\actions\*.java ^
 src\entities\*.java ^
 src\items\*.java ^
@@ -21,4 +21,4 @@ echo [3] Copying resources...
 xcopy /E /I /Y res out\res
 
 echo [4] Running program...
-java -cp out src/engine.Main
+java -cp out src/gui.Main

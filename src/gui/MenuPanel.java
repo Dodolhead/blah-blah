@@ -1,4 +1,4 @@
-package src.engine;
+package src.gui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,10 +8,10 @@ import java.awt.event.ActionListener;
 public class MenuPanel extends JPanel implements ActionListener {
     private JButton play;
     private JButton exit;
-    private Runnable onPlay;
+    private JFrame frame;
 
-    public MenuPanel(Runnable onPlay) {
-        this.onPlay = onPlay;
+    public MenuPanel(JFrame frame) {
+        this.frame = frame;
         this.setLayout(null);
         this.setPreferredSize(new Dimension(800, 600));
 
@@ -55,8 +55,13 @@ public class MenuPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == play && onPlay != null) {
-            onPlay.run();
+        if (e.getSource() == play) {
+            CreatePlayerPanel createPanel = new CreatePlayerPanel(frame);
+            frame.getContentPane().removeAll();
+            frame.add(createPanel);
+            frame.pack();
+            frame.revalidate();
+            frame.repaint();
         }
         if (e.getSource() == exit) {
             System.exit(0);
