@@ -30,16 +30,24 @@ public class MenuPanel extends JPanel implements ActionListener {
         iconLabel.setBounds((800 - iconWidth) / 2, 100, iconWidth, iconHeight); 
 
         // Tombol Play dan Exit (di tengah bawah icon)
-        play = new JButton("Play");
+        //play = new JButton("Play");
         // bro pake dibawah ini kl mau ganti buttonny jd gambar
-        // play = new JButton(new ImageIcon("res/menu/view.jpg")); 
-        play.setBounds(300, 250, 200, 40);
+        play = new JButton(new ImageIcon("res/menu/play.png")); 
+        play.setBounds(300, 250, 200, 70);
+        play.setBorderPainted(false); 
+        play.setContentAreaFilled(false); 
+        play.setFocusPainted(false); 
+        play.setOpaque(false); 
         play.addActionListener(this);
 
-        exit = new JButton("Exit");
+        //exit = new JButton("Exit");
         // bro pake dibawha ini kl mau ganti buttonny jd gambar
-        // exit = new JButton(new ImageIcon("res/menu/view.jpg"));
-        exit.setBounds(300, 310, 200, 40);
+        exit = new JButton(new ImageIcon("res/menu/exit.png"));
+        exit.setBounds(300, 350, 200, 70);
+        exit.setBorderPainted(false);
+        exit.setContentAreaFilled(false);
+        exit.setFocusPainted(false);
+        exit.setOpaque(false);
         exit.addActionListener(this);
 
         // Background label
