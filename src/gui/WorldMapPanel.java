@@ -60,26 +60,59 @@ public class WorldMapPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        String location = gp.player.getPlayerLocation().getName();
         if (e.getSource() == forrestRiverButton) {
-            System.out.println("Button 1 clicked");
+            if (location.equals("ForestRiver")) {
+                gp.mainPanel.showGame();
+                gp.resetPlayerMovement();
+                gp.player.setPlayerLocation(new Location("ForestRiver", new Point(gp.player.getPlayerLocation().getCurrentPoint().getX()-1, gp.player.getPlayerLocation().getCurrentPoint().getY()-1)));
+            }
+            else{
+                gp.goToForestRiver();
+                gp.resetPlayerMovement();
+            }
         } 
         else if (e.getSource() == mountainLakeButton) {
-            System.out.println("Button 2 clicked");
+            if (location.equals("MountainLake")) {
+                gp.mainPanel.showGame();
+                gp.resetPlayerMovement();
+                gp.player.setPlayerLocation(new Location("MountainLake", new Point(gp.player.getPlayerLocation().getCurrentPoint().getX()-1, gp.player.getPlayerLocation().getCurrentPoint().getY()-1)));
+            }
+            else{
+                gp.goToMountainLake();
+                gp.resetPlayerMovement();
+            }
         } 
         else if (e.getSource() == oceanButton) {
-            System.out.println("Button 3 clicked");
+            if (location.equals("Ocean")) {
+                gp.mainPanel.showGame();
+                gp.resetPlayerMovement();
+                gp.player.setPlayerLocation(new Location("Ocean", new Point(gp.player.getPlayerLocation().getCurrentPoint().getX()-1, gp.player.getPlayerLocation().getCurrentPoint().getY()-1)));
+            }
+            else{
+                gp.goToOcean();
+                gp.resetPlayerMovement();
+            }
         } 
         else if (e.getSource() == storeButton) {
-            System.out.println("Button 4 clicked");
+            if (location.equals("Store")) {
+                gp.mainPanel.showGame();
+                gp.resetPlayerMovement();
+                gp.player.setPlayerLocation(new Location("Store", new Point(gp.player.getPlayerLocation().getCurrentPoint().getX()-1, gp.player.getPlayerLocation().getCurrentPoint().getY()-1)));
+            }
+            else{
+                gp.goToStore();
+                gp.resetPlayerMovement();
+            }
         } 
         else if (e.getSource() == farmButton) {
-            String location = gp.player.getPlayerLocation().getName();
             if (location.equals("Farm")) {
                 gp.mainPanel.showGame();
                 gp.resetPlayerMovement();
                 gp.player.setPlayerLocation(new Location("Farm", new Point(gp.player.getPlayerLocation().getCurrentPoint().getX()-1, gp.player.getPlayerLocation().getCurrentPoint().getY()-1)));
             } else {
                 gp.returnToFarm();
+                gp.resetPlayerMovement();
             }
         } 
         else if (e.getSource() == npcHouseButton) {

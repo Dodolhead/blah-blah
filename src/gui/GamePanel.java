@@ -26,6 +26,10 @@ public class GamePanel extends JPanel implements Runnable{
     public Player player;
     
     // Map
+    public Ocean ocean;
+    public ForestRiver forestRiver;
+    public MountainLake mountainLake;
+    public Store store;
     public Farm farm;
     public HouseMap houseMap;
 
@@ -36,7 +40,7 @@ public class GamePanel extends JPanel implements Runnable{
     public int screenHeight = tileSize * maxScreenRow;
 
     // Collision
-    public TileChecker cChecker = new TileChecker(this);
+    public TileChecker cChecker;
 
     // Current Map
     char[][] currentMap;
@@ -46,10 +50,15 @@ public class GamePanel extends JPanel implements Runnable{
 
     public GamePanel(String playerName, String gender, String farmName, MainPanel mainPanel){ 
         this.mainPanel = mainPanel;
+        cChecker = new TileChecker(this);
         keyH = new KeyHandler();
         player = new Player(playerName, gender, farmName, this, keyH);
         farm = new Farm(farmName, player);
         houseMap = new HouseMap(player.getPlayerLocation());
+        forestRiver = new ForestRiver();
+        ocean = new Ocean();
+        mountainLake = new MountainLake();
+        store = new Store();
         Point spawn = farm.getFarmMap().getValidRandomSpawnPoint();
         player.getPlayerLocation().setPoint(new Point(spawn.getX() * tileSize, spawn.getY() * tileSize));
 
@@ -127,8 +136,20 @@ public class GamePanel extends JPanel implements Runnable{
         else if (mapName.equals("House")) {
             currentMap = houseMap.getHouseMapDisplay();
         }
+        else if (mapName.equals("ForestRiver")) {
+            currentMap = forestRiver.getForestRiverDisplay();
+        }
+        else if (mapName.equals("Ocean")) {
+            currentMap = ocean.getOceanDisplay();
+        }
+        else if (mapName.equals("Store")) {
+            currentMap = store.getStoreDisplay();
+        }
+            else if (mapName.equals("MountainLake")) {
+            currentMap = mountainLake.getMountainLakeDisplay();
+        }
         else {
-            System.out.println("Map " + mapName + " tidak dikenali!");
+            System.out.println("Map " + mapName + " unknown!");
             return;
         }
 
@@ -152,6 +173,26 @@ public class GamePanel extends JPanel implements Runnable{
         changeMap("Farm", pintuKeluar.getX() * tileSize, (pintuKeluar.getY() + 1) * tileSize);
         mainPanel.showGame();
     }
+
+    public void goToForestRiver() {
+        changeMap("ForestRiver", 12*tileSize, 12*tileSize);
+        mainPanel.showGame();
+    }
+
+    public void goToOcean() {
+        changeMap("Ocean", 12*tileSize, 12*tileSize);
+        mainPanel.showGame();
+    }
+    public void goToMountainLake() {
+        changeMap("MountainLake", 12*tileSize, 12*tileSize);
+        mainPanel.showGame();
+    }
+    public void goToStore() {
+        changeMap("Store", 5*tileSize, 5*tileSize);
+        mainPanel.showGame();
+    }
+
+
 
     public void setCurrentMap(char[][] newMap) {
         this.tileM.mapTiles = newMap;

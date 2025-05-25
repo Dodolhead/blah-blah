@@ -21,6 +21,18 @@ public class TileManager {
         else if (player.getPlayerLocation().getName().equals("House")) {
             mapTiles = gp.houseMap.getHouseMapDisplay();
         }
+        else if (player.getPlayerLocation().getName().equals("Ocean")) {
+            mapTiles = gp.ocean.getOceanDisplay();
+        }
+        else if (player.getPlayerLocation().getName().equals("ForestRiver")) {
+            mapTiles = gp.forestRiver.getForestRiverDisplay();
+        }
+        else if (player.getPlayerLocation().getName().equals("MountainLake")) {
+            mapTiles = gp.mountainLake.getMountainLakeDisplay();
+        }
+        else if (player.getPlayerLocation().getName().equals("Store")) {
+            mapTiles = gp.store.getStoreDisplay();
+        }
         getTileImage();
     }
 
@@ -61,6 +73,10 @@ public class TileManager {
             tile[8] = new Tile();
             tile[8].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/download.jpg"));
             tile[8].collision = true;
+
+            tile[9] = new Tile();
+            tile[9].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/upin.jpg"));
+            tile[9].collision = false;
 
 
         } catch (Exception e) {
@@ -108,6 +124,7 @@ public class TileManager {
             case '6', 'D' -> 6;
             case '7', ',' -> 7;
             case '8', 'W' -> 8;
+            case '9', '`' -> 9;
             default -> 0;
         };
     }

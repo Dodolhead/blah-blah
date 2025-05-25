@@ -114,7 +114,7 @@ public class TileChecker {
 
         if (isAtEdge) {
             player.collisionOn = true;
-            if (player.getPlayerLocation().getName().equals("Farm")){
+            if (!player.getPlayerLocation().getName().equals("House")){
                 gp.showWorldMapPanel();
             }
         }

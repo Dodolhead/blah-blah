@@ -12,6 +12,22 @@ public class Store extends NPCHome {
         "Crop", Crop.class,
         "Misc", Misc.class
     );
+    final int storeWidth = 10;
+    final int storeHeight = 10;
+    private static final char[][] DEFAULT_STORE_DISPLAY = {
+        {'`','`','`','`','`','`','`','`','`','`'},
+        {'`','`','`','`','`','`','`','`','`','`'},
+        {'`','`','`','`','`','`','`','`','`','`'},
+        {'`','`','`','`','`','`','`','`','`','`'},
+        {'`','`','`','`','`','`','`','`','`','`'},
+        {'`','`','`','`','`','`','`','`','`','`'},
+        {'`','`','`','`','`','`','`','`','`','`'},
+        {'`','`','`','`','`','`','`','`','`','`'},
+        {'`','`','`','`','`','`','`','`','`','`'},
+        {'`','`','`','`','`','`','`','`','`','`'}
+    };
+
+    private char[][] storeDisplay;
     
     public Store(){
         super("Store", new NPC("Emily", "single"));
@@ -19,6 +35,7 @@ public class Store extends NPCHome {
         for (Class<?> itemClass : typeToClassMap.values()) {
             soldItem.put(itemClass, new HashMap<>());
         }
+        storeDisplay = DEFAULT_STORE_DISPLAY;
     }
 
     public Map<Class<?>, Map<Item, Integer>> getSoldItem() {
@@ -123,5 +140,9 @@ public class Store extends NPCHome {
         boolean pickFirst = currentTime % 2 == 0;
         Recipe chosenRecipe = pickFirst ? recipe1 : recipe10;
         addItemToStore(chosenRecipe, 1);
+    }
+
+    public char[][] getStoreDisplay() {
+        return storeDisplay;
     }
 }
