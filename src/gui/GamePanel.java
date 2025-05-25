@@ -30,18 +30,22 @@ public class GamePanel extends JPanel implements Runnable{
     public HouseMap houseMap;
 
     // Screen
-    public int maxScreenCol = 16;
-    public int maxScreenRow = 12;
+    public int maxScreenCol = 18;
+    public int maxScreenRow = 14;
     public int screenWidth = tileSize * maxScreenCol;
     public int screenHeight = tileSize * maxScreenRow;
 
     // Collision
-    public CollisionChecker cChecker = new CollisionChecker(this);
+    public TileChecker cChecker = new TileChecker(this);
 
     // Current Map
     char[][] currentMap;
 
-    public GamePanel(String playerName, String gender, String farmName) {
+    // MainPanel
+    MainPanel mainPanel;
+
+    public GamePanel(String playerName, String gender, String farmName, MainPanel mainPanel){ 
+        this.mainPanel = mainPanel;
         keyH = new KeyHandler();
         player = new Player(playerName, gender, farmName, this, keyH);
         farm = new Farm(farmName, player);
@@ -140,11 +144,13 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void enterHouse() {
         changeMap("House", 13*tileSize, 24*tileSize);
+        mainPanel.showGame();
     }
 
     public void returnToFarm() {
         Point pintuKeluar = farm.getFarmMap().getObjectPosition().get("HouseDoor").get(0);
         changeMap("Farm", pintuKeluar.getX() * tileSize, (pintuKeluar.getY() + 1) * tileSize);
+        mainPanel.showGame();
     }
 
     public void setCurrentMap(char[][] newMap) {
@@ -152,4 +158,16 @@ public class GamePanel extends JPanel implements Runnable{
         this.maxWorldRow = newMap.length;
         this.maxWorldCol = newMap[0].length;
     }
+    public void showWorldMapPanel() {
+        mainPanel.showWorldMapPanel();
+    }
+
+    public void resetPlayerMovement() {
+        keyH.upPressed = false;
+        keyH.downPressed = false;
+        keyH.leftPressed = false;
+        keyH.rightPressed = false;
+        player.direction = "down";
+    }
+
 }

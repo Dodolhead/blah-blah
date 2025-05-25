@@ -8,10 +8,10 @@ import javax.swing.*;
 public class MenuPanel extends JPanel implements ActionListener {
     private JButton play;
     private JButton exit;
-    private JFrame frame;
+    private MainPanel mainPanel;
 
-    public MenuPanel(JFrame frame) {
-        this.frame = frame;
+    public MenuPanel(JFrame frame, MainPanel mainPanel) {
+        this.mainPanel = mainPanel;
         this.setLayout(null);
         this.setPreferredSize(new Dimension(800, 600));
 
@@ -39,6 +39,7 @@ public class MenuPanel extends JPanel implements ActionListener {
         play.setFocusPainted(false); 
         play.setOpaque(false); 
         play.addActionListener(this);
+        
 
         //exit = new JButton("Exit");
         // bro pake dibawha ini kl mau ganti buttonny jd gambar
@@ -64,12 +65,7 @@ public class MenuPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == play) {
-            CreatePlayerPanel createPanel = new CreatePlayerPanel(frame);
-            frame.getContentPane().removeAll();
-            frame.add(createPanel);
-            frame.pack();
-            frame.revalidate();
-            frame.repaint();
+            mainPanel.showCreatePlayer();
         }
         if (e.getSource() == exit) {
             System.exit(0);

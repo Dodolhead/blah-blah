@@ -4,7 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CreatePlayerPanel extends JPanel {
-    public CreatePlayerPanel(JFrame frame) {
+    MainPanel mainPanel;
+
+    public CreatePlayerPanel(JFrame frame, MainPanel mainPanel) {
+        this.mainPanel = mainPanel;
         setLayout(null);
         setPreferredSize(new Dimension(800, 600));
 
@@ -63,14 +66,8 @@ public class CreatePlayerPanel extends JPanel {
                 return;
             }
 
-            GamePanel gamePanel = new GamePanel(name, gender, farmName);
-            frame.getContentPane().removeAll();
-            frame.add(gamePanel);
-            frame.pack();
-            gamePanel.startGameThread();
-            gamePanel.requestFocusInWindow();
-            frame.revalidate();
-            frame.repaint();
+            mainPanel.startGame(name, gender, farmName);
+
         });
 
         add(titleLabel);
