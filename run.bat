@@ -17,7 +17,7 @@ if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
 
-echo [3] Copying resources...
+echo [3] Copying resources...w
 xcopy /E /I /Y res out\res
 
 echo [4] Running program...

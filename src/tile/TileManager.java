@@ -66,7 +66,7 @@ public class TileManager {
             tile[6].collision = true;
 
             tile[7] = new Tile();
-            tile[7].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/ll.jpeg"));
+            tile[7].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/floor.png"));
             tile[7].collision = false;
 
             tile[8] = new Tile();
@@ -110,6 +110,10 @@ public class TileManager {
 
                     char tileChar = mapTiles[row][col];
                     int tileIndex = getTileIndex(tileChar);
+                    if (tile[tileIndex] == null) {
+                        System.out.println("tile[" + tileIndex + "] is null for char '" + tileChar + "'");
+                        continue;
+                    }
                     g2.drawImage(tile[tileIndex].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
                 }
             }
