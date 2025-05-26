@@ -1,9 +1,8 @@
 package src.tile;
-import src.gui.*;
-
-import javax.imageio.*;
 import java.awt.*;
+import javax.imageio.*;
 import src.entities.*;
+import src.gui.*;
 
 
 public class TileManager {
@@ -39,7 +38,7 @@ public class TileManager {
     public void getTileImage() {
         try {
             tile[0] = new Tile();
-            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/ipin.jpg"));
+            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tileijo.png"));
             tile[0].collision = false;
 
             tile[1] = new Tile();
@@ -79,7 +78,7 @@ public class TileManager {
             tile[9].collision = false;
 
             tile[10] = new Tile();
-            tile[10].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/a.png"));
+            tile[10].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tilekuning.png"));
             tile[10].collision = false;
 
 
