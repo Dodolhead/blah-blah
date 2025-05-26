@@ -17,10 +17,10 @@ public class CreatePlayerPanel extends JPanel {
         bgLabel.setBounds(0, 0, 800, 600);
 
         // Title
-        JLabel titleLabel = new JLabel("Create Your Character");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setForeground(Color.BLACK);
-        titleLabel.setBounds(250, 50, 300, 30);
+        JLabel titleLabel = new JLabel((new ImageIcon("res/menu/cyc.png")));
+        //titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        //titleLabel.setForeground(Color.BLACK);
+        titleLabel.setBounds(150, 50, 500, 63);
 
         // Name input
         JLabel nameLabel = new JLabel("Name:");
@@ -53,8 +53,12 @@ public class CreatePlayerPanel extends JPanel {
         farmField.setBounds(300, 220, 200, 30);
 
         // Start button
-        JButton startButton = new JButton("Start Game");
-        startButton.setBounds(300, 280, 200, 40);
+        JButton startButton = new JButton(new ImageIcon("res/menu/start.png"));
+        startButton.setBounds(300, 300, 200, 70);
+        startButton.setBorderPainted(false);
+        startButton.setContentAreaFilled(false);
+        startButton.setFocusPainted(false);
+        startButton.setOpaque(false);
 
         startButton.addActionListener(e -> {
             String name = nameField.getText();

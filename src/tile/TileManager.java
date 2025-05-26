@@ -52,7 +52,7 @@ public class TileManager {
             tile[0].collision = false;
 
             tile[1] = new Tile();
-            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/jamoer.jpeg"));
+            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tileijo.png"));
             tile[1].collision = true;
 
             tile[2] = new Tile();
@@ -153,7 +153,7 @@ public class TileManager {
     }
     private void loadHouseImage() {
         try {
-            houseImage = ImageIO.read(getClass().getResourceAsStream("/res/tiles/jamoer.jpeg"));
+            houseImage = ImageIO.read(getClass().getResourceAsStream("/res/tiles/House3.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
