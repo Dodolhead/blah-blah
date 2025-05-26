@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import src.map.*;
 import src.gui.*;
 import src.items.*;
+import src.actions.*;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -175,14 +176,14 @@ public class Player {
 
     public void getPlayerImage(){
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/024.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/res/player/025.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/res/player/bincat.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/res/player/025.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/res/player/bruh.jpeg"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/res/player/025.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/res/player/Mantap.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/res/player/025.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/atas1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/res/player/atas2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/res/player/bawah1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/res/player/bawah2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/res/player/kiri1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/res/player/kiri2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/res/player/kanan1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/res/player/kanan2.png"));
 
         }
         catch (IOException e) {
@@ -203,6 +204,19 @@ public class Player {
             }
             if (keyH.rightPressed == true) {
                 direction = "right";
+            }
+            if (keyH.till) {
+                if (getPlayerLocation().getName().equals("Farm")) {
+                    new TillingAction().execute(this);
+                } else {
+                    System.out.println("You can only till on the farm.");
+                }
+
+                keyH.till = false;
+            }
+            if (keyH.recoverLand) {
+
+                new RecoveringLandAction().execute(this);
             }
 
             collisionOn = false;
