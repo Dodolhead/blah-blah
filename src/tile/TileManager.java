@@ -78,6 +78,10 @@ public class TileManager {
             tile[9].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/upin.jpg"));
             tile[9].collision = false;
 
+            tile[10] = new Tile();
+            tile[10].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/a.png"));
+            tile[10].collision = false;
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -115,16 +119,17 @@ public class TileManager {
 
     public int getTileIndex(char c) {
         return switch (c) {
-            case '0', '.' -> 0;
-            case '1', 'h' -> 1;
-            case '2', 's' -> 2;
-            case '3', 't' -> 3;
-            case '4', 'l' -> 4;
-            case '5', 'o' -> 5;
-            case '6', 'D' -> 6;
-            case '7', ',' -> 7;
-            case '8', 'W' -> 8;
-            case '9', '`' -> 9;
+            case '.' -> 0;
+            case 'h' -> 1;
+            case 's' -> 2;
+            case 't' -> 3;
+            case 'l' -> 4;
+            case 'o' -> 5;
+            case 'D' -> 6;
+            case ',' -> 7;
+            case 'W' -> 8;
+            case '`' -> 9;
+            case 'm' -> 10;
             default -> 0;
         };
     }

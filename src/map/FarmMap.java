@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import src.items.*;
 
 
@@ -165,7 +166,7 @@ public class FarmMap {
         if (x >= 0 && x < farmMapDisplay[0].length && y >= 0 && y < farmMapDisplay.length) {
             return farmMapDisplay[y][x];
         } else {
-            return '\0'; // karakter kosong jika posisi tidak valid
+            return '\0';
         }
     }
 
@@ -265,11 +266,13 @@ public class FarmMap {
         for (int y = 0; y < farmSizeHeight; y++) {
             for (int x = 0; x < farmSizeWidth; x++) {
                 if (farmMapDisplay[y][x] == '\0') {
-                    farmMapDisplay[y][x] = '.';
+                    farmMapDisplay[y][x] = Math.random() < 0.1 ? 'm' : '.';
                 }
             }
         }
     }
+
+
 
     public void displayObjectPositions() {
         for (String objectType : objectPosition.keySet()) {
