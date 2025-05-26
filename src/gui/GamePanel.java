@@ -125,6 +125,11 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void update(){
         player.update();
+        for (NPC npc : NPCManager.npcList) {
+            if (npc != null) {
+                npc.update();
+            }
+        }
     }
 
     public void paintComponent(Graphics g){

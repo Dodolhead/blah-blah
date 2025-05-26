@@ -237,7 +237,7 @@ public class Player {
 
             collisionOn = false;
             collisionWithNPC = false;
-            gp.cChecker.checkTile(this);
+            gp.cChecker.checkTilePlayer(this);
             gp.cChecker.checkNPC(this);
 
             if (!collisionOn && !collisionWithNPC) {
@@ -267,7 +267,6 @@ public class Player {
                 spriteCount = 0;
             }
         }
-
     }
 
     public void draw(Graphics2D g2) {

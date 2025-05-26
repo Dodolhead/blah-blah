@@ -9,7 +9,7 @@ public class TileChecker {
         this.gp = gp;
     }
 
-    public void checkTile(Player player) {
+    public void checkTilePlayer(Player player) {
         boolean isAtEdge = false;
         int playerLeftWorldX = player.getPlayerLocation().getCurrentPoint().getX() + player.playerHitBox.x;
         int playerRightWorldX = player.getPlayerLocation().getCurrentPoint().getX() + player.playerHitBox.x + player.playerHitBox.width;
@@ -119,6 +119,95 @@ public class TileChecker {
             }
         }
     }
+    public void checkTileNPC(NPC npc) {
+        boolean isAtEdge = false;
+        int npcLeftWorldX = npc.npcLocation.getCurrentPoint().getX() + npc.npcHitBox.x;
+        int npcRightWorldX = npc.npcLocation.getCurrentPoint().getX() + npc.npcHitBox.x + npc.npcHitBox.width;
+        int npcTopWorldY = npc.npcLocation.getCurrentPoint().getY() + npc.npcHitBox.y;
+        int npcBottomWorldY = npc.npcLocation.getCurrentPoint().getY() + npc.npcHitBox.y + npc.npcHitBox.height;
+
+        int npcLeftCol = npcLeftWorldX / gp.tileSize;
+        int npcRightCol = npcRightWorldX / gp.tileSize;
+        int npcTopRow = npcTopWorldY / gp.tileSize;
+        int npcBottomRow = npcBottomWorldY / gp.tileSize;
+
+        char tileChar1 = ' ';
+        char tileChar2 = ' ';
+        int tileNum1 = -1, tileNum2 = -1;
+
+        npc.collisionOn = false;
+
+        switch (npc.direction) {
+            case "up": {
+                double newTopY = npcTopWorldY - npc.speed;
+                int checkRow = (int) Math.floor(newTopY / (double) gp.tileSize);
+                if (checkRow < 0) {
+                    isAtEdge = true;
+                    break;
+                }
+
+                if (npcLeftCol >= 0 && npcLeftCol < gp.maxWorldCol)
+                    tileChar1 = gp.tileM.mapTiles[checkRow][npcLeftCol];
+                if (npcRightCol >= 0 && npcRightCol < gp.maxWorldCol)
+                    tileChar2 = gp.tileM.mapTiles[checkRow][npcRightCol];
+                break;
+            }
+            case "down": {
+                int checkRow = (npcBottomWorldY + npc.speed) / gp.tileSize;
+                if (checkRow >= gp.maxWorldRow) {
+                    isAtEdge = true;
+                    break;
+                }
+
+                if (npcLeftCol >= 0 && npcLeftCol < gp.maxWorldCol)
+                    tileChar1 = gp.tileM.mapTiles[checkRow][npcLeftCol];
+                if (npcRightCol >= 0 && npcRightCol < gp.maxWorldCol)
+                    tileChar2 = gp.tileM.mapTiles[checkRow][npcRightCol];
+                break;
+            }
+            case "left": {
+                double newLeftX = npcLeftWorldX - npc.speed;
+                int checkCol = (int) Math.floor(newLeftX / (double) gp.tileSize);
+                if (checkCol < 0) {
+                    isAtEdge = true;
+                    break;
+                }
+
+                if (npcTopRow >= 0 && npcTopRow < gp.maxWorldRow)
+                    tileChar1 = gp.tileM.mapTiles[npcTopRow][checkCol];
+                if (npcBottomRow >= 0 && npcBottomRow < gp.maxWorldRow)
+                    tileChar2 = gp.tileM.mapTiles[npcBottomRow][checkCol];
+                break;
+            }
+            case "right": {
+                int checkCol = (npcRightWorldX + npc.speed) / gp.tileSize;
+                if (checkCol >= gp.maxWorldCol) {
+                    isAtEdge = true;
+                    break;
+                }
+
+                if (npcTopRow >= 0 && npcTopRow < gp.maxWorldRow)
+                    tileChar1 = gp.tileM.mapTiles[npcTopRow][checkCol];
+                if (npcBottomRow >= 0 && npcBottomRow < gp.maxWorldRow)
+                    tileChar2 = gp.tileM.mapTiles[npcBottomRow][checkCol];
+                break;
+            }
+            default:
+        }
+
+        tileNum1 = gp.tileM.getTileIndex(tileChar1);
+        tileNum2 = gp.tileM.getTileIndex(tileChar2);
+
+        if ((tileNum1 >= 0 && tileNum1 < gp.tileM.tile.length && gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum1].collision) ||
+            (tileNum2 >= 0 && tileNum2 < gp.tileM.tile.length && gp.tileM.tile[tileNum2] != null && gp.tileM.tile[tileNum2].collision)) {
+            npc.collisionOn = true;
+        }
+
+        if (isAtEdge) {
+            npc.collisionOn = true;
+        }
+    }
+
 
     public void checkNPC(Player player) {
         player.collisionWithNPC = false;
@@ -165,4 +254,48 @@ public class TileChecker {
             }
         }
     }
+    public void checkPlayer(NPC npc) {
+        npc.collisionWIthPlayer = false;
+
+        // Lokasi dan hitbox NPC
+        Rectangle npcArea = new Rectangle(
+            npc.npcLocation.getCurrentPoint().getX() + npc.npcHitBox.x,
+            npc.npcLocation.getCurrentPoint().getY() + npc.npcHitBox.y,
+            npc.npcHitBox.width,
+            npc.npcHitBox.height
+        );
+
+        // Geser area ke arah gerakan
+        switch (npc.direction) {
+            case "up":
+                npcArea.y -= npc.speed;
+                break;
+            case "down":
+                npcArea.y += npc.speed;
+                break;
+            case "left":
+                npcArea.x -= npc.speed;
+                break;
+            case "right":
+                npcArea.x += npc.speed;
+                break;
+        }
+
+        Player player = gp.player;
+
+        // Cek hanya jika di map yang sama
+        if (npc.npcLocation.getName().equals(player.getPlayerLocation().getName())) {
+            Rectangle playerArea = new Rectangle(
+                player.getPlayerLocation().getCurrentPoint().getX() + player.playerHitBox.x,
+                player.getPlayerLocation().getCurrentPoint().getY() + player.playerHitBox.y,
+                player.playerHitBox.width,
+                player.playerHitBox.height
+            );
+
+            if (npcArea.intersects(playerArea)) {
+                npc.collisionWIthPlayer = true;
+            }
+        }
+    }
+
 }

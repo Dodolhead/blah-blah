@@ -34,9 +34,9 @@ public abstract class NPC {
     public int screenX;
     public int screenY;
     public Location npcLocation;
-
+    public int actionCount = 0;
     public boolean collisionOn = false;
-
+    public boolean collisionWIthPlayer = false;
     
     public NPC(String npcName, String relationshipStatus, GamePanel gp) {
         this.gp = gp;
@@ -160,7 +160,58 @@ public abstract class NPC {
         }
     }
 
-
     public abstract void getNPCImage();
+
+    public void setAction() {
+        actionCount++;
+        if (actionCount == 120) {
+            int randomInt = 1 + (int)(Math.random() * 100);
+            if (randomInt <= 25) {
+                direction = "up";
+            } else if (randomInt <= 50 && randomInt > 25) {
+                direction = "down";
+            } else if (randomInt <= 75 && randomInt > 50) {
+                direction = "left";
+            } else {
+                direction = "right";
+            }
+            actionCount = 0;
+        }
+    }
+
+    public void update(){
+        setAction();
+        collisionOn = false;
+        collisionWIthPlayer = false;
+        gp.cChecker.checkTileNPC(this);
+        gp.cChecker.checkPlayer(this);
+
+        if (!collisionOn && !collisionWIthPlayer) {
+            switch(direction) {
+                case "up":
+                    npcLocation.getCurrentPoint().setY(npcLocation.getCurrentPoint().getY()-speed);
+                    break;
+                case "down":
+                    npcLocation.getCurrentPoint().setY(npcLocation.getCurrentPoint().getY()+speed);
+                    break;
+                case "left":
+                    npcLocation.getCurrentPoint().setX(npcLocation.getCurrentPoint().getX()-speed);
+                    break;
+                case "right":
+                    npcLocation.getCurrentPoint().setX(npcLocation.getCurrentPoint().getX()+speed);
+                    break;
+            }
+        }
+        spriteCount++;
+        if (spriteCount > 10) {
+            if (spriteNum == 1) {
+                spriteNum = 2;
+            }
+            else if (spriteNum == 2) {
+                spriteNum = 1;
+            }
+            spriteCount = 0;
+        }
+    }
 
 }
