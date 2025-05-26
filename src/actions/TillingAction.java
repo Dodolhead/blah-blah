@@ -3,12 +3,11 @@ package src.actions;
 import src.entities.*;
 import src.items.*;
 import src.map.*;
-import src.map.Point;
 import src.tsw.Time;
 
 public class TillingAction implements Action {
-    private int ENERGY_COST = 5;
-    private int TIME_COST = 5;
+    private final int ENERGY_COST = 5;
+    private final int TIME_COST = 5;
 
     @Override
     public boolean execute(Player player) {
@@ -26,8 +25,8 @@ public class TillingAction implements Action {
         }
 
         Point pos = player.getPlayerLocation().getCurrentPoint();
-        int x = pos.getX();
-        int y = pos.getY();
+        int x = pos.getX()/ 48;
+        int y = pos.getY()/ 48;
         char[][] map = farmMap.getFarmMapDisplay();
 
         if (y < 0 || y >= map.length || x < 0 || x >= map[0].length) {
@@ -35,7 +34,7 @@ public class TillingAction implements Action {
             return false;
         }
 
-        if (map[y][x] != '.') {
+        if (map[y][x] != '.' && map[y][x] != 'm') {
             System.out.println("This tile is not tillable.");
             return false;
         }

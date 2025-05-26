@@ -6,6 +6,7 @@ import src.entities.*;
 import src.tile.*;
 import src.map.*;
 import src.map.Point;
+// import src.items.*;
 
 
 public class GamePanel extends JPanel implements Runnable{
@@ -50,9 +51,13 @@ public class GamePanel extends JPanel implements Runnable{
 
     public GamePanel(String playerName, String gender, String farmName, MainPanel mainPanel){ 
         this.mainPanel = mainPanel;
+        // Item hoe = new Hoe("Hoe", new Gold(0), new Gold(0));
+        // Item pick = new Pickaxe("Pick", new Gold(0), new Gold(0));
         cChecker = new TileChecker(this);
         keyH = new KeyHandler();
         player = new Player(playerName, gender, farmName, this, keyH);
+        // player.getPlayerInventory().addItem(hoe, 1);
+        // player.getPlayerInventory().addItem(pick, 1);
         farm = new Farm(farmName, player);
         houseMap = new HouseMap(player.getPlayerLocation());
         forestRiver = new ForestRiver();
