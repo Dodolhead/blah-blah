@@ -6,7 +6,7 @@ import src.entities.*;
 import src.tile.*;
 import src.map.*;
 import src.map.Point;
-// import src.items.*;
+import src.items.*;
 
 
 public class GamePanel extends JPanel implements Runnable{
@@ -49,21 +49,25 @@ public class GamePanel extends JPanel implements Runnable{
     // MainPanel
     MainPanel mainPanel;
 
+    // NPC
+    NPCManager npcManager = new NPCManager();
+
+
     public GamePanel(String playerName, String gender, String farmName, MainPanel mainPanel){ 
         this.mainPanel = mainPanel;
-        // Item hoe = new Hoe("Hoe", new Gold(0), new Gold(0));
-        // Item pick = new Pickaxe("Pick", new Gold(0), new Gold(0));
+        Item hoe = new Hoe("Hoe", new Gold(0), new Gold(0));
+        Item pick = new Pickaxe("Pick", new Gold(0), new Gold(0));
         cChecker = new TileChecker(this);
         keyH = new KeyHandler();
         player = new Player(playerName, gender, farmName, this, keyH);
-        // player.getPlayerInventory().addItem(hoe, 1);
-        // player.getPlayerInventory().addItem(pick, 1);
-        farm = new Farm(farmName, player);
+        player.getPlayerInventory().addItem(hoe, 1);
+        player.getPlayerInventory().addItem(pick, 1);
+        farm = new Farm(farmName, player, this);
         houseMap = new HouseMap(player.getPlayerLocation());
         forestRiver = new ForestRiver();
         ocean = new Ocean();
         mountainLake = new MountainLake();
-        store = new Store();
+        store = new Store(this);
         Point spawn = farm.getFarmMap().getValidRandomSpawnPoint();
         player.getPlayerLocation().setPoint(new Point(spawn.getX() * tileSize, spawn.getY() * tileSize));
 
@@ -96,7 +100,6 @@ public class GamePanel extends JPanel implements Runnable{
         long lastTime = System.nanoTime();
         long currentTime;
         long timer = 0;
-        int drawCount = 0;
         long lastTimer = 0;
         while (gameThread != null){
 
@@ -108,12 +111,10 @@ public class GamePanel extends JPanel implements Runnable{
             if (delta >= 1){
                 update();
                 repaint();
-                drawCount++;
                 delta--;
             }
             if (timer - lastTimer >= 1000000000){
-                System.out.println("FPS: " + drawCount);
-                drawCount = 0;
+                System.out.println(farm.getTime().getTimeDay());
                 lastTimer = timer;
             }
         }
@@ -131,6 +132,11 @@ public class GamePanel extends JPanel implements Runnable{
         g.drawImage(image.getImage(), 0, 0, screenWidth, screenHeight, null);
         tileM.draw(g2);
         player.draw(g2);
+        for (NPC npc : NPCManager.npcList) {
+            if (npc != null && npc.npcLocation == this.player.getPlayerLocation()) {
+                npc.draw(g2);
+            }
+        }
         g2.dispose();
     }
 
@@ -149,6 +155,11 @@ public class GamePanel extends JPanel implements Runnable{
         }
         else if (mapName.equals("Store")) {
             currentMap = store.getStoreDisplay();
+            NPC emily = NPCManager.getNPCByName("Emily");
+            if (emily != null) {
+                emily.screenX = 5 * tileSize;
+                emily.screenY = 5 * tileSize;
+            }
         }
             else if (mapName.equals("MountainLake")) {
             currentMap = mountainLake.getMountainLakeDisplay();
@@ -169,13 +180,13 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void enterHouse() {
-        changeMap("House", 13*tileSize, 24*tileSize);
+        changeMap("House", 13*tileSize + -24, 24*tileSize);
         mainPanel.showGame();
     }
 
     public void returnToFarm() {
         Point pintuKeluar = farm.getFarmMap().getObjectPosition().get("HouseDoor").get(0);
-        changeMap("Farm", pintuKeluar.getX() * tileSize, (pintuKeluar.getY() + 1) * tileSize);
+        changeMap("Farm", pintuKeluar.getX() * tileSize -24, (pintuKeluar.getY() + 1) * tileSize);
         mainPanel.showGame();
     }
 
@@ -197,8 +208,6 @@ public class GamePanel extends JPanel implements Runnable{
         mainPanel.showGame();
     }
 
-
-
     public void setCurrentMap(char[][] newMap) {
         this.tileM.mapTiles = newMap;
         this.maxWorldRow = newMap.length;
@@ -215,5 +224,6 @@ public class GamePanel extends JPanel implements Runnable{
         keyH.rightPressed = false;
         player.direction = "down";
     }
+
 
 }

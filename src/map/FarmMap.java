@@ -17,6 +17,9 @@ public class FarmMap {
     private Point playerPositionFarm;
     private Map<Point, Seed> plantedSeeds;
     private Map<Point, Integer> plantedDay;
+    public Point houseStartPoint;
+    public Point shippingBinPoint;
+    public Point pondStartPoint;
 
 
     public FarmMap(Location playerLocation) {
@@ -90,7 +93,7 @@ public class FarmMap {
         while (!pondPlaced && pondAttempts < 1000) {
             int pondStartX = (int)(timeSeed % (maxPondX + 1)); // +1 supaya max inclusive
             int pondStartY = (int)((timeSeed / 1000) % (maxPondY + 1));
-            Point pondStartPoint = new Point(pondStartX, pondStartY);
+            this.pondStartPoint = new Point(pondStartX, pondStartY);
 
             if (canPlaceObjectAt("Pond", pondStartX, pondStartY, 4, 3) &&
                 !isNearPlayer(pondStartPoint, 4, 3, playerPositionFarm)) {
@@ -106,12 +109,11 @@ public class FarmMap {
 
         // Place House
         boolean housePlaced = false;
-        Point houseStartPoint = null;
         int houseAttempts = 0;
         while (!housePlaced && houseAttempts < 1000) {
             int houseStartX = (int)(timeSeed % (maxHouseX + 1));
             int houseStartY = (int)((timeSeed / 2000) % (maxHouseY + 1));
-            houseStartPoint = new Point(houseStartX, houseStartY);
+            this.houseStartPoint = new Point(houseStartX, houseStartY);
 
             if (canPlaceObjectAt("House", houseStartX, houseStartY, 6, 6) &&
                 !isNearPlayer(houseStartPoint, 6, 6, playerPositionFarm)) {
@@ -119,6 +121,7 @@ public class FarmMap {
                 int doorX = houseStartPoint.getX() + 3;
                 int doorY = houseStartPoint.getY() + 5;
                 farmMapDisplay[doorY][doorX] = 'D';
+                farmMapDisplay[doorY][doorX-1] = 'D';
                 objectPosition.get("HouseDoor").add(new Point(doorX, doorY));
                 housePlaced = true;
             }
@@ -134,7 +137,7 @@ public class FarmMap {
         // Place Shipping Bin (di kanan rumah +1 space)
         int shippingBinStartX = houseStartPoint.getX() + 7; // 6 + 1 space
         int shippingBinStartY = houseStartPoint.getY();
-        Point shippingBinPoint = new Point(shippingBinStartX, shippingBinStartY);
+        this.shippingBinPoint = new Point(shippingBinStartX, shippingBinStartY);
 
         if (shippingBinStartX <= maxShippingBinX &&
             canPlaceObjectAt("ShippingBin", shippingBinStartX, shippingBinStartY, 3, 2) &&

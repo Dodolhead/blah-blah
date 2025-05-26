@@ -4,22 +4,42 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+
 import src.items.*;
+import src.gui.*;
+import java.awt.image.BufferedImage;
+import java.awt.Rectangle;
+import src.map.*;
+import java.awt.Graphics2D;
 
-
-public class NPC {
+public abstract class NPC {
     private String npcName;
     private int heartPoints;
-    private int INITIAL_HEART_POINTS = 0;
+    private final int INITIAL_HEART_POINTS = 0;
     private List<Item> lovedItem;
     private List<Item> likedItem;
     private List<Item> hatedItem;
     private String relationshipStatus;
     private Map<Item, Integer> npcItemStorage;
     private int proposedDay = -1;
-    
 
-    public NPC(String npcName, String relationshipStatus) {
+    public int speed;
+    public BufferedImage up1,up2,down1,down2,left1,left2,right1,right2;
+    public String direction;
+    int spriteNum = 1;
+    int spriteCount = 0;
+    public Rectangle npcHitBox = new Rectangle(0, 0, 48, 48);
+    public GamePanel gp;
+    KeyHandler keyH;
+    public int screenX;
+    public int screenY;
+    public Location npcLocation;
+
+    public boolean collisionOn = false;
+
+    
+    public NPC(String npcName, String relationshipStatus, GamePanel gp) {
+        this.gp = gp;
         this.npcName = npcName;
         this.heartPoints = INITIAL_HEART_POINTS;
         this.lovedItem = new ArrayList<Item>();
@@ -93,5 +113,50 @@ public class NPC {
     public void setProposedDay(int day) {
         this.proposedDay = day;
     }
+
+    public void setNPCLocation(Location npcLocation) {
+        this.npcLocation = npcLocation;
+    }
+
+    public void draw(Graphics2D g2) {
+        BufferedImage image = null;
+        switch (direction) {
+            case "up":
+                if (spriteNum == 1){
+                    image = up1;
+                }
+                if (spriteNum == 2){
+                    image = up2;
+                }
+                break;
+            case "down":
+                if (spriteNum == 1){
+                    image = down1;
+                }
+                if (spriteNum == 2){
+                    image = down2;
+                }
+                break;
+            case "left":
+                if (spriteNum == 1){
+                    image = left1;
+                }
+                if (spriteNum == 2){
+                    image = left2;
+                }
+                break;
+            case "right":
+                if (spriteNum == 1){
+                    image = right1;
+                }
+                if (spriteNum == 2){
+                    image = right2;
+                }
+                break;
+        }
+        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+    }  
+
+    public abstract void getNPCImage();
 
 }

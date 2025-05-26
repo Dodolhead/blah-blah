@@ -1,5 +1,6 @@
 package src.tsw;
 
+import src.gui.GamePanel;
 import src.map.*;
 
 public class Time implements Runnable{
@@ -13,12 +14,12 @@ public class Time implements Runnable{
     private final Object lock = new Object();
     Season season;
     Weather weather;
+    GamePanel gp;
 
-    public Time() {
-        Thread timeThread = new Thread(this);
+    public Time(GamePanel gp) {
         season = new Season();
         weather = new Weather();
-        store = new Store();
+        Thread timeThread = new Thread(this);
         timeThread.start();
     }
 
@@ -31,8 +32,8 @@ public class Time implements Runnable{
                         lock.wait();
                     }
                 }
-                advanceTime(5);
                 Thread.sleep(1000);
+                advanceTime(5);
                 changeDay();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
@@ -85,6 +86,7 @@ public class Time implements Runnable{
             System.out.println("Day-" + day + " has started");
             weather.nextDayWeather();
             season.updateSeasonByDay(day);
+            gp.store.storeChange();
             store.storeChange();
             lastDay = day;
         }

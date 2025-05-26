@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class NPCManager {
-    private static List<NPC> npcList = new ArrayList<>();
+    public static List<NPC> npcList = new ArrayList<>();
 
     public static void addNPC(NPC npc) {
         npcList.add(npc);
@@ -21,4 +21,16 @@ public class NPCManager {
     public static List<NPC> getNPCList() {
         return npcList;
     }
+
+    public static NPC getNPCByName(String name) {
+        for (NPC npc : npcList) {
+            if (npc.getNpcName().equalsIgnoreCase(name)) {
+                return npc;
+            }
+        }
+        return null;
+    }
+
+
+    
 }

@@ -1,5 +1,6 @@
 package src.entities;
 
+import src.gui.GamePanel;
 import src.map.*;
 import src.tsw.*;
 
@@ -8,12 +9,14 @@ public class Farm {
     private Player farmOwnerPlayer;
     private FarmMap farmMap;
     private Time time;
+    GamePanel gp;
 
-    public Farm(String farmName, Player farmOwnerPlayer) {
+    public Farm(String farmName, Player farmOwnerPlayer, GamePanel gp) {
+        this.gp = gp;
         this.farmName = farmName;
         this.farmOwnerPlayer = farmOwnerPlayer;
         farmMap = new FarmMap(farmOwnerPlayer.getPlayerLocation());
-        time = new Time();
+        time = new Time(gp);
         FarmManager.registerFarm(this);
     }
 
