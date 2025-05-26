@@ -28,7 +28,7 @@ public abstract class NPC {
     public String direction;
     int spriteNum = 1;
     int spriteCount = 0;
-    public Rectangle npcHitBox = new Rectangle(0, 0, 48, 48);
+    public Rectangle npcHitBox = new Rectangle(8,16,32,32);
     public GamePanel gp;
     KeyHandler keyH;
     public int screenX;
@@ -119,43 +119,47 @@ public abstract class NPC {
     }
 
     public void draw(Graphics2D g2) {
-        BufferedImage image = null;
-        switch (direction) {
-            case "up":
-                if (spriteNum == 1){
-                    image = up1;
-                }
-                if (spriteNum == 2){
-                    image = up2;
-                }
-                break;
-            case "down":
-                if (spriteNum == 1){
-                    image = down1;
-                }
-                if (spriteNum == 2){
-                    image = down2;
-                }
-                break;
-            case "left":
-                if (spriteNum == 1){
-                    image = left1;
-                }
-                if (spriteNum == 2){
-                    image = left2;
-                }
-                break;
-            case "right":
-                if (spriteNum == 1){
-                    image = right1;
-                }
-                if (spriteNum == 2){
-                    image = right2;
-                }
-                break;
+        if (this != null && npcLocation.getName().equals(gp.player.getPlayerLocation().getName())) {
+            BufferedImage image = null;
+
+            // Pilih sprite image berdasarkan arah dan frame animasi
+            switch (direction) {
+                case "up":
+                    image = (spriteNum == 1) ? up1 : up2;
+                    break;
+                case "down":
+                    image = (spriteNum == 1) ? down1 : down2;
+                    break;
+                case "left":
+                    image = (spriteNum == 1) ? left1 : left2;
+                    break;
+                case "right":
+                    image = (spriteNum == 1) ? right1 : right2;
+                    break;
+            }
+
+            // Posisi dunia NPC
+            int npcWorldX = npcLocation.getCurrentPoint().getX();
+            int npcWorldY = npcLocation.getCurrentPoint().getY();
+
+            // Posisi dunia Player
+            int playerWorldX = gp.player.getPlayerLocation().getCurrentPoint().getX();
+            int playerWorldY = gp.player.getPlayerLocation().getCurrentPoint().getY();
+
+            // Posisi layar Player (biasanya tetap di tengah layar)
+            int playerScreenX = gp.player.screenX;
+            int playerScreenY = gp.player.screenY;
+
+            // Hitung posisi gambar NPC di layar
+            int screenX = npcWorldX - playerWorldX + playerScreenX;
+            int screenY = npcWorldY - playerWorldY + playerScreenY;
+
+            if (image != null) {
+                g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            }
         }
-        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-    }  
+    }
+
 
     public abstract void getNPCImage();
 

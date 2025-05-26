@@ -13,7 +13,7 @@ public class Emily extends NPC{
         speed = 1;
 
         getNPCImage();
-        npcLocation = new Location("Store", new Point(5 * gp.tileSize, 5 * gp.tileSize));
+        npcLocation = new Location("Store", new Point(2 * gp.tileSize, 3 * gp.tileSize));
     }
 
     public void getNPCImage(){

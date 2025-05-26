@@ -1,6 +1,6 @@
 package src.gui;
 
-
+import java.awt.Rectangle;
 import src.entities.*;
 public class TileChecker {
     GamePanel gp;
@@ -120,5 +120,49 @@ public class TileChecker {
         }
     }
 
+    public void checkNPC(Player player) {
+        player.collisionWithNPC = false;
 
+        Rectangle playerArea = new Rectangle(
+            player.getPlayerLocation().getCurrentPoint().getX() + player.playerHitBox.x,
+            player.getPlayerLocation().getCurrentPoint().getY() + player.playerHitBox.y,
+            player.playerHitBox.width,
+            player.playerHitBox.height
+        );
+
+        // Geser area ke arah gerakan
+        switch (player.direction) {
+            case "up":
+                playerArea.y -= player.speed;
+                break;
+            case "down":
+                playerArea.y += player.speed;
+                break;
+            case "left":
+                playerArea.x -= player.speed;
+                break;
+            case "right":
+                playerArea.x += player.speed;
+                break;
+        }
+
+        for (NPC npc : NPCManager.getNPCList()) {
+            if (npc == null) continue;
+
+            // Cek hanya jika ada di map yang sama
+            if (!npc.npcLocation.getName().equals(player.getPlayerLocation().getName())) continue;
+
+            Rectangle npcArea = new Rectangle(
+                npc.npcLocation.getCurrentPoint().getX() + npc.npcHitBox.x,
+                npc.npcLocation.getCurrentPoint().getY() + npc.npcHitBox.y,
+                npc.npcHitBox.width,
+                npc.npcHitBox.height
+            );
+
+            if (playerArea.intersects(npcArea)) {
+                player.collisionWithNPC = true;
+                break;
+            }
+        }
+    }
 }

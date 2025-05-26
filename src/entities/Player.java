@@ -35,6 +35,7 @@ public class Player {
 
     public Rectangle playerHitBox;
     public boolean collisionOn = false;
+    public boolean collisionWithNPC = false;
 
     int spriteNum = 1;
     int spriteCount = 0;
@@ -187,14 +188,14 @@ public class Player {
                 right2 = ImageIO.read(getClass().getResourceAsStream("/res/player/kanan2.png"));
             }
             else if (gender.equals("female")){
-                up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/024.png"));
-                up2 = ImageIO.read(getClass().getResourceAsStream("/res/player/atas2.png"));
-                down1 = ImageIO.read(getClass().getResourceAsStream("/res/player/bawah1.png"));
-                down2 = ImageIO.read(getClass().getResourceAsStream("/res/player/bawah2.png"));
-                left1 = ImageIO.read(getClass().getResourceAsStream("/res/player/kiri1.png"));
-                left2 = ImageIO.read(getClass().getResourceAsStream("/res/player/kiri2.png"));
-                right1 = ImageIO.read(getClass().getResourceAsStream("/res/player/kanan1.png"));
-                right2 = ImageIO.read(getClass().getResourceAsStream("/res/player/kanan2.png"));
+                up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/ceweatas1.png"));
+                up2 = ImageIO.read(getClass().getResourceAsStream("/res/player/ceweatas2.png"));
+                down1 = ImageIO.read(getClass().getResourceAsStream("/res/player/cewebawah1.png"));
+                down2 = ImageIO.read(getClass().getResourceAsStream("/res/player/cewebawah2.png"));
+                left1 = ImageIO.read(getClass().getResourceAsStream("/res/player/cewekiri1.png"));
+                left2 = ImageIO.read(getClass().getResourceAsStream("/res/player/cewekiri2.png"));
+                right1 = ImageIO.read(getClass().getResourceAsStream("/res/player/cewekanan1.png"));
+                right2 = ImageIO.read(getClass().getResourceAsStream("/res/player/cewekanan2.png"));
             }
         }
         catch (IOException e) {
@@ -235,9 +236,11 @@ public class Player {
             }
 
             collisionOn = false;
+            collisionWithNPC = false;
             gp.cChecker.checkTile(this);
+            gp.cChecker.checkNPC(this);
 
-            if (collisionOn == false){
+            if (!collisionOn && !collisionWithNPC) {
                 switch(direction) {
                     case "up":
                         playerLocation.getCurrentPoint().setY(playerLocation.getCurrentPoint().getY()-speed);

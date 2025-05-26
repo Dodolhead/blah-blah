@@ -2,7 +2,6 @@ package src.map;
 
 import java.util.*;
 
-import src.entities.NPC;
 import src.entities.NPCManager;
 import src.gui.*;
 import src.items.*;
@@ -39,13 +38,6 @@ public class Store extends NPCHome {
             soldItem.put(itemClass, new HashMap<>());
         }
         storeDisplay = DEFAULT_STORE_DISPLAY;
-
-        NPC emily = NPCManager.getNPCByName("Emily");
-        if (emily != null) {
-            emily.setNPCLocation(new Location("Store", new Point(5*gp.tileSize, 5*gp.tileSize)));
-            emily.screenX = 5 * gp.tileSize;
-            emily.screenY = 5 * gp.tileSize;
-        }
     }
 
     public Map<Class<?>, Map<Item, Integer>> getSoldItem() {

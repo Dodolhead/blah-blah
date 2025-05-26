@@ -1,12 +1,12 @@
 package src.gui;
 import javax.swing.*;
-import java.awt.*;
-
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import src.entities.*;
 import src.tile.*;
+// import src.items.*;
 import src.map.*;
-import src.map.Point;
-import src.items.*;
 
 
 public class GamePanel extends JPanel implements Runnable{
@@ -55,13 +55,14 @@ public class GamePanel extends JPanel implements Runnable{
 
     public GamePanel(String playerName, String gender, String farmName, MainPanel mainPanel){ 
         this.mainPanel = mainPanel;
-        Item hoe = new Hoe("Hoe", new Gold(0), new Gold(0));
-        Item pick = new Pickaxe("Pick", new Gold(0), new Gold(0));
+        setupNpc();
+        // Item hoe = new Hoe("Hoe", new Gold(0), new Gold(0));
+        // Item pick = new Pickaxe("Pick", new Gold(0), new Gold(0));
         cChecker = new TileChecker(this);
         keyH = new KeyHandler();
         player = new Player(playerName, gender, farmName, this, keyH);
-        player.getPlayerInventory().addItem(hoe, 1);
-        player.getPlayerInventory().addItem(pick, 1);
+        // player.getPlayerInventory().addItem(hoe, 1);
+        // player.getPlayerInventory().addItem(pick, 1);
         farm = new Farm(farmName, player, this);
         houseMap = new HouseMap(player.getPlayerLocation());
         forestRiver = new ForestRiver();
@@ -115,6 +116,7 @@ public class GamePanel extends JPanel implements Runnable{
             }
             if (timer - lastTimer >= 1000000000){
                 System.out.println(farm.getTime().getTimeDay());
+                System.out.println();
                 lastTimer = timer;
             }
         }
@@ -133,7 +135,7 @@ public class GamePanel extends JPanel implements Runnable{
         tileM.draw(g2);
         player.draw(g2);
         for (NPC npc : NPCManager.npcList) {
-            if (npc != null && npc.npcLocation == this.player.getPlayerLocation()) {
+            if (npc != null) {
                 npc.draw(g2);
             }
         }
@@ -155,11 +157,6 @@ public class GamePanel extends JPanel implements Runnable{
         }
         else if (mapName.equals("Store")) {
             currentMap = store.getStoreDisplay();
-            NPC emily = NPCManager.getNPCByName("Emily");
-            if (emily != null) {
-                emily.screenX = 5 * tileSize;
-                emily.screenY = 5 * tileSize;
-            }
         }
             else if (mapName.equals("MountainLake")) {
             currentMap = mountainLake.getMountainLakeDisplay();
@@ -223,6 +220,11 @@ public class GamePanel extends JPanel implements Runnable{
         keyH.leftPressed = false;
         keyH.rightPressed = false;
         player.direction = "down";
+    }
+
+    public void setupNpc() {
+        new Emily(this);
+        new Caroline(this);
     }
 
 
