@@ -1,14 +1,21 @@
 package src.tile;
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.io.IOException;
+
 import javax.imageio.*;
+import java.awt.image.BufferedImage;
 import src.entities.*;
 import src.gui.*;
+import src.map.Point;
 
 
 public class TileManager {
     GamePanel gp;
     public Tile[] tile;
     public char[][] mapTiles;
+    BufferedImage houseImage;
+    BufferedImage shipImage;
+    BufferedImage pondImage;
 
     public TileManager(GamePanel gp, Player player) {
         this.gp = gp;
@@ -33,6 +40,9 @@ public class TileManager {
             mapTiles = gp.store.getStoreDisplay();
         }
         getTileImage();
+        loadHouseImage();
+        loadShippingImage();
+        loadPondImage();
     }
 
     public void getTileImage() {
@@ -70,7 +80,7 @@ public class TileManager {
             tile[7].collision = false;
 
             tile[8] = new Tile();
-            tile[8].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/download.jpg"));
+            tile[8].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/wall.png"));
             tile[8].collision = true;
 
             tile[9] = new Tile();
@@ -118,6 +128,11 @@ public class TileManager {
                 }
             }
         }
+        if (gp.player.getPlayerLocation().getName().equals("Farm")) {
+            drawHouseImage(g2);
+            drawShipping(g2);
+            drawPond(g2);
+        }
     }
 
     public int getTileIndex(char c) {
@@ -135,5 +150,69 @@ public class TileManager {
             case 'm' -> 10;
             default -> 0;
         };
+    }
+    private void loadHouseImage() {
+        try {
+            houseImage = ImageIO.read(getClass().getResourceAsStream("/res/tiles/jamoer.jpeg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadShippingImage() {
+        try {
+            shipImage = ImageIO.read(getClass().getResourceAsStream("/res/tiles/blah.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadPondImage() {
+        try {
+            pondImage = ImageIO.read(getClass().getResourceAsStream("/res/tiles/air.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void drawHouseImage(Graphics2D g2) {
+        Point houseStart = gp.farm.getFarmMap().houseStartPoint;
+        int tileSize = gp.tileSize;
+        if (houseStart != null && houseImage != null) {
+            int drawX = houseStart.getX() * tileSize;
+            int drawY = houseStart.getY() * tileSize;
+
+            int screenX = drawX - gp.player.getPlayerLocation().getCurrentPoint().getX() + gp.player.screenX;
+            int screenY = drawY - gp.player.getPlayerLocation().getCurrentPoint().getY() + gp.player.screenY;
+
+            g2.drawImage(houseImage, screenX, screenY, tileSize * 6, tileSize * 6, null);
+        }
+    }
+    private void drawShipping(Graphics2D g2) {
+        Point shipStart = gp.farm.getFarmMap().shippingBinPoint;
+        int tileSize = gp.tileSize;
+        if (shipStart != null && houseImage != null) {
+            int drawX = shipStart.getX() * tileSize;
+            int drawY = shipStart.getY() * tileSize;
+
+            int screenX = drawX - gp.player.getPlayerLocation().getCurrentPoint().getX() + gp.player.screenX;
+            int screenY = drawY - gp.player.getPlayerLocation().getCurrentPoint().getY() + gp.player.screenY;
+
+            g2.drawImage(shipImage, screenX, screenY, tileSize * 3, tileSize * 2, null);
+        }
+    }
+
+    private void drawPond(Graphics2D g2) {
+        Point pondStart = gp.farm.getFarmMap().pondStartPoint;
+        int tileSize = gp.tileSize;
+        if (pondStart != null && houseImage != null) {
+            int drawX = pondStart.getX() * tileSize;
+            int drawY = pondStart.getY() * tileSize;
+
+            int screenX = drawX - gp.player.getPlayerLocation().getCurrentPoint().getX() + gp.player.screenX;
+            int screenY = drawY - gp.player.getPlayerLocation().getCurrentPoint().getY() + gp.player.screenY;
+
+            g2.drawImage(pondImage, screenX, screenY, tileSize * 4, tileSize * 3, null);
+        }
     }
 }

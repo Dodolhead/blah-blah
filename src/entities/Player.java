@@ -176,15 +176,26 @@ public class Player {
 
     public void getPlayerImage(){
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/atas1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/res/player/atas2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/res/player/bawah1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/res/player/bawah2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/res/player/kiri1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/res/player/kiri2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/res/player/kanan1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/res/player/kanan2.png"));
-
+            if (gender.equals("male")){
+                up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/atas1.png"));
+                up2 = ImageIO.read(getClass().getResourceAsStream("/res/player/atas2.png"));
+                down1 = ImageIO.read(getClass().getResourceAsStream("/res/player/bawah1.png"));
+                down2 = ImageIO.read(getClass().getResourceAsStream("/res/player/bawah2.png"));
+                left1 = ImageIO.read(getClass().getResourceAsStream("/res/player/kiri1.png"));
+                left2 = ImageIO.read(getClass().getResourceAsStream("/res/player/kiri2.png"));
+                right1 = ImageIO.read(getClass().getResourceAsStream("/res/player/kanan1.png"));
+                right2 = ImageIO.read(getClass().getResourceAsStream("/res/player/kanan2.png"));
+            }
+            else if (gender.equals("female")){
+                up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/024.png"));
+                up2 = ImageIO.read(getClass().getResourceAsStream("/res/player/atas2.png"));
+                down1 = ImageIO.read(getClass().getResourceAsStream("/res/player/bawah1.png"));
+                down2 = ImageIO.read(getClass().getResourceAsStream("/res/player/bawah2.png"));
+                left1 = ImageIO.read(getClass().getResourceAsStream("/res/player/kiri1.png"));
+                left2 = ImageIO.read(getClass().getResourceAsStream("/res/player/kiri2.png"));
+                right1 = ImageIO.read(getClass().getResourceAsStream("/res/player/kanan1.png"));
+                right2 = ImageIO.read(getClass().getResourceAsStream("/res/player/kanan2.png"));
+            }
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -215,8 +226,12 @@ public class Player {
                 keyH.till = false;
             }
             if (keyH.recoverLand) {
-
                 new RecoveringLandAction().execute(this);
+            }
+            if (keyH.planting) {
+                Seed wheatSeed = new Seed("Wheat Seeds", new Gold(60), 1, "SPRING");
+                this.getPlayerInventory().addItem(wheatSeed, 1);
+                new PlantingAction(wheatSeed).execute(this);
             }
 
             collisionOn = false;

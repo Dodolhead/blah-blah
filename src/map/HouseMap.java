@@ -51,6 +51,7 @@ public HouseMap(Location playerLocation) {
 
     int midBottomX = newWidth / 2;
     houseMapDisplay[newHeight - 1][midBottomX] = 'D';
+    houseMapDisplay[newHeight - 1][midBottomX-1] = 'D';
     furnitureLocation = new HashMap<>();
     Door door = new Door();
     List<Point> doorPoints = new ArrayList<>();
@@ -59,7 +60,6 @@ public HouseMap(Location playerLocation) {
 
     playerPositionHouse = new Point(playerLocation.getCurrentPoint().getX() + 1, playerLocation.getCurrentPoint().getY() + 1);
 }
-
     
 
     public char[][] getHouseMapDisplay() {

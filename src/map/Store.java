@@ -2,10 +2,13 @@ package src.map;
 
 import java.util.*;
 
-import src.entities.*;
+import src.entities.NPC;
+import src.entities.NPCManager;
+import src.gui.*;
 import src.items.*;
 
 public class Store extends NPCHome {
+    GamePanel gp;
     private Map<Class<?>, Map<Item, Integer>> soldItem;
     public static final Map<String, Class<?>> typeToClassMap = Map.of(
         "Seed", Seed.class,
@@ -29,13 +32,20 @@ public class Store extends NPCHome {
 
     private char[][] storeDisplay;
     
-    public Store(){
-        super("Store", new NPC("Emily", "single"));
+    public Store(GamePanel gp) {
+        super("Store", NPCManager.getNPCByName("Emily"));
         soldItem = new HashMap<>();
         for (Class<?> itemClass : typeToClassMap.values()) {
             soldItem.put(itemClass, new HashMap<>());
         }
         storeDisplay = DEFAULT_STORE_DISPLAY;
+
+        NPC emily = NPCManager.getNPCByName("Emily");
+        if (emily != null) {
+            emily.setNPCLocation(new Location("Store", new Point(5*gp.tileSize, 5*gp.tileSize)));
+            emily.screenX = 5 * gp.tileSize;
+            emily.screenY = 5 * gp.tileSize;
+        }
     }
 
     public Map<Class<?>, Map<Item, Integer>> getSoldItem() {

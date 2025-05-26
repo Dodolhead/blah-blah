@@ -31,8 +31,8 @@ public class PlantingAction implements Action {
         }
 
         Point pos = player.getPlayerLocation().getCurrentPoint();
-        int x = pos.getX();
-        int y = pos.getY();
+        int x = pos.getX()/48;
+        int y = pos.getY()/48;
         char[][] map = farmMap.getFarmMapDisplay();
 
         if (y < 0 || y >= map.length || x < 0 || x >= map[0].length) {
