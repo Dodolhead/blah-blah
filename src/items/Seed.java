@@ -1,4 +1,5 @@
 package src.items;
+import java.awt.image.BufferedImage;
 //ganti season nanti
 
 public class Seed extends Item {
@@ -6,8 +7,8 @@ public class Seed extends Item {
     private int harvestDays;
     private String validSeason;
 
-    public Seed(String itemName, Gold buyPrice, int harvestDays, String validSeason){
-        super(itemName, "Seed", false, new Gold(0));
+    public Seed(String itemName, Gold buyPrice, int harvestDays, String validSeason, BufferedImage image) {
+        super(itemName, "Seed", false, new Gold(0), image);
         this.buyPrice = buyPrice;
         this.harvestDays = harvestDays;
         this.validSeason = validSeason;

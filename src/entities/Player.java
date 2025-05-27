@@ -41,6 +41,7 @@ public class Player {
     int spriteCount = 0;
 
     public boolean enteringHouse = false;
+    Item selectedItem = null;
 
 
     public Player(String playerName, String gender, String farmName, GamePanel gp, KeyHandler keyH) {
@@ -228,11 +229,13 @@ public class Player {
             }
             if (keyH.recoverLand) {
                 new RecoveringLandAction().execute(this);
+                keyH.recoverLand = false;
             }
             if (keyH.planting) {
-                Seed wheatSeed = new Seed("Wheat Seeds", new Gold(60), 1, "SPRING");
-                this.getPlayerInventory().addItem(wheatSeed, 1);
-                new PlantingAction(wheatSeed).execute(this);
+                if (selectedItem instanceof Seed) {
+                    new PlantingAction((Seed) selectedItem).execute(this);
+                }
+                keyH.planting = false;
             }
 
             collisionOn = false;

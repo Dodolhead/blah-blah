@@ -3,7 +3,6 @@ package src.actions;
 import src.entities.*;
 import src.items.*;
 import src.map.*;
-import src.map.Point;
 import src.tsw.Time;
 
 public class RecoveringLandAction implements Action {
@@ -26,8 +25,8 @@ public class RecoveringLandAction implements Action {
         }
 
         Point pos = player.getPlayerLocation().getCurrentPoint();
-        int x = pos.getX()/48;
-        int y = pos.getY()/48;
+        int x = (pos.getX() + 24) / 48;
+        int y = (pos.getY() + 24) / 48;
         char[][] map = farmMap.getFarmMapDisplay();
 
         if (y < 0 || y >= map.length || x < 0 || x >= map[0].length) {

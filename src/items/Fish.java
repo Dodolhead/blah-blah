@@ -1,6 +1,7 @@
 package src.items;
 
 import java.util.*;
+import java.awt.image.BufferedImage;
 
 public class Fish extends Item{
     private int timeStart;
@@ -11,8 +12,8 @@ public class Fish extends Item{
     private Gold sellPrice;
     private String rarity;
 
-public Fish(String itemName, int timeStart, int timeEnd, List<String> availableSeasons, List<String> availableWeathers, List<String> fishLocations, String rarity) {
-    super(itemName, "Fish", true, new Gold(0));
+public Fish(String itemName,int timeStart, int timeEnd, List<String> availableSeasons, List<String> availableWeathers, List<String> fishLocations, String rarity, BufferedImage image) {
+    super(itemName, "Fish", true, new Gold(0), image);
     this.timeStart = timeStart;
     this.timeEnd = timeEnd;
     this.availableSeasons = availableSeasons;

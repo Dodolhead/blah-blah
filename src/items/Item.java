@@ -1,16 +1,19 @@
 package src.items;
+import java.awt.image.BufferedImage;
 
 public class Item {
     private String itemName;
     private String itemType;
     private boolean isSellable;
     private Gold sellPrice;
+    protected BufferedImage image;
 
-    public Item(String itemName, String itemType, boolean isSellable, Gold sellPrice) {
+    public Item(String itemName, String itemType, boolean isSellable, Gold sellPrice, BufferedImage image) {
         this.itemName = itemName;
         this.itemType = itemType;
         this.isSellable = isSellable;
         this.sellPrice = sellPrice;
+        this.image = image;
     }
 
     public String getItemName() {

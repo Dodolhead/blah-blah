@@ -124,6 +124,7 @@ public class Time implements Runnable{
     public synchronized String getTimeDay() {
         return String.format("SEASON: %s - WEATHER: %s - Day-%d - %02d:%02d", season.getCurrentSeason(), weather.getCurrentWeather() ,day, hour, minute);
     }
+    
     public Season.Seasons getCurrentSeason() {
         return season.getCurrentSeason();
     }

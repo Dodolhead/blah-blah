@@ -24,19 +24,22 @@ public class FishingAction implements Action {
             Arrays.asList("ANY"),
             Arrays.asList("ANY"),
             Arrays.asList("Mountain Lake"),
-            "common"
+            "common",
+            ItemManager.load("/items/fish/bullhead.png")
         ));
         commonFish.add(new Fish("Carp", 0, 24,
             Arrays.asList("ANY"),
             Arrays.asList("ANY"),
             Arrays.asList("Mountain Lake", "Pond"),
-            "common"
+            "common",
+            ItemManager.load("/items/fish/carp.png")
         ));
         commonFish.add(new Fish("Chub", 0, 24,
             Arrays.asList("ANY"),
             Arrays.asList("ANY"),
             Arrays.asList("Forest River", "Mountain Lake"),
-            "common"
+            "common",
+            ItemManager.load("/items/fish/chub.png")
         ));
         fishDatabase.put("common", commonFish);
 
@@ -46,73 +49,85 @@ public class FishingAction implements Action {
             Arrays.asList("ANY"),
             Arrays.asList("ANY"),
             Arrays.asList("Mountain Lake"),
-            "regular"
+            "regular",
+            ItemManager.load("/items/fish/largemouth-bass.png")
         ));
         regularFish.add(new Fish("Rainbow Trout", 6, 18,
             Arrays.asList("SUMMER"),
             Arrays.asList("SUNNY"),
             Arrays.asList("Forest River", "Mountain Lake"),
-            "regular"
+            "regular",
+            ItemManager.load("/items/fish/rainbow-trout.png")
         ));
         regularFish.add(new Fish("Sturgeon", 6, 18,
             Arrays.asList("SUMMER", "WINTER"),
             Arrays.asList("ANY"),
             Arrays.asList("Mountain Lake"),
-            "regular"
+            "regular",
+            ItemManager.load("/items/fish/sturgeon.png")
         ));
         regularFish.add(new Fish("Midnight Carp", 20, 2,
             Arrays.asList("WINTER", "FALL"),
             Arrays.asList("ANY"),
             Arrays.asList("Mountain Lake", "Pond"),
-            "regular"
+            "regular",
+            ItemManager.load("/items/fish/midnight-carp.png")
         ));
         regularFish.add(new Fish("Flounder", 6, 22,
             Arrays.asList("SPRING", "SUMMER"),
             Arrays.asList("ANY"),
             Arrays.asList("Ocean"),
-            "regular"
+            "regular",
+            ItemManager.load("/items/fish/flounder.png")
         ));
         regularFish.add(new Fish("Halibut", 6, 11,  // Note: only first time range handled
             Arrays.asList("ANY"),
             Arrays.asList("ANY"),
             Arrays.asList("Ocean"),
-            "regular"
+            "regular",
+            ItemManager.load("/items/fish/halibut.png")
         ));
         regularFish.add(new Fish("Octopus", 6, 22,
             Arrays.asList("SUMMER"),
             Arrays.asList("ANY"),
             Arrays.asList("Ocean"),
-            "regular"
+            "regular",
+            ItemManager.load("/items/fish/octopus.png")
         ));
         regularFish.add(new Fish("Pufferfish", 0, 16,
             Arrays.asList("SUMMER"),
             Arrays.asList("SUNNY"),
             Arrays.asList("Ocean"),
-            "regular"
+            "regular",
+            ItemManager.load("/items/fish/pufferfish.png")
         ));
         regularFish.add(new Fish("Sardine", 6, 18,
             Arrays.asList("ANY"),
             Arrays.asList("ANY"),
             Arrays.asList("Ocean"),
-            "regular"
+            "regular",
+            ItemManager.load("/items/fish/sardine.png")
         ));
         regularFish.add(new Fish("Super Cucumber", 18, 2,
             Arrays.asList("SUMMER", "FALL", "WINTER"),
             Arrays.asList("ANY"),
             Arrays.asList("Ocean"),
-            "regular"
+            "regular",
+            ItemManager.load("/items/fish/super-cucumber.png")
         ));
         regularFish.add(new Fish("Catfish", 6, 22,
             Arrays.asList("SPRING", "SUMMER", "FALL"),
             Arrays.asList("RAINY"),
             Arrays.asList("Forest River", "Pond"),
-            "regular"
+            "regular",
+            ItemManager.load("/items/fish/catfish.png")
         ));
         regularFish.add(new Fish("Salmon", 6, 18,
             Arrays.asList("FALL"),
             Arrays.asList("ANY"),
             Arrays.asList("Forest River"),
-            "regular"
+            "regular",
+            ItemManager.load("/items/fish/salmon.png")
         ));
         fishDatabase.put("regular", regularFish);
 
@@ -122,25 +137,29 @@ public class FishingAction implements Action {
             Arrays.asList("FALL"),
             Arrays.asList("ANY"),
             Arrays.asList("Pond"),
-            "legendary"
+            "legendary",
+            ItemManager.load("/items/fish/angler.png")
         ));
         legendaryFish.add(new Fish("Crimsonfish", 8, 20,
             Arrays.asList("SUMMER"),
             Arrays.asList("ANY"),
             Arrays.asList("Ocean"),
-            "legendary"
+            "legendary",
+            ItemManager.load("/items/fish/crimsonfish.png")
         ));
         legendaryFish.add(new Fish("Glacierfish", 8, 20,
             Arrays.asList("WINTER"),
             Arrays.asList("ANY"),
             Arrays.asList("Forest River"),
-            "legendary"
+            "legendary",
+            ItemManager.load("/items/fish/glacierfish.png")
         ));
         legendaryFish.add(new Fish("Legend", 8, 20,
             Arrays.asList("SPRING"),
             Arrays.asList("RAINY"),
             Arrays.asList("Mountain Lake"),
-            "legendary"
+            "legendary",
+            ItemManager.load("/items/fish/legend.png")
         ));
         fishDatabase.put("legendary", legendaryFish);
     }

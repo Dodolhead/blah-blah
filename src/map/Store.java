@@ -80,34 +80,33 @@ public class Store extends NPCHome {
 
         // ========== Seed List ==========
         List<Seed> seeds = List.of(
-            new Seed("Parsnip Seeds", new Gold(20), 1, "SPRING"),
-            new Seed("Cauliflower Seeds", new Gold(80), 5, "SPRING"),
-            new Seed("Potato Seeds", new Gold(50), 3, "SPRING"),
-            new Seed("Wheat Seeds", new Gold(60), 1, "SPRING"),
-            new Seed("Blueberry Seeds", new Gold(80), 7, "SUMMER"),
-            new Seed("Tomato Seeds", new Gold(50), 3, "SUMMER"),
-            new Seed("Hot Pepper Seeds", new Gold(40), 1, "SUMMER"),
-            new Seed("Melon Seeds", new Gold(80), 4, "SUMMER"),
-            new Seed("Cranberry Seeds", new Gold(100), 2, "FALL"),
-            new Seed("Pumpkin Seeds", new Gold(150), 7, "FALL"),
-            new Seed("Grape Seeds", new Gold(60), 3, "FALL")
+            new Seed("Parsnip Seeds", new Gold(20), 1, "SPRING", ItemManager.load("/items/seed/parsnip-seeds.png")),
+            new Seed("Cauliflower Seeds", new Gold(80), 5, "SPRING", ItemManager.load("/items/seed/caulir-seeds.png")),
+            new Seed("Potato Seeds", new Gold(50), 3, "SPRING", ItemManager.load("/items/seed/potato-seeds.png")),
+            new Seed("Wheat Seeds", new Gold(60), 1, "SPRING", ItemManager.load("/items/seed/wheat-seeds.png")),
+            new Seed("Blueberry Seeds", new Gold(80), 7, "SUMMER", ItemManager.load("/items/seed/blueberry-seeds.png")),
+            new Seed("Tomato Seeds", new Gold(50), 3, "SUMMER", ItemManager.load("/items/seed/tomato-seeds.png")),
+            new Seed("Hot Pepper Seeds", new Gold(40), 1, "SUMMER", ItemManager.load("/items/seed/hotpepper-seeds.png")),
+            new Seed("Melon Seeds", new Gold(80), 4, "SUMMER", ItemManager.load("/items/seed/melon-seeds.png")),
+            new Seed("Cranberry Seeds", new Gold(100), 2, "FALL", ItemManager.load("/items/seed/cranberry-seeds.png")),
+            new Seed("Pumpkin Seeds", new Gold(150), 7, "FALL", ItemManager.load("/items/seed/pumpkin-seeds.png")),
+            new Seed("Grape Seeds", new Gold(60), 3, "FALL", ItemManager.load("/items/seed/grape-seeds.png"))
         );
 
         // ========== Crop List ==========
         List<Crop> crops = List.of(
-            new Crop("Parsnip", new Gold(50), new Gold(35), 1),
-            new Crop("Cauliflower", new Gold(200), new Gold(150), 1),
-            new Crop("Potato", new Gold(0), new Gold(80), 1),
-            new Crop("Wheat", new Gold(50), new Gold(30), 3),
-            new Crop("Blueberry", new Gold(150), new Gold(40), 3),
-            new Crop("Tomato", new Gold(90), new Gold(60), 1),
-            new Crop("Hot Pepper", new Gold(0), new Gold(40), 1),
-            new Crop("Melon", new Gold(0), new Gold(250), 1),
-            new Crop("Cranberry", new Gold(0), new Gold(25), 10),
-            new Crop("Pumpkin", new Gold(300), new Gold(250), 1),
-            new Crop("Grape", new Gold(100), new Gold(10), 20)
+            new Crop("Parsnip", new Gold(50), new Gold(35), 1, ItemManager.load("/items/crop/parsnip.png")),
+            new Crop("Cauliflower", new Gold(200), new Gold(150), 1, ItemManager.load("/items/crop/cauli.png")),
+            new Crop("Potato", new Gold(0), new Gold(80), 1, ItemManager.load("/items/crop/potato.png")),
+            new Crop("Wheat", new Gold(50), new Gold(30), 3, ItemManager.load("/items/crop/wheat.png")),
+            new Crop("Blueberry", new Gold(150), new Gold(40), 3, ItemManager.load("/items/crop/blueberry.png")),
+            new Crop("Tomato", new Gold(90), new Gold(60), 1, ItemManager.load("/items/crop/tomato.png")),
+            new Crop("Hot Pepper", new Gold(0), new Gold(40), 1, ItemManager.load("/items/crop/hotpepper.png")),
+            new Crop("Melon", new Gold(0), new Gold(250), 1, ItemManager.load("/items/crop/melon.png")),
+            new Crop("Cranberry", new Gold(0), new Gold(25), 10, ItemManager.load("/items/crop/cranberry.png")),
+            new Crop("Pumpkin", new Gold(300), new Gold(250), 1, ItemManager.load("/items/crop/pumpkin.png")),
+            new Crop("Grape", new Gold(100), new Gold(10), 20, ItemManager.load("/items/crop/grape.png"))
         );
-
         // ========== Deterministic Selection ==========
         for (int i = 0; i < 3; i++) {
             int index = (int)((currentTime + i) % seeds.size());
@@ -122,22 +121,22 @@ public class Store extends NPCHome {
         }
 
         // ========== Recipe Deterministic Pick ==========
-        Food fishNChipsFood = new Food("Fish n’ Chips", 50, new Gold(150), new Gold(135));
+        Food fishNChipsFood = new Food("Fish n’ Chips", 50, new Gold(150), new Gold(135), ItemManager.load("/items/seed/parsnip-seeds.png"));
         Map<String, Integer> ingredients1 = Map.of(
             "Any Fish", 2,
             "Wheat", 1,
             "Potato", 1
         );
-        Recipe recipe1 = new Recipe("Fish n’ Chips", "A crispy and tasty fish snack", "recipe_1", ingredients1, fishNChipsFood);
+        Recipe recipe1 = new Recipe("Fish n’ Chips", "A crispy and tasty fish snack", "recipe_1", ingredients1, fishNChipsFood, ItemManager.load("/items/seed/parsnip-seeds.png"));
 
-        Food fishSandwichFood = new Food("Fish Sandwich", 50, new Gold(200), new Gold(180));
+        Food fishSandwichFood = new Food("Fish Sandwich", 50, new Gold(200), new Gold(180), ItemManager.load("/items/seed/parsnip-seeds.png"));
         Map<String, Integer> ingredients10 = Map.of(
             "Any Fish", 1,
             "Wheat", 2,
             "Tomato", 1,
             "Hot Pepper", 1
         );
-        Recipe recipe10 = new Recipe("Fish Sandwich", "A spicy fish sandwich", "recipe_10", ingredients10, fishSandwichFood);
+        Recipe recipe10 = new Recipe("Fish Sandwich", "A spicy fish sandwich", "recipe_10", ingredients10, fishSandwichFood, ItemManager.load("/items/seed/parsnip-seeds.png"));
 
         boolean pickFirst = currentTime % 2 == 0;
         Recipe chosenRecipe = pickFirst ? recipe1 : recipe10;

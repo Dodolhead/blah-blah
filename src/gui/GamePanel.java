@@ -4,8 +4,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import src.entities.*;
+import src.items.ItemManager;
 import src.tile.*;
-// import src.items.*;
 import src.map.*;
 
 
@@ -56,13 +56,12 @@ public class GamePanel extends JPanel implements Runnable{
     public GamePanel(String playerName, String gender, String farmName, MainPanel mainPanel){ 
         this.mainPanel = mainPanel;
         setupNpc();
-        // Item hoe = new Hoe("Hoe", new Gold(0), new Gold(0));
-        // Item pick = new Pickaxe("Pick", new Gold(0), new Gold(0));
+        ItemManager.setItems(); 
         cChecker = new TileChecker(this);
         keyH = new KeyHandler();
         player = new Player(playerName, gender, farmName, this, keyH);
-        // player.getPlayerInventory().addItem(hoe, 1);
-        // player.getPlayerInventory().addItem(pick, 1);
+        player.getPlayerInventory().addItem(ItemManager.getItem("Hoe"), 1);
+        player.getPlayerInventory().addItem(ItemManager.getItem("Pickaxe"), 1);
         farm = new Farm(farmName, player, this);
         houseMap = new HouseMap(player.getPlayerLocation());
         forestRiver = new ForestRiver();

@@ -1,11 +1,12 @@
 package src.items;
+import java.awt.image.BufferedImage;
 
 public class Crop extends Item{
     private Gold buyPrice;
     private int cropPerPanen;
 
-    public Crop(String itemName, Gold sellPrice, Gold buyPrice, int cropPerPanen){
-        super(itemName, "Crop", true, sellPrice);
+    public Crop(String itemName, Gold sellPrice, Gold buyPrice, int cropPerPanen, BufferedImage image) {
+        super(itemName, "Crop", true, sellPrice, image);
         this.buyPrice = buyPrice;
         this.cropPerPanen = cropPerPanen;
     }

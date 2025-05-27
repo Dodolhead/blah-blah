@@ -5,7 +5,7 @@ import src.entities.*;
 
 public class Pickaxe extends Equipment {
     public Pickaxe(String pickName, Gold sellPrice, Gold buyPrice){
-        super(pickName, sellPrice, buyPrice, "Pickaxe");
+        super(pickName, sellPrice, buyPrice, "Pickaxe", ItemManager.load("/items/equipment/pickaxe.png"));
     }
 
     public boolean use(Player player){

@@ -1,5 +1,6 @@
 package src.items;
 
+import java.awt.image.BufferedImage;
 import java.util.*;
 
 public class Recipe extends Misc {
@@ -7,8 +8,8 @@ public class Recipe extends Misc {
     private Map<String, Integer> ingredients;
     private Food foodProduct;
 
-    public Recipe(String itemName, String itemDescription, String recipeID, Map<String, Integer> ingredients, Food foodProduct) {
-        super(itemName, itemDescription);
+    public Recipe(String itemName, String itemDescription, String recipeID, Map<String, Integer> ingredients, Food foodProduct, BufferedImage image) {
+        super(itemName, itemDescription, image);
         this.recipeID = recipeID;
         this.ingredients = ingredients;
         this.foodProduct = foodProduct;

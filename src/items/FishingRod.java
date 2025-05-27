@@ -7,7 +7,7 @@ import src.map.Point;
 
 public class FishingRod extends Equipment {
     public FishingRod(String rodName, Gold sellPrice, Gold buyPrice){
-        super(rodName, sellPrice, buyPrice, "FishingRod");
+        super(rodName, sellPrice, buyPrice, "FishingRod", ItemManager.load("/items/equipment/fishing-rod.png"));
     }
 
     public boolean use(Player player){
