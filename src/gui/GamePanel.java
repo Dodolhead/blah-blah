@@ -52,6 +52,9 @@ public class GamePanel extends JPanel implements Runnable{
     // NPC
     NPCManager npcManager = new NPCManager();
 
+    // Inventory
+    public InventoryPanel inventoryPanel = new InventoryPanel();
+
 
     public GamePanel(String playerName, String gender, String farmName, MainPanel mainPanel){ 
         this.mainPanel = mainPanel;
@@ -61,6 +64,7 @@ public class GamePanel extends JPanel implements Runnable{
         keyH = new KeyHandler();
         player = new Player(playerName, gender, farmName, this, keyH);
         player.getPlayerInventory().addItem(ItemManager.getItem("Hoe"), 1);
+        player.getPlayerInventory().addItem(ItemManager.getItem("Potato Seeds"), 5);
         player.getPlayerInventory().addItem(ItemManager.getItem("Pickaxe"), 1);
         farm = new Farm(farmName, player, this);
         houseMap = new HouseMap(player.getPlayerLocation());
@@ -85,6 +89,11 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+        this.requestFocusInWindow();
+        inventoryPanel.setBounds(460, 50, 300, 400); // posisikan kanan
+        inventoryPanel.setVisible(false);
+        this.setLayout(null);
+        this.add(inventoryPanel);
     }
 
 
@@ -129,6 +138,11 @@ public class GamePanel extends JPanel implements Runnable{
                 npc.update();
             }
         }
+        inventoryPanel.updateInventoryUI(player.getPlayerInventory());
+        if (keyH.inventoryToggle) {
+            inventoryPanel.setVisible(!inventoryPanel.isVisible());
+            keyH.inventoryToggle = false;
+        }
     }
 
     public void paintComponent(Graphics g){
@@ -143,6 +157,7 @@ public class GamePanel extends JPanel implements Runnable{
                 npc.draw(g2);
             }
         }
+        super.paintChildren(g);
         g2.dispose();
     }
 

@@ -41,7 +41,6 @@ public class Player {
     int spriteCount = 0;
 
     public boolean enteringHouse = false;
-    Item selectedItem = null;
 
 
     public Player(String playerName, String gender, String farmName, GamePanel gp, KeyHandler keyH) {
@@ -232,8 +231,11 @@ public class Player {
                 keyH.recoverLand = false;
             }
             if (keyH.planting) {
-                if (selectedItem instanceof Seed) {
-                    new PlantingAction((Seed) selectedItem).execute(this);
+                if (gp.inventoryPanel.getSelectedItem() instanceof Seed) {
+                    new PlantingAction((Seed) gp.inventoryPanel.getSelectedItem()).execute(this);
+                }
+                else{
+                    System.out.println("Select a seed to plant!");
                 }
                 keyH.planting = false;
             }

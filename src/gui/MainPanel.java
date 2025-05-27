@@ -56,4 +56,5 @@ public class MainPanel extends JPanel {
         }
         cardLayout.show(this, "worldmap");
     }
+
 }

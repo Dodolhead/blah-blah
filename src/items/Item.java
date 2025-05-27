@@ -6,7 +6,7 @@ public class Item {
     private String itemType;
     private boolean isSellable;
     private Gold sellPrice;
-    protected BufferedImage image;
+    public BufferedImage image;
 
     public Item(String itemName, String itemType, boolean isSellable, Gold sellPrice, BufferedImage image) {
         this.itemName = itemName;

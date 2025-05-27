@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 public class KeyHandler implements KeyListener {
     public boolean upPressed, downPressed, leftPressed, rightPressed;
     public boolean till,recoverLand, planting;
+    public boolean inventoryToggle;
     
     @Override
     public void keyTyped(KeyEvent e) {
@@ -35,7 +36,6 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_P){
             planting = true;
         }
-        
     }
     
     @Override
@@ -63,6 +63,8 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_P){
             planting = false;
         }
-        
+        if (code == KeyEvent.VK_I) {
+            inventoryToggle = true;
+        }
     }
 }

@@ -63,11 +63,32 @@ public class Inventory {
     }
 
     public boolean addItem(Item item, int amount) {
+        if (amount <= 0) {
+            System.out.println("Amount must be greater than zero.");
+            return false;
+        }
+
+        boolean isNewItem = getItemAmount(item) == 0;
+        if (isNewItem && getTotalItemTypes() >= 20) {
+            System.out.println("Inventory is full! You cannot add more item types.");
+            return false;
+        }
+
         Class<?> cls = typeToClassMap.get(item.getItemType());
         if (cls == null) return false;
+
         Map<Item, Integer> storage = inventoryStorage.get(cls);
         storage.put(item, getItemAmount(item) + amount);
         return true;
+    }
+
+
+    public int getTotalItemTypes() {
+        int totalTypes = 0;
+        for (Map<Item, Integer> storage : inventoryStorage.values()) {
+            totalTypes += storage.size();  // setiap item di map ini adalah 1 jenis item
+        }
+        return totalTypes;
     }
 
     public boolean removeItem(Item item, int amount) {
