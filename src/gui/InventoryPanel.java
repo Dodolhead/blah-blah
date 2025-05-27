@@ -14,7 +14,8 @@ public class InventoryPanel extends JPanel {
     private static final int MAX_ITEMS = 20;
     private JLabel[] slots = new JLabel[MAX_ITEMS];
     private Item[] slotItems = new Item[MAX_ITEMS]; 
-    private Item selectedItem = null; 
+    private Item selectedItem = null;
+    private JLabel selectedSlot = null;
 
     public InventoryPanel() {
         setLayout(new GridLayout(4, 5, 10, 10)); 
@@ -29,19 +30,34 @@ public class InventoryPanel extends JPanel {
             add(slot);
 
             int finalI = i; 
-            slot.addMouseListener(new MouseAdapter() {
-                @Override
+            slot.addMouseListener(new MouseAdapter() {     
+                @Override           
                 public void mouseEntered(MouseEvent e) {
-                    slot.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+                    // Kalau bukan selectedSlot, border putih tipis hover
+                    if (slot != selectedSlot) {
+                        slot.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+                    }
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    slot.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                    // Kalau bukan selectedSlot, reset border hitam
+                    if (slot != selectedSlot) {
+                        slot.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                    }
                 }
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
+                    // Reset border slot yang sebelumnya dipilih
+                    if (selectedSlot != null && selectedSlot != slot) {
+                        selectedSlot.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                    }
+
+                    // Update border dan simpan slot yang dipilih
+                    slot.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+                    selectedSlot = slot;
+
                     selectedItem = slotItems[finalI];
                     System.out.println("Selected item: " + (selectedItem != null ? selectedItem.getItemName() : "None"));
                 }
