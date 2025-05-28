@@ -33,7 +33,7 @@ public class WorldMapPanel extends JPanel implements ActionListener {
         npcHouseButton = createButton(icon, 400, 400); 
 
         // Background label
-        ImageIcon background = new ImageIcon("res/worldmap/bg.jpg");
+        ImageIcon background = new ImageIcon("res/worldmap/bg-map.png");
         JLabel bgLabel = new JLabel(background);
         bgLabel.setBounds(0, 0, 800, 600);
 
