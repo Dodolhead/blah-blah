@@ -58,6 +58,9 @@ public class GamePanel extends JPanel implements Runnable{
     // Store
     public StorePanel storePanel;
 
+    // TSW
+    public TimeSeasonWeatherPanel timePanel;
+
 
     public GamePanel(String playerName, String gender, String farmName, MainPanel mainPanel){ 
         this.mainPanel = mainPanel;
@@ -95,10 +98,13 @@ public class GamePanel extends JPanel implements Runnable{
         this.addKeyListener(keyH);
         this.setFocusable(true);
         this.requestFocusInWindow();
-        inventoryPanel.setBounds(460, 50, 300, 400); // posisikan kanan
+        inventoryPanel.setBounds(460, 50, 300, 400);
         inventoryPanel.setVisible(false);
-        storePanel.setBounds(50, 50, 700, 500); // Atur sesuai kebutuhan
+        storePanel.setBounds(50, 50, 700, 500);
         storePanel.setVisible(false);
+        timePanel = new TimeSeasonWeatherPanel(farm.getTime());
+        timePanel.setBounds(200, 0, 400, 30); 
+        this.add(timePanel);
         this.setLayout(null);
         this.add(inventoryPanel);
         this.add(storePanel);
@@ -146,6 +152,7 @@ public class GamePanel extends JPanel implements Runnable{
                 npc.update();
             }
         }
+        timePanel.updateDisplay();
         inventoryPanel.updateInventoryUI(player.getPlayerInventory());
         if (keyH.inventoryToggle) {
             inventoryPanel.setVisible(!inventoryPanel.isVisible());
