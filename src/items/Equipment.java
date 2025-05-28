@@ -13,8 +13,8 @@ public abstract class Equipment extends Item{
     }
 
 
-    public int getBuyPrice(){
-        return buyPrice.getGold();
+    public Gold getBuyPrice(){
+        return buyPrice;
     }
 
 

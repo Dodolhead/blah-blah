@@ -1,7 +1,6 @@
 package src.tsw;
 
 import src.gui.GamePanel;
-import src.map.*;
 
 public class Time implements Runnable{
     private int hour = 6;
@@ -10,13 +9,13 @@ public class Time implements Runnable{
     private int lastDay = 1;
     private boolean running = true;
     private boolean paused = false;
-    private Store store;
     private final Object lock = new Object();
     Season season;
     Weather weather;
     GamePanel gp;
 
     public Time(GamePanel gp) {
+        this.gp = gp;
         season = new Season();
         weather = new Weather();
         Thread timeThread = new Thread(this);
@@ -87,7 +86,6 @@ public class Time implements Runnable{
             weather.nextDayWeather();
             season.updateSeasonByDay(day);
             gp.store.storeChange();
-            store.storeChange();
             lastDay = day;
         }
     }

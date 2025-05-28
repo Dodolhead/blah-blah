@@ -7,12 +7,14 @@ public class Recipe extends Misc {
     private String recipeID;
     private Map<String, Integer> ingredients;
     private Food foodProduct;
+    private Gold buyPrice;
 
-    public Recipe(String itemName, String itemDescription, String recipeID, Map<String, Integer> ingredients, Food foodProduct, BufferedImage image) {
+    public Recipe(String itemName, String itemDescription, String recipeID, Map<String, Integer> ingredients, Food foodProduct, Gold buyPrice, BufferedImage image) {
         super(itemName, itemDescription, image);
         this.recipeID = recipeID;
         this.ingredients = ingredients;
         this.foodProduct = foodProduct;
+        this.buyPrice = buyPrice;
     }
 
     public String getRecipeID() {
@@ -47,6 +49,10 @@ public class Recipe extends Misc {
             if (!found) return false;
         }
         return true;
+    }
+
+    public Gold getBuyPrice() {
+        return buyPrice;
     }
 
 

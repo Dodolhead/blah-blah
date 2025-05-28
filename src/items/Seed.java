@@ -14,7 +14,7 @@ public class Seed extends Item {
         this.validSeason = validSeason;
     }
 
-    public Gold getbuyPrice() {
+    public Gold getBuyPrice() {
         return buyPrice;
     }
     

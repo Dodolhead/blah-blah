@@ -1,18 +1,15 @@
 package src.gui;
-
 import javax.swing.*;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Font;
-import java.awt.Color;
 import src.entities.*;
 import src.items.ItemManager;
 import src.tile.*;
 import src.map.*;
-import src.tsw.Time;
 
-public class GamePanel extends JPanel implements Runnable {
+
+public class GamePanel extends JPanel implements Runnable{
     // World
     final int originalTileSize = 16;
     final int scale = 3;
@@ -28,7 +25,7 @@ public class GamePanel extends JPanel implements Runnable {
     public TileManager tileM;
     int FPS = 60;
     public Player player;
-
+    
     // Map
     public Ocean ocean;
     public ForestRiver forestRiver;
@@ -58,13 +55,11 @@ public class GamePanel extends JPanel implements Runnable {
     // Inventory
     public InventoryPanel inventoryPanel = new InventoryPanel();
 
-    // TimeSeasonWeatherPanel (TSWPanel)
-    private TimeSeasonWeatherPanel tswPanel;
+    // Store
+    public StorePanel storePanel;
 
-    // Selected Item Label
-    private JLabel selectedItemLabel;
 
-    public GamePanel(String playerName, String gender, String farmName, MainPanel mainPanel) { 
+    public GamePanel(String playerName, String gender, String farmName, MainPanel mainPanel){ 
         this.mainPanel = mainPanel;
         setupNpc();
         ItemManager.setItems(); 
@@ -80,6 +75,8 @@ public class GamePanel extends JPanel implements Runnable {
         ocean = new Ocean();
         mountainLake = new MountainLake();
         store = new Store(this);
+        store.storeChange();
+        storePanel = new StorePanel(store, player, this);
         Point spawn = farm.getFarmMap().getValidRandomSpawnPoint();
         player.getPlayerLocation().setPoint(new Point(spawn.getX() * tileSize, spawn.getY() * tileSize));
 
@@ -90,7 +87,7 @@ public class GamePanel extends JPanel implements Runnable {
         worldWidth = tileSize * maxWorldCol;
         worldHeight = tileSize * maxWorldRow;
         player.setScreenPosition(screenWidth, screenHeight);
-
+        player.getPlayerGold().addGold(500); // tes
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.tileM = new TileManager(this, player);
         setCurrentMap(currentMap);
@@ -98,66 +95,51 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.setFocusable(true);
         this.requestFocusInWindow();
-
-        // Layout bebas
-        this.setLayout(null);
-
-        // Tambahkan InventoryPanel
-        inventoryPanel.setBounds(400, 50, 350, 350);
+        inventoryPanel.setBounds(460, 50, 300, 400); // posisikan kanan
         inventoryPanel.setVisible(false);
+        storePanel.setBounds(50, 50, 700, 500); // Atur sesuai kebutuhan
+        storePanel.setVisible(false);
+        this.setLayout(null);
         this.add(inventoryPanel);
-
-        // Tambahkan label untuk selected item
-        selectedItemLabel = new JLabel("Selected item: None");
-        selectedItemLabel.setBounds(400, 410, 300, 30);
-        selectedItemLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        selectedItemLabel.setForeground(Color.BLACK);
-        selectedItemLabel.setVisible(false); // hanya tampil saat inventory dibuka
-        this.add(selectedItemLabel);
-
-        // Hubungkan label ke inventoryPanel
-        inventoryPanel.setSelectedItemLabel(selectedItemLabel);
-
-        // Tambahkan TimeSeasonWeatherPanel
-        tswPanel = new TimeSeasonWeatherPanel(farm.getTime());
-        tswPanel.setBounds(0, 0, screenWidth, 30);
-        this.add(tswPanel);
+        this.add(storePanel);
     }
 
-    public void startGameThread() {
+
+    public void startGameThread(){
         gameThread = new Thread(this);
         gameThread.start();
     }
 
     @Override
-    public void run() {
-        double drawInterval = 1000000000 / FPS;
+    public void run(){
+        double drawInterval = 1000000000/FPS; //0.01666 seconds
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
         long timer = 0;
         long lastTimer = 0;
-        while (gameThread != null) {
+        while (gameThread != null){
 
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
             timer += (currentTime - lastTime);
             lastTime = currentTime;
 
-            if (delta >= 1) {
+            if (delta >= 1){
                 update();
                 repaint();
                 delta--;
             }
-            if (timer - lastTimer >= 1000000000) {
+            if (timer - lastTimer >= 1000000000){
                 System.out.println(farm.getTime().getTimeDay());
-                System.out.println();
+                // farm.getTime().skipDays(1);
                 lastTimer = timer;
             }
         }
     }
 
-    public void update() {
+
+    public void update(){
         player.update();
         for (NPC npc : NPCManager.npcList) {
             if (npc != null) {
@@ -165,22 +147,25 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
         inventoryPanel.updateInventoryUI(player.getPlayerInventory());
-
-        // Update TSWPanel
-        tswPanel.updateDisplay();
-
-        // Toggle inventory
         if (keyH.inventoryToggle) {
-            boolean isVisible = !inventoryPanel.isVisible();
-            inventoryPanel.setVisible(isVisible);
-            selectedItemLabel.setVisible(isVisible);
+            inventoryPanel.setVisible(!inventoryPanel.isVisible());
             keyH.inventoryToggle = false;
+        }
+        if (keyH.storeToggle && player.getPlayerLocation().getName().equals("Store")) {
+            if (!storePanel.isVisible()) {
+                storePanel.refreshPanel();
+            }
+            storePanel.setVisible(!storePanel.isVisible());
+            keyH.storeToggle = false;
+        }
+        if (!player.getPlayerLocation().getName().equals("Store") && storePanel.isVisible()) {
+            storePanel.setVisible(false);
         }
     }
 
-    public void paintComponent(Graphics g) {
-        ImageIcon image = new ImageIcon("res/gamebackground/bg.jpg");
+    public void paintComponent(Graphics g){
         super.paintComponent(g);
+        ImageIcon image = new ImageIcon("res/gamebackground/bg.jpg");
         Graphics2D g2 = (Graphics2D) g;
         g.drawImage(image.getImage(), 0, 0, screenWidth, screenHeight, null);
         tileM.draw(g2);
@@ -197,17 +182,23 @@ public class GamePanel extends JPanel implements Runnable {
     public void changeMap(String mapName, int playerX, int playerY) {
         if (mapName.equals("Farm")) {
             currentMap = farm.getFarmMap().getFarmMapDisplay();
-        } else if (mapName.equals("House")) {
+        }
+        else if (mapName.equals("House")) {
             currentMap = houseMap.getHouseMapDisplay();
-        } else if (mapName.equals("ForestRiver")) {
+        }
+        else if (mapName.equals("ForestRiver")) {
             currentMap = forestRiver.getForestRiverDisplay();
-        } else if (mapName.equals("Ocean")) {
+        }
+        else if (mapName.equals("Ocean")) {
             currentMap = ocean.getOceanDisplay();
-        } else if (mapName.equals("Store")) {
+        }
+        else if (mapName.equals("Store")) {
             currentMap = store.getStoreDisplay();
-        } else if (mapName.equals("MountainLake")) {
+        }
+            else if (mapName.equals("MountainLake")) {
             currentMap = mountainLake.getMountainLakeDisplay();
-        } else {
+        }
+        else {
             System.out.println("Map " + mapName + " unknown!");
             return;
         }
@@ -223,33 +214,31 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void enterHouse() {
-        changeMap("House", 13 * tileSize + -24, 24 * tileSize);
+        changeMap("House", 13*tileSize + -24, 24*tileSize);
         mainPanel.showGame();
     }
 
     public void returnToFarm() {
         Point pintuKeluar = farm.getFarmMap().getObjectPosition().get("HouseDoor").get(0);
-        changeMap("Farm", pintuKeluar.getX() * tileSize - 24, (pintuKeluar.getY() + 1) * tileSize);
+        changeMap("Farm", pintuKeluar.getX() * tileSize -24, (pintuKeluar.getY() + 1) * tileSize);
         mainPanel.showGame();
     }
 
     public void goToForestRiver() {
-        changeMap("ForestRiver", 12 * tileSize, 12 * tileSize);
+        changeMap("ForestRiver", 12*tileSize, 12*tileSize);
         mainPanel.showGame();
     }
 
     public void goToOcean() {
-        changeMap("Ocean", 12 * tileSize, 12 * tileSize);
+        changeMap("Ocean", 12*tileSize, 12*tileSize);
         mainPanel.showGame();
     }
-
     public void goToMountainLake() {
-        changeMap("MountainLake", 12 * tileSize, 12 * tileSize);
+        changeMap("MountainLake", 12*tileSize, 12*tileSize);
         mainPanel.showGame();
     }
-
     public void goToStore() {
-        changeMap("Store", 5 * tileSize, 5 * tileSize);
+        changeMap("Store", 5*tileSize, 5*tileSize);
         mainPanel.showGame();
     }
 
@@ -258,7 +247,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.maxWorldRow = newMap.length;
         this.maxWorldCol = newMap[0].length;
     }
-
     public void showWorldMapPanel() {
         mainPanel.showWorldMapPanel();
     }
@@ -275,4 +263,6 @@ public class GamePanel extends JPanel implements Runnable {
         new Emily(this);
         new Caroline(this);
     }
+
+
 }

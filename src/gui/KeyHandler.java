@@ -6,6 +6,7 @@ public class KeyHandler implements KeyListener {
     public boolean upPressed, downPressed, leftPressed, rightPressed;
     public boolean till,recoverLand, planting;
     public boolean inventoryToggle;
+    public boolean storeToggle;
     
     @Override
     public void keyTyped(KeyEvent e) {
@@ -65,6 +66,9 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_I) {
             inventoryToggle = true;
+        }
+        if (code == KeyEvent.VK_O) {
+            storeToggle = true;
         }
     }
 }
