@@ -68,7 +68,7 @@ public class TileManager {
             tile[4].collision = false;
 
             tile[5] = new Tile();
-            tile[5].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/air.png"));
+            tile[5].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tileijo.png"));
             tile[5].collision = true;
 
             tile[6] = new Tile();
@@ -169,7 +169,7 @@ public class TileManager {
 
     private void loadPondImage() {
         try {
-            pondImage = ImageIO.read(getClass().getResourceAsStream("/res/tiles/air.png"));
+            pondImage = ImageIO.read(getClass().getResourceAsStream("/res/tiles/pond.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
