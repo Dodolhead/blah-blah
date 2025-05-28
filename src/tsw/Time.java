@@ -85,7 +85,7 @@ public class Time implements Runnable{
             System.out.println("Day-" + day + " has started");
             weather.nextDayWeather();
             season.updateSeasonByDay(day);
-            gp.store.storeChange();
+            gp.store.refillStock();
             lastDay = day;
         }
     }

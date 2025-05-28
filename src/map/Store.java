@@ -70,13 +70,13 @@ public class Store extends NPCHome {
         storage.put(item, amount);
     }
 
-    public void storeChange() {
+
+    public void fillStore() {
+        // Bersihkan dulu
         soldItem = new HashMap<>();
         for (Class<?> itemClass : typeToClassMap.values()) {
             soldItem.put(itemClass, new HashMap<>());
         }
-
-        long currentTime = System.currentTimeMillis();
 
         // ========== Seed List ==========
         List<Seed> seeds = List.of(
@@ -93,6 +93,10 @@ public class Store extends NPCHome {
             new Seed("Grape Seeds", new Gold(60), 3, "FALL", ItemManager.load("/items/seeds/grape-seeds.png"))
         );
 
+        for (Seed seed : seeds) {
+            addItemToStore(seed, 10); // stok default 10
+        }
+
         // ========== Crop List ==========
         List<Crop> crops = List.of(
             new Crop("Parsnip", new Gold(50), new Gold(35), 1, ItemManager.load("/items/crops/parsnip.png")),
@@ -107,41 +111,93 @@ public class Store extends NPCHome {
             new Crop("Pumpkin", new Gold(300), new Gold(250), 1, ItemManager.load("/items/crops/pumpkin.png")),
             new Crop("Grape", new Gold(100), new Gold(10), 20, ItemManager.load("/items/crops/grape.png"))
         );
-        // ========== Deterministic Selection ==========
-        for (int i = 0; i < 3; i++) {
-            int index = (int)((currentTime + i) % seeds.size());
-            int amount = (int)((currentTime / (i + 1)) % 10) + 1;
-            addItemToStore(seeds.get(index), amount);
+
+        for (Crop crop : crops) {
+            addItemToStore(crop, 10); // stok default 10
         }
-
-        for (int i = 0; i < 3; i++) {
-            int index = (int)((currentTime + i + 1000) % crops.size());
-            int amount = (int)((currentTime / (i + 2)) % 10) + 1;
-            addItemToStore(crops.get(index), amount);
-        }
-
-        // ========== Recipe Deterministic Pick ==========
-        Food fishNChipsFood = new Food("Fish and Chips", 50, new Gold(150), new Gold(135), ItemManager.load("/items/seeds/parsnip-seeds.png"));
-        Map<String, Integer> ingredients1 = Map.of(
-            "Any Fish", 2,
-            "Wheat", 1,
-            "Potato", 1
-        );
-        Recipe recipe1 = new Recipe("Fish and Chips", "A crispy and tasty fish snack", "recipe_1", ingredients1, fishNChipsFood, new Gold(50) ,ItemManager.load("/items/seeds/parsnip-seeds.png"));
-
-        Food fishSandwichFood = new Food("Fish Sandwich", 50, new Gold(200), new Gold(180), ItemManager.load("/items/seeds/parsnip-seeds.png"));
-        Map<String, Integer> ingredients10 = Map.of(
-            "Any Fish", 1,
-            "Wheat", 2,
-            "Tomato", 1,
-            "Hot Pepper", 1
-        );
-        Recipe recipe10 = new Recipe("Fish Sandwich", "A spicy fish sandwich", "recipe_10", ingredients10, fishSandwichFood, new Gold(50),ItemManager.load("/items/seeds/parsnip-seeds.png"));
-
-        boolean pickFirst = currentTime % 2 == 0;
-        Recipe chosenRecipe = pickFirst ? recipe1 : recipe10;
-        addItemToStore(chosenRecipe, 1);
     }
+
+    public void refillStock() {
+        for (Map<Item, Integer> itemMap : soldItem.values()) {
+            for (Item item : itemMap.keySet()) {
+                itemMap.put(item, 10); // refill semua item ke 10
+            }
+        }
+    }
+
+
+    // public void storeChange() {
+    //     soldItem = new HashMap<>();
+    //     for (Class<?> itemClass : typeToClassMap.values()) {
+    //         soldItem.put(itemClass, new HashMap<>());
+    //     }
+
+    //     long currentTime = System.currentTimeMillis();
+
+    //     // ========== Seed List ==========
+    //     List<Seed> seeds = List.of(
+    //         new Seed("Parsnip Seeds", new Gold(20), 1, "SPRING", ItemManager.load("/items/seeds/parsnip-seeds.png")),
+    //         new Seed("Cauliflower Seeds", new Gold(80), 5, "SPRING", ItemManager.load("/items/seeds/cauli-seeds.png")),
+    //         new Seed("Potato Seeds", new Gold(50), 3, "SPRING", ItemManager.load("/items/seeds/potato-seeds.png")),
+    //         new Seed("Wheat Seeds", new Gold(60), 1, "SPRING", ItemManager.load("/items/seeds/wheat-seeds.png")),
+    //         new Seed("Blueberry Seeds", new Gold(80), 7, "SUMMER", ItemManager.load("/items/seeds/blueberry-seeds.png")),
+    //         new Seed("Tomato Seeds", new Gold(50), 3, "SUMMER", ItemManager.load("/items/seeds/tomato-seeds.png")),
+    //         new Seed("Hot Pepper Seeds", new Gold(40), 1, "SUMMER", ItemManager.load("/items/seeds/hotpepper-seeds.png")),
+    //         new Seed("Melon Seeds", new Gold(80), 4, "SUMMER", ItemManager.load("/items/seeds/melon-seeds.png")),
+    //         new Seed("Cranberry Seeds", new Gold(100), 2, "FALL", ItemManager.load("/items/seeds/cranberry-seeds.png")),
+    //         new Seed("Pumpkin Seeds", new Gold(150), 7, "FALL", ItemManager.load("/items/seeds/pumpkin-seeds.png")),
+    //         new Seed("Grape Seeds", new Gold(60), 3, "FALL", ItemManager.load("/items/seeds/grape-seeds.png"))
+    //     );
+
+    //     // ========== Crop List ==========
+    //     List<Crop> crops = List.of(
+    //         new Crop("Parsnip", new Gold(50), new Gold(35), 1, ItemManager.load("/items/crops/parsnip.png")),
+    //         new Crop("Cauliflower", new Gold(200), new Gold(150), 1, ItemManager.load("/items/crops/cauli.png")),
+    //         new Crop("Potato", new Gold(0), new Gold(80), 1, ItemManager.load("/items/crops/potato.png")),
+    //         new Crop("Wheat", new Gold(50), new Gold(30), 3, ItemManager.load("/items/crops/wheat.png")),
+    //         new Crop("Blueberry", new Gold(150), new Gold(40), 3, ItemManager.load("/items/crops/blueberry.png")),
+    //         new Crop("Tomato", new Gold(90), new Gold(60), 1, ItemManager.load("/items/crops/tomato.png")),
+    //         new Crop("Hot Pepper", new Gold(0), new Gold(40), 1, ItemManager.load("/items/crops/hotpepper.png")),
+    //         new Crop("Melon", new Gold(0), new Gold(250), 1, ItemManager.load("/items/crops/melon.png")),
+    //         new Crop("Cranberry", new Gold(0), new Gold(25), 10, ItemManager.load("/items/crops/cranberry.png")),
+    //         new Crop("Pumpkin", new Gold(300), new Gold(250), 1, ItemManager.load("/items/crops/pumpkin.png")),
+    //         new Crop("Grape", new Gold(100), new Gold(10), 20, ItemManager.load("/items/crops/grape.png"))
+    //     );
+    //     // ========== Deterministic Selection ==========
+    //     for (int i = 0; i < 3; i++) {
+    //         int index = (int)((currentTime + i) % seeds.size());
+    //         int amount = (int)((currentTime / (i + 1)) % 10) + 1;
+    //         addItemToStore(seeds.get(index), amount);
+    //     }
+
+    //     for (int i = 0; i < 3; i++) {
+    //         int index = (int)((currentTime + i + 1000) % crops.size());
+    //         int amount = (int)((currentTime / (i + 2)) % 10) + 1;
+    //         addItemToStore(crops.get(index), amount);
+    //     }
+
+    //     // ========== Recipe Deterministic Pick ==========
+    //     Food fishNChipsFood = new Food("Fish and Chips", 50, new Gold(150), new Gold(135), ItemManager.load("/items/seeds/parsnip-seeds.png"));
+    //     Map<String, Integer> ingredients1 = Map.of(
+    //         "Any Fish", 2,
+    //         "Wheat", 1,
+    //         "Potato", 1
+    //     );
+    //     Recipe recipe1 = new Recipe("Fish and Chips", "A crispy and tasty fish snack", "recipe_1", ingredients1, fishNChipsFood, new Gold(50) ,ItemManager.load("/items/seeds/parsnip-seeds.png"));
+
+    //     Food fishSandwichFood = new Food("Fish Sandwich", 50, new Gold(200), new Gold(180), ItemManager.load("/items/seeds/parsnip-seeds.png"));
+    //     Map<String, Integer> ingredients10 = Map.of(
+    //         "Any Fish", 1,
+    //         "Wheat", 2,
+    //         "Tomato", 1,
+    //         "Hot Pepper", 1
+    //     );
+    //     Recipe recipe10 = new Recipe("Fish Sandwich", "A spicy fish sandwich", "recipe_10", ingredients10, fishSandwichFood, new Gold(50),ItemManager.load("/items/seeds/parsnip-seeds.png"));
+
+    //     boolean pickFirst = currentTime % 2 == 0;
+    //     Recipe chosenRecipe = pickFirst ? recipe1 : recipe10;
+    //     addItemToStore(chosenRecipe, 1);
+    // }
 
     public char[][] getStoreDisplay() {
         return storeDisplay;
@@ -172,4 +228,6 @@ public class Store extends NPCHome {
         }
         return false;
     }
+
+    
 }

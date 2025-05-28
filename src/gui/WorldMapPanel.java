@@ -9,7 +9,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import src.gui.GamePanel;
 import src.map.Location;
 import src.map.Point;
 
@@ -107,8 +106,6 @@ public class WorldMapPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String location = gp.player.getPlayerLocation().getName();
-
         if (e.getSource() == forrestRiverButton) {
             goToLocation("ForestRiver", () -> gp.goToForestRiver());
         } else if (e.getSource() == mountainLakeButton) {

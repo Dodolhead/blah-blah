@@ -7,6 +7,7 @@ import src.entities.*;
 import src.items.ItemManager;
 import src.tile.*;
 import src.map.*;
+import src.actions.*;
 
 
 public class GamePanel extends JPanel implements Runnable{
@@ -78,7 +79,7 @@ public class GamePanel extends JPanel implements Runnable{
         ocean = new Ocean();
         mountainLake = new MountainLake();
         store = new Store(this);
-        store.storeChange();
+        store.fillStore();
         storePanel = new StorePanel(store, player, this);
         Point spawn = farm.getFarmMap().getValidRandomSpawnPoint();
         player.getPlayerLocation().setPoint(new Point(spawn.getX() * tileSize, spawn.getY() * tileSize));
@@ -137,7 +138,7 @@ public class GamePanel extends JPanel implements Runnable{
                 delta--;
             }
             if (timer - lastTimer >= 1000000000){
-                System.out.println(farm.getTime().getTimeDay());
+                // System.out.println(farm.getTime().getTimeDay());
                 // farm.getTime().skipDays(1);
                 lastTimer = timer;
             }
@@ -228,24 +229,34 @@ public class GamePanel extends JPanel implements Runnable{
     public void returnToFarm() {
         Point pintuKeluar = farm.getFarmMap().getObjectPosition().get("HouseDoor").get(0);
         changeMap("Farm", pintuKeluar.getX() * tileSize -24, (pintuKeluar.getY() + 1) * tileSize);
+        VisitingAction visitingAction = new VisitingAction("Store");
+        visitingAction.execute(player);
         mainPanel.showGame();
     }
 
     public void goToForestRiver() {
         changeMap("ForestRiver", 12*tileSize, 12*tileSize);
+        VisitingAction visitingAction = new VisitingAction("Store");
+        visitingAction.execute(player);
         mainPanel.showGame();
     }
 
     public void goToOcean() {
         changeMap("Ocean", 12*tileSize, 12*tileSize);
+        VisitingAction visitingAction = new VisitingAction("Store");
+        visitingAction.execute(player);
         mainPanel.showGame();
     }
     public void goToMountainLake() {
         changeMap("MountainLake", 12*tileSize, 12*tileSize);
+        VisitingAction visitingAction = new VisitingAction("Store");
+        visitingAction.execute(player);
         mainPanel.showGame();
     }
     public void goToStore() {
         changeMap("Store", 5*tileSize, 5*tileSize);
+        VisitingAction visitingAction = new VisitingAction("Store");
+        visitingAction.execute(player);
         mainPanel.showGame();
     }
 

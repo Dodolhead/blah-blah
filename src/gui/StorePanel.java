@@ -1,6 +1,7 @@
 package src.gui;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.Map;
 import src.items.*;
@@ -24,8 +25,17 @@ public class StorePanel extends JPanel {
         title.setFont(new Font("Arial", Font.BOLD, 24));
         add(title, BorderLayout.NORTH);
 
-        itemListPanel = new JPanel(new GridLayout(2, 3, 10, 10));
-        JScrollPane scrollPane = new JScrollPane(itemListPanel);
+        // GridLayout(0, 4, ...) = 4 kolom, baris otomatis
+        itemListPanel = new JPanel(new GridLayout(0, 4, 14, 12));
+        itemListPanel.setBackground(new Color(230, 230, 230));
+        // Jangan setPreferredSize pada itemListPanel!
+
+        JScrollPane scrollPane = new JScrollPane(
+            itemListPanel,
+            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+        );
+        scrollPane.getVerticalScrollBar().setUnitIncrement(40);
         add(scrollPane, BorderLayout.CENTER);
 
         refreshPanel();
@@ -33,28 +43,28 @@ public class StorePanel extends JPanel {
 
     private JPanel createItemPanel(Item item, int amount) {
         JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setPreferredSize(new Dimension(160, 180)); // Ukuran tetap supaya tidak gepeng
+        panel.setMaximumSize(new Dimension(160, 180));
+        panel.setMinimumSize(new Dimension(160, 180));
         panel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         panel.setBackground(new Color(245, 245, 245, 255));
 
+        // Icon
         JLabel iconLabel = new JLabel("", SwingConstants.CENTER);
         if (item.image != null) {
-            Image scaledImage = item.image.getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+            Image scaledImage = item.image.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
             iconLabel.setIcon(new ImageIcon(scaledImage));
         }
-        panel.add(iconLabel, BorderLayout.NORTH);
+        iconLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        iconLabel.setBorder(new EmptyBorder(10, 0, 4, 0));
 
-        JLabel nameLabel = new JLabel(item.getItemName(), SwingConstants.CENTER);
-        nameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        panel.add(nameLabel, BorderLayout.CENTER);
-
-        JPanel bottomPanel = new JPanel(new GridLayout(3, 1));
-        bottomPanel.setOpaque(false);
-
+        // Stock label
         JLabel stockLabel = new JLabel("Stock: " + amount, SwingConstants.CENTER);
         stockLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-        bottomPanel.add(stockLabel);
+        stockLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Price label
         Gold buyPrice = null;
         if (item instanceof Seed) {
             buyPrice = ((Seed) item).getBuyPrice();
@@ -66,12 +76,18 @@ public class StorePanel extends JPanel {
             buyPrice = ((Equipment) item).getBuyPrice();
         }
         int price = (buyPrice != null) ? buyPrice.getGold() : 0;
-
         JLabel priceLabel = new JLabel("Price: " + price + "g", SwingConstants.CENTER);
         priceLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-        bottomPanel.add(priceLabel);
+        priceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Name label
+        JLabel nameLabel = new JLabel(item.getItemName(), SwingConstants.CENTER);
+        nameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Buy button
         JButton buyButton = new JButton("Buy");
+        buyButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         if (buyPrice == null) {
             buyButton.setEnabled(false);
         }
@@ -87,7 +103,6 @@ public class StorePanel extends JPanel {
                     SwingUtilities.getWindowAncestor(StorePanel.this),
                     "You bought 1 " + item.getItemName() + "!"
                 );
-                // KEMBALIKAN FOKUS KE GAMEPANEL
                 gp.requestFocusInWindow();
             } else {
                 JOptionPane.showMessageDialog(
@@ -97,27 +112,36 @@ public class StorePanel extends JPanel {
                 gp.requestFocusInWindow();
             }
         });
-        bottomPanel.add(buyButton);
 
-        panel.add(bottomPanel, BorderLayout.SOUTH);
+        // Spacing
+        panel.add(Box.createVerticalStrut(6));
+        panel.add(iconLabel);
+        panel.add(Box.createVerticalStrut(2));
+        panel.add(nameLabel);
+        panel.add(Box.createVerticalStrut(2));
+        panel.add(stockLabel);
+        panel.add(priceLabel);
+        panel.add(Box.createVerticalStrut(6));
+        panel.add(buyButton);
+        panel.add(Box.createVerticalGlue());
+
         return panel;
     }
 
     public void refreshPanel() {
         itemListPanel.removeAll();
         Map<Class<?>, Map<Item, Integer>> soldItems = store.getSoldItem();
-        int itemCount = 0;
-        outerLoop:
-        for (Class<?> itemClass : Store.typeToClassMap.values()) {
+
+        // Urutkan: Seed, Crop, Misc
+        Class<?>[] order = new Class<?>[] { Seed.class, Crop.class, Misc.class };
+        for (Class<?> itemClass : order) {
             Map<Item, Integer> items = soldItems.get(itemClass);
             if (items != null && !items.isEmpty()) {
                 for (Map.Entry<Item, Integer> entry : items.entrySet()) {
-                    if (itemCount >= 6) break outerLoop; // HANYA 6 ITEM
                     Item item = entry.getKey();
                     int amount = entry.getValue();
                     JPanel itemPanel = createItemPanel(item, amount);
                     itemListPanel.add(itemPanel);
-                    itemCount++;
                 }
             }
         }
