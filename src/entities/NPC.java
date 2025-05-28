@@ -155,7 +155,7 @@ public abstract class NPC {
             int screenY = npcWorldY - playerWorldY + playerScreenY;
 
             if (image != null) {
-                g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(image, screenX, screenY, gp.tileSize/2, gp.tileSize, null);
             }
         }
     }

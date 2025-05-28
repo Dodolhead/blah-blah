@@ -1,17 +1,16 @@
 package src.entities;
 
-import java.util.List;
-
-import javax.imageio.ImageIO;
-import java.io.IOException;
-import java.util.ArrayList;
-import src.map.*;
-import src.gui.*;
-import src.items.*;
-import src.actions.*;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.imageio.ImageIO;
+import src.actions.*;
+import src.gui.*;
+import src.items.*;
+import src.map.*;
 
 public class Player {
     private String playerName;
@@ -311,7 +310,7 @@ public class Player {
                 }
                 break;
         }
-        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, gp.tileSize/2, gp.tileSize, null);
     }
     
     public void setScreenPosition(int screenWidth, int screenHeight) {
