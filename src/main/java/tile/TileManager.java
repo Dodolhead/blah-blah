@@ -1,12 +1,11 @@
 package main.java.tile;
 import java.awt.Graphics2D;
-import java.io.IOException;
-import main.java.map.Point;
-
-import javax.imageio.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.*;
 import main.java.entities.*;
 import main.java.gui.*;
+import main.java.map.Point;
 
 
 public class TileManager {
@@ -111,6 +110,10 @@ public class TileManager {
             tile[13].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/floor.png"));
             tile[13].collision = true;
 
+            tile[14] = new Tile();
+            tile[14].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/penghubungair.png"));
+            tile[14].collision = false;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -176,6 +179,7 @@ public class TileManager {
             case 'B' -> 11;
             case 'S' -> 12;
             case 'T' -> 13;
+            case 'q' -> 14;
             default -> 0;
         };
     }
