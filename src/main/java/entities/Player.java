@@ -308,5 +308,21 @@ public class Player {
         this.screenY = screenHeight / 2 - (gp.tileSize / 2);
     }
 
-    
+    public NPC getNearbyNPC() {
+        for (NPC npc : NPCManager.getNPCList()) {
+            if (!npc.getNPCLocation().getName().equals(this.getPlayerLocation().getName())) continue;
+
+            int npcX = npc.getNPCLocation().getCurrentPoint().getX();
+            int npcY = npc.getNPCLocation().getCurrentPoint().getY();
+            int playerX = this.getPlayerLocation().getCurrentPoint().getX();
+            int playerY = this.getPlayerLocation().getCurrentPoint().getY();
+
+            int tile = gp.tileSize;
+
+            if (Math.abs(npcX - playerX) <= tile && Math.abs(npcY - playerY) <= tile) {
+                return npc;
+            }
+        }
+        return null;
+    }
 }

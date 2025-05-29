@@ -53,6 +53,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     // NPC
     NPCManager npcManager = new NPCManager();
+    public ChatPanel chatPanel; //chat NPC
 
     // Inventory
     public InventoryPanel inventoryPanel = new InventoryPanel();
@@ -118,7 +119,7 @@ public class GamePanel extends JPanel implements Runnable{
         playerInfoPanel.setBounds(460, 50, 300, 200); // Atur posisi & ukuran sesuai keinginan
         playerInfoPanel.setVisible(false); // Supaya gak langsung kelihatan
         this.add(playerInfoPanel);
-
+        chatPanel = new ChatPanel(this);
     }
 
 
@@ -185,6 +186,18 @@ public class GamePanel extends JPanel implements Runnable{
                 playerInfoPanel.setVisible(!playerInfoPanel.isVisible());
                 keyH.playerInfoToggle = false;
         }
+    
+        if (keyH.interactNPC) {
+            if (chatPanel.isShowing()) {
+                chatPanel.hideDialogue(); // jika sedang tampil, sembunyikan
+            } else {
+                NPC npc = player.getNearbyNPC();
+                if (npc != null) {
+                    chatPanel.showDialogue(npc, "Hello, I'm " + npc.getNpcName() + "!");
+                }
+            }
+            keyH.interactNPC = false;
+        }
     }
 
     public void paintComponent(Graphics g){
@@ -199,6 +212,7 @@ public class GamePanel extends JPanel implements Runnable{
                 npc.draw(g2);
             }
         }
+        chatPanel.draw(g2);
         super.paintChildren(g);
         g2.dispose();
     }

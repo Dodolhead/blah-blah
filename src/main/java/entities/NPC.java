@@ -69,6 +69,10 @@ public abstract class NPC {
         return hatedItem;
     }
 
+    public Location getNPCLocation(){
+        return npcLocation;
+    }
+
     public String getRelationshipStatus() {
         return relationshipStatus;
     }
