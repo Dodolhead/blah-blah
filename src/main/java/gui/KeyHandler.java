@@ -4,6 +4,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
+    private GamePanel gp;  // ✅ Tambahkan referensi ke GamePanel
+
     public boolean upPressed, downPressed, leftPressed, rightPressed;
     public boolean till, recoverLand, planting;
     public boolean inventoryToggle;
@@ -12,7 +14,12 @@ public class KeyHandler implements KeyListener {
     public boolean fishAction;
     public boolean interactNPC;
     public boolean harvestAction;
-    
+
+    // ✅ Konstruktor untuk menerima GamePanel
+    public KeyHandler(GamePanel gp) {
+        this.gp = gp;
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
         // Not used
@@ -55,9 +62,7 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_V -> playerInfoToggle = true;
             case KeyEvent.VK_F -> fishAction = true;
             case KeyEvent.VK_N -> interactNPC = true;
-        }
-        if (code == KeyEvent.VK_H){
-            harvestAction = true;
+            case KeyEvent.VK_H -> harvestAction = true;
         }
     }
 
@@ -75,9 +80,7 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_P -> planting = false;
             case KeyEvent.VK_F -> fishAction = false;
             case KeyEvent.VK_N -> interactNPC = false;
-        }
-        if (code == KeyEvent.VK_H){
-            harvestAction = false;
+            case KeyEvent.VK_H -> harvestAction = false;
         }
     }
 }
