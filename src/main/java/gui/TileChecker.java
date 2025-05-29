@@ -5,6 +5,8 @@ import entities.*;
 public class TileChecker {
     GamePanel gp;
     public boolean canFish;
+    public boolean canSleep;
+    public boolean canWatch;
 
     public TileChecker(GamePanel gp) {
         this.gp = gp;
@@ -124,6 +126,12 @@ public class TileChecker {
 
         if ((tileChar1 == 'o' || tileChar2 == 'o')) {
             canFish = true;
+        }
+        if ((tileChar1 == 'B' || tileChar2 == 'B') && gp.player.getPlayerLocation().getName().equals("House")) {
+            canSleep = true;
+        }
+        if ((tileChar1 == 'T' || tileChar2 == 'T') && gp.player.getPlayerLocation().getName().equals("House")) {
+            canWatch = true;
         }
 
 

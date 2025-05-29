@@ -82,9 +82,10 @@ public class GamePanel extends JPanel implements Runnable{
         keyH = new KeyHandler();
         player = new Player(playerName, gender, farmName, this, keyH);
         player.getPlayerInventory().addItem(ItemManager.getItem("Hoe"), 1);
-        player.getPlayerInventory().addItem(ItemManager.getItem("Potato Seeds"), 5);
+        player.getPlayerInventory().addItem(ItemManager.getItem("Parsnip Seeds"), 15);
         player.getPlayerInventory().addItem(ItemManager.getItem("Pickaxe"), 1);
         player.getPlayerInventory().addItem(ItemManager.getItem("Fishing Rod"), 1);
+        player.getPlayerInventory().addItem(ItemManager.getItem("Watering Can"), 1);
         farm = new Farm(farmName, player, this);
         houseMap = new HouseMap(player.getPlayerLocation());
         forestRiver = new ForestRiver();
@@ -156,7 +157,7 @@ public class GamePanel extends JPanel implements Runnable{
             }
             if (timer - lastTimer >= 1000000000){
                 // System.out.println(farm.getTime().getTimeDay());
-                farm.getTime().skipDays(1);
+                // farm.getTime().skipDays(1);
                 lastTimer = timer;
             }
         }
@@ -359,6 +360,29 @@ public class GamePanel extends JPanel implements Runnable{
         for (Point p : toRemove) {
             plantedSeeds.remove(p);
             plantedDay.remove(p);
+        }
+    }
+
+    public void resetWateredTiles(FarmMap farmMap) {
+        char[][] map = farmMap.getFarmMapDisplay();
+        for (int y = 0; y < map.length; y++) {
+            for (int x = 0; x < map[0].length; x++) {
+                if (map[y][x] == 'w') {
+                    map[y][x] = 'l';
+                }
+            }
+        }
+    }
+
+    public void waterAllTiles(FarmMap farmMap) {
+        char[][] map = farmMap.getFarmMapDisplay();
+        for (int y = 0; y < map.length; y++) {
+            for (int x = 0; x < map[0].length; x++) {
+                // Jika tile planted ('l'), baru bisa disiram
+                if (map[y][x] == 'l') {
+                    map[y][x] = 'w';
+                }
+            }
         }
     }
 

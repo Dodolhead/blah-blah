@@ -259,6 +259,37 @@ public class Player {
                 keyH.fishAction = false;
                 gp.resetPlayerMovement();
             }
+            if (keyH.eatAction){
+                if (gp.inventoryPanel.getSelectedItem() instanceof Food) {
+                    new EatingAction((Food) gp.inventoryPanel.getSelectedItem()).execute(this);
+                }
+                else{
+                    System.out.println("Select a food to plant!");
+                }
+                keyH.eatAction = false;
+            }
+            if (keyH.sleepAction){
+                if (gp.cChecker.canSleep){
+                    new SleepingAction().execute(this);
+                }
+                else{
+                    System.out.println("You can't sleep here!");
+                }
+                keyH.sleepAction = false;
+            }
+            if (keyH.watchAction){
+                if (gp.cChecker.canWatch){
+                    new WatchingAction().execute(this);
+                }
+                else{
+                    System.out.println("You can't watch here!");
+                }
+                keyH.watchAction = false;
+            }
+            if (keyH.waterAction){
+                new WateringAction().execute(this);
+                keyH.waterAction = false;
+            }
 
             collisionOn = false;
             collisionWithNPC = false;

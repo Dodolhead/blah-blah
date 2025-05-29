@@ -138,6 +138,10 @@ public class TileManager {
             tile[18].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tembokstore.png"));
             tile[18].collision = true;
 
+            tile[19] = new Tile();
+            tile[19].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tembokstore.png"));
+            tile[19].collision = false;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -208,6 +212,7 @@ public class TileManager {
             case 'L' -> 16;
             case 'U' -> 17;
             case ']' -> 18;
+            case 'w' -> 19;
             default -> 0;
         };
     }

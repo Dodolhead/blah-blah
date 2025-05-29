@@ -1,5 +1,6 @@
 package tsw;
 
+import actions.WateringAction;
 import gui.GamePanel;
 
 public class Time implements Runnable{
@@ -87,6 +88,10 @@ public class Time implements Runnable{
             season.updateSeasonByDay(day);
             gp.store.refillStock();
             lastDay = day;
+            gp.resetWateredTiles(gp.farm.getFarmMap());
+            if (weather.getCurrentWeather() == Weather.WeatherCondition.RAINY) {
+                gp.waterAllTiles(gp.farm.getFarmMap());
+            }
         }
     }
 

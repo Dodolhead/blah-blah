@@ -11,6 +11,9 @@ public class KeyHandler implements KeyListener {
     public boolean interactNPC;
     public boolean fishAction;
     public boolean harvestAction;
+    public boolean eatAction;
+    public boolean sleepAction, watchAction;
+    public boolean waterAction;
     
     @Override
     public void keyTyped(KeyEvent e) {
@@ -49,6 +52,18 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_H){
             harvestAction = true;
+        }
+        if (code == KeyEvent.VK_E){
+            eatAction = true;
+        }
+        if (code == KeyEvent.VK_Y){
+            sleepAction = true;
+        }
+        if (code == KeyEvent.VK_U){
+            watchAction = true;
+        }
+        if (code == KeyEvent.VK_L){
+            waterAction = true;
         }
     }
     
@@ -94,6 +109,18 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_H){
             harvestAction = false;
+        }
+        if (code == KeyEvent.VK_E){
+            eatAction = false;
+        }
+        if (code == KeyEvent.VK_Y){
+            sleepAction = false;
+        }
+        if (code == KeyEvent.VK_U){
+            watchAction = false;
+        }
+        if (code == KeyEvent.VK_L){
+            waterAction = false;
         }
     }
 }
