@@ -21,6 +21,7 @@ public class Player {
     private NPC partner = null;
     private Gold playerGold;
     private Inventory playerInventory;
+    private Item favoriteItem;
     private Location playerLocation;
     private List<String> visitedPlace;
     GamePanel gp;
@@ -61,6 +62,7 @@ public class Player {
         this.playerLocation = new Location("Farm", new Point(gp.tileSize*15, gp.tileSize*15));
         this.playerGold = new Gold(0);
         this.playerInventory = new Inventory();
+        this.favoriteItem = new Hoe(direction, playerGold, playerGold);
         energy = MAX_ENERGY;
         speed = 4;
         direction = "down";
@@ -95,6 +97,10 @@ public class Player {
 
     public Inventory getPlayerInventory() {
         return playerInventory;
+    }
+
+    public Item getFavoriteItem(){
+        return this.favoriteItem;
     }
 
     public Location getPlayerLocation() {
@@ -140,6 +146,10 @@ public class Player {
 
     public void setPlayerLocation(Location playerLocation) {
         this.playerLocation = playerLocation;
+    }
+
+    public void setFavoriteItem(Item item){
+        this.favoriteItem = item;
     }
 
     /*========== OTHER METHOD =========== */
