@@ -1,9 +1,11 @@
 package entities;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.awt.image.BufferedImage;
 import gui.*;
 import items.*;
@@ -221,4 +223,15 @@ public abstract class NPC {
             spriteCount = 0;
         }
     }
+
+    public String getRandomDialogue() {
+        List<String> list = Arrays.asList(
+        "Nice to see you!",
+            "How's the farm?",
+            "What a lovely day."
+        );
+        Random rand = new Random();
+        return list.get(rand.nextInt(list.size()));
+    }
+
 }

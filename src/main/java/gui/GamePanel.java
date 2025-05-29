@@ -73,13 +73,20 @@ public class GamePanel extends JPanel implements Runnable{
     private PlayerInfoPanel playerInfoPanel;
     // private boolean isPlayerInfoVisible = false;
 
+    // ni buat ngecek doi toggle general atau khusus interact npc
+    public enum GameState {
+        NORMAL,
+        NPC_DIALOGUE
+    }
+    public GameState gameState = GameState.NORMAL;
+
 
     public GamePanel(String playerName, String gender, String farmName, MainPanel mainPanel){ 
         this.mainPanel = mainPanel;
         setupNpc();
         ItemManager.setItems(); 
         cChecker = new TileChecker(this);
-        keyH = new KeyHandler();
+        keyH = new KeyHandler(this);
         player = new Player(playerName, gender, farmName, this, keyH);
         player.getPlayerInventory().addItem(ItemManager.getItem("Hoe"), 1);
         player.getPlayerInventory().addItem(ItemManager.getItem("Parsnip Seeds"), 15);
@@ -126,7 +133,7 @@ public class GamePanel extends JPanel implements Runnable{
         playerInfoPanel.setBounds(460, 50, 300, 200); // Atur posisi & ukuran sesuai keinginan
         playerInfoPanel.setVisible(false); // Supaya gak langsung kelihatan
         this.add(playerInfoPanel);
-        chatPanel = new ChatPanel(this);
+        chatPanel = new ChatPanel(this, player);
     }
 
 
@@ -196,15 +203,11 @@ public class GamePanel extends JPanel implements Runnable{
         }
     
         if (keyH.interactNPC) {
-            if (chatPanel.isShowing()) {
-                chatPanel.hideDialogue(); // jika sedang tampil, sembunyikan
-            } else {
-                NPC npc = player.getNearbyNPC();
-                if (npc != null) {
-                    chatPanel.showDialogue(npc, "Hello, I'm " + npc.getNpcName() + "!");
-                }
+            NPC npc = player.getNearbyNPC();
+            if (npc != null) {
+                chatPanel.showDialogue(npc, "Hey, what do you want to do? (C: Chat, G: Gift, Q: Propose, M: Marry)", GameState.NPC_DIALOGUE);
+                gameState = GameState.NPC_DIALOGUE;
             }
-            keyH.interactNPC = false;
         }
     }
 

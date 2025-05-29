@@ -176,5 +176,13 @@ public class Inventory {
         return false;
     }
 
+    public Item getFirstItem() {
+        for (Map<Item, Integer> map : inventoryStorage.values()) {
+            for (Item item : map.keySet()) {
+                return item;
+            }
+        }
+        return null;
+    }
 
 }
