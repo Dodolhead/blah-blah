@@ -5,8 +5,13 @@ import actions.*;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import entities.*;
 import items.ItemManager;
+import items.Seed;
 import map.*;
 import tile.*;
 
@@ -151,7 +156,7 @@ public class GamePanel extends JPanel implements Runnable{
             }
             if (timer - lastTimer >= 1000000000){
                 // System.out.println(farm.getTime().getTimeDay());
-                // farm.getTime().skipDays(1);
+                farm.getTime().skipDays(1);
                 lastTimer = timer;
             }
         }
@@ -164,6 +169,7 @@ public class GamePanel extends JPanel implements Runnable{
                 npc.update();
             }
         }
+        removeOutOfSeasonCrops(farm.getFarmMap(), farm.getTime().getCurrentSeason().name());
         timePanel.updateDisplay();
         inventoryPanel.updateInventoryUI(player.getPlayerInventory());
         if (keyH.inventoryToggle) {
@@ -331,6 +337,29 @@ public class GamePanel extends JPanel implements Runnable{
     public void setupNpc() {
         new Emily(this);
         new Caroline(this);
+    }
+
+    public static void removeOutOfSeasonCrops(FarmMap farmMap, String currentSeason) {
+        Map<Point, Seed> plantedSeeds = farmMap.getPlantedSeeds();
+        Map<Point, Integer> plantedDay = farmMap.getPlantedDay();
+        char[][] mapDisplay = farmMap.getFarmMapDisplay();
+        List<Point> toRemove = new ArrayList<>();
+
+        for (Map.Entry<Point, Seed> entry : plantedSeeds.entrySet()) {
+            Point point = entry.getKey();
+            Seed seed = entry.getValue();
+            if (!seed.getValidSeason().equalsIgnoreCase(currentSeason)) {
+                mapDisplay[point.getY()][point.getX()] = 't';
+                toRemove.add(point);
+                farmMap.getObjectPosition().get("Planted").remove(point);
+                farmMap.getObjectPosition().get("Tilled").add(point);
+                System.out.println("Plant in " + point.getX()+","+point.getY()+" is dead because of the change of seasons.");
+            }
+        }
+        for (Point p : toRemove) {
+            plantedSeeds.remove(p);
+            plantedDay.remove(p);
+        }
     }
 
 }

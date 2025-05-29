@@ -248,6 +248,10 @@ public class Player {
                 }
                 keyH.planting = false;
             }
+            if (keyH.harvestAction) {
+                new HarvestingAction().execute(this);
+                keyH.harvestAction = false;
+            }
             if (keyH.fishAction){
                 if (gp.cChecker.canFish){
                     new FishingAction().execute(this);

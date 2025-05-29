@@ -10,6 +10,7 @@ public class KeyHandler implements KeyListener {
     public boolean playerInfoToggle;
     public boolean interactNPC;
     public boolean fishAction;
+    public boolean harvestAction;
     
     @Override
     public void keyTyped(KeyEvent e) {
@@ -45,6 +46,9 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_F){
             fishAction = true;
+        }
+        if (code == KeyEvent.VK_H){
+            harvestAction = true;
         }
     }
     
@@ -87,6 +91,9 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_F){
             fishAction = false;
+        }
+        if (code == KeyEvent.VK_H){
+            harvestAction = false;
         }
     }
 }
