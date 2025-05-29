@@ -14,8 +14,6 @@ public class FishingRod extends Equipment {
         Farm farm = FarmManager.getFarmByName(player.getFarm());
         FarmMap farmMap = farm.getFarmMap();
         FishingAction fishing = new FishingAction();
-        fishing.isValidFishingLocation(player.getPlayerLocation().getName());
-    
         if (player.getPlayerLocation().getName().equals("Farm")) {
             if (!isNearbyPond(player, farmMap)) {
                 return false;

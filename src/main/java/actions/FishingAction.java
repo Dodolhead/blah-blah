@@ -6,10 +6,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+
 import entities.*;
 import items.*;
 import tsw.*;
+import gui.FishingPanel;
 
 public class FishingAction implements Action {
     private static final Map<String, List<Fish>> fishDatabase = new HashMap<>();
@@ -163,12 +166,6 @@ public class FishingAction implements Action {
         fishDatabase.put("legendary", legendaryFish);
     }
 
-    public boolean isValidFishingLocation(String location) {
-        return location.equals("Mountain Lake") || 
-               location.equals("Forest River") || 
-               location.equals("Ocean") || 
-               location.equals("Pond");
-    }
 
     private String determineFishType() {
         int chance = nextInt(100);
@@ -183,97 +180,76 @@ public class FishingAction implements Action {
     }
     @Override
     public boolean execute(Player player) {
-        boolean caught = false;
-
         Farm farm = FarmManager.getFarmByName(player.getFarm());
         Time gameTime = farm.getTime();
-        String fishingLocation = player.getPlayerLocation().getName();
         String fishType = determineFishType();
         String fishName = selectRandomFish(fishType, player);
-        
-        
+
         if (!player.getPlayerInventory().hasItem("Fishing Rod")) {
-            System.out.println("You need a Fishing Rod to fish!");
+            showMessage("You need a Fishing Rod to fish!");
             return false;
         }
-
         if (player.getEnergy() < ENERGY_COST) {
-            System.out.println("You don't have enough energy to do this action.");
+            showMessage("You don't have enough energy to do this action.");
             return false;
         }
-        
-        if (!isValidFishingLocation(fishingLocation)) {
-            System.out.println("You can't Fish in here");
-            return false;
-        }
-        
+
         if (fishName == null) {
-            System.out.println("There is currently no fish that can be caught in this time and place.");
+            showMessage("Hmm nothing seems to bite your rod, Try again later");
             return false;
         }
 
-        System.out.println("Fishing in " + fishingLocation + "...");
-        
         gameTime.pauseTime();
-        
-        System.out.println("Hmm? you felt something bite your rod.");
-        
-        int maxAttempts;
-        int maxNumber;
-        
-        if (fishType.equals("common")) {
-            maxAttempts = 10;
-            maxNumber = 10;
-        } else if (fishType.equals("regular")) {
-            maxAttempts = 10;
-            maxNumber = 100;
-        } else {
-            maxAttempts = 7;
-            maxNumber = 500;
-        }
 
-        int fishNumber = nextInt(maxNumber);
-        Scanner scanner = new Scanner(System.in);
-        for (int i = 1; i <= maxAttempts; i++) {
-            System.out.print("Attempt " + i + "/" + maxAttempts + " - Enter your guess (0 to " + (maxNumber) + "): ");
-            
-            int guess;
-            try {
-                guess = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input! Please enter a number.");
-                continue;
-            }
-
-            if (guess < 0 || guess > maxNumber) {
-                System.out.println("Please enter a number between 0 and " + maxNumber);
-                continue;
-            }
-
-            if (guess == fishNumber) {
-                caught = true;
-                break;
-            } else if (guess < fishNumber) {
-                System.out.println("Too low!");
+        // 1. Tampilkan popup, setelah OK baru lanjut ke minigame
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(null, "Hmm? you felt something bite your rod.");
+            // 2. Setelah klik OK, munculkan minigame
+            int maxAttempts;
+            int maxNumber;
+            if (fishType.equals("common")) {
+                maxAttempts = 10;
+                maxNumber = 10;
+            } else if (fishType.equals("regular")) {
+                maxAttempts = 10;
+                maxNumber = 100;
             } else {
-                System.out.println("Too high!");
+                maxAttempts = 7;
+                maxNumber = 500;
             }
-        }
+            int fishNumber = nextInt(maxNumber);
 
-        Fish caughtFish = findFishByName(fishType, fishName);
-        if (caught) {
-            System.out.println("You caught a " + fishName + "!");
-            player.getPlayerInventory().addItem(caughtFish, 1);
-        } else {
-            System.out.println("The fish got away...");
-        }
+            FishingPanel.FishingResultListener listener = (caught, guessedNumber, attempts) -> {
+                Fish caughtFish = findFishByName(fishType, fishName);
+                if (caught) {
+                    showMessage("You caught a " + fishName + "!");
+                    player.getPlayerInventory().addItem(caughtFish, 1);
+                } else {
+                    showMessage("The fish got away...");
+                }
+                player.subtractPlayerEnergy(ENERGY_COST);
+                gameTime.skipTimeMinute(TIME_COST);
+                gameTime.resumeTime();
+                // Jika perlu, update GUI/inventory player di sini
+            };
+            FishingPanel panel = new FishingPanel(
+                null,
+                maxAttempts,
+                maxNumber,
+                fishNumber,
+                listener
+            );
+            panel.setVisible(true);
+        });
 
-        player.subtractPlayerEnergy(ENERGY_COST);
-        gameTime.skipTimeMinute(TIME_COST);
-        gameTime.resumeTime();
-        scanner.close();
         return true;
+    }
 
+    private void showMessage(String msg) {
+        // Ganti dengan JOptionPane/showOnMainPanel, atau System.out.println untuk debugging
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            javax.swing.JOptionPane.showMessageDialog(null, msg);
+        });
     }
 
     private String selectRandomFish(String fishType, Player player) {
@@ -283,9 +259,14 @@ public class FishingAction implements Action {
         Weather.WeatherCondition currentWeather = new Weather().getCurrentWeather();
         int currentHour = gameTime.getHour();
         String fishingLocation = player.getPlayerLocation().getName();
+        
+        if (fishingLocation.equalsIgnoreCase("Pond") || fishingLocation.equalsIgnoreCase("Farm")) {
+            fishingLocation = "Pond";
+        }
 
-        String seasonStr = currentSeason.toString();
-        String weatherStr = currentWeather.toString();
+        // Force uppercase for matching
+        String seasonStr = currentSeason.toString().toUpperCase();
+        String weatherStr = currentWeather.toString().toUpperCase();
 
         List<Fish> fishList = fishDatabase.getOrDefault(fishType, Collections.emptyList());
         List<Fish> eligibleFish = new ArrayList<>();
@@ -308,7 +289,6 @@ public class FishingAction implements Action {
         int randomIndex = nextInt(eligibleFish.size());
         return eligibleFish.get(randomIndex).getItemName();
     }
-
 
     private boolean isTimeInRange(int start, int end, int current) {
         if (start <= end) {

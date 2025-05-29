@@ -4,12 +4,15 @@ import java.awt.Rectangle;
 import entities.*;
 public class TileChecker {
     GamePanel gp;
+    public boolean canFish;
 
     public TileChecker(GamePanel gp) {
         this.gp = gp;
+        canFish = false;
     }
 
     public void checkTilePlayer(Player player) {
+        canFish = false;
         boolean isAtEdge = false;
         int playerLeftWorldX = player.getPlayerLocation().getCurrentPoint().getX() + player.playerHitBox.x;
         int playerRightWorldX = player.getPlayerLocation().getCurrentPoint().getX() + player.playerHitBox.x + player.playerHitBox.width;
@@ -118,6 +121,12 @@ public class TileChecker {
                 gp.showWorldMapPanel();
             }
         }
+
+        if ((tileChar1 == 'o' || tileChar2 == 'o')) {
+            canFish = true;
+        }
+
+
     }
     public void checkTileNPC(NPC npc) {
         boolean isAtEdge = false;

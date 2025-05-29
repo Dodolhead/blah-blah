@@ -248,6 +248,13 @@ public class Player {
                 }
                 keyH.planting = false;
             }
+            if (keyH.fishAction){
+                if (gp.cChecker.canFish){
+                    new FishingAction().execute(this);
+                }
+                keyH.fishAction = false;
+                gp.resetPlayerMovement();
+            }
 
             collisionOn = false;
             collisionWithNPC = false;
