@@ -15,12 +15,13 @@ public class KeyHandler implements KeyListener {
     public boolean interactNPC;
     public boolean harvestAction;
     public boolean eatAction,waterAction,sleepAction,watchAction;
+    public boolean placeFurniture;
     
 
     public KeyHandler(GamePanel gp) {
         this.gp = gp;
     }
-    
+
     @Override
     public void keyTyped(KeyEvent e) {
         // Not used
@@ -77,6 +78,9 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_L){
             waterAction = true;
         }
+        if (code == KeyEvent.VK_G){
+            placeFurniture = true;
+        }
     }
 
     @Override
@@ -106,6 +110,9 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_L){
             waterAction = false;
+        }
+        if (code == KeyEvent.VK_G){
+            placeFurniture = false;
         }
     }
 }

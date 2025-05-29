@@ -293,6 +293,16 @@ public class Player {
                 new WateringAction().execute(this);
                 keyH.waterAction = false;
             }
+            if (keyH.placeFurniture){
+                if (gp.inventoryPanel.getSelectedItem() instanceof Furniture && getPlayerLocation().getName().equals("House")) {
+                    int playerX = this.getPlayerLocation().getCurrentPoint().getX()/48;
+                    int playerY = this.getPlayerLocation().getCurrentPoint().getY()/48;
+                    int placeX = playerX + 1;
+                    int placeY = playerY;
+                    gp.houseMap.placeFurniture((Furniture)gp.inventoryPanel.getSelectedItem(), placeX, placeY);
+                }
+                keyH.placeFurniture = false;
+            }
 
             collisionOn = false;
             collisionWithNPC = false;

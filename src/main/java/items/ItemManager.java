@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.*;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import entities.*;
 
 public class ItemManager {
     private static final Map<String, Item> itemMap = new HashMap<>();
@@ -141,6 +142,37 @@ public class ItemManager {
                 Map.of("Legend fish", 1, "Potato", 2, "Parsnip", 1, "Tomato", 1, "Eggplant", 1),
                 new Food("The Legends of Spakbor", 100, new Gold(0), new Gold(2000), load("/items/misc/ring.png")),
                 new Gold(0)
+        ));
+
+        add(new Bed(
+            "bed_1",
+            "Single Bed",
+            "A single-sized bed that can accommodate up to 1 person.",
+            2, 4,
+            1
+        ));
+
+        add(new Bed(
+            "bed_2",
+            "Queen Bed",
+            "A queen-sized bed that can accommodate up to 2 people.",
+            4, 6,
+            2
+        ));
+
+        add(new Bed(
+            "bed_3",
+            "King Bed",
+            "A king-sized bed that can accommodate up to 2 people.",
+            6, 6,
+            2
+        ));
+
+        add(new Stove());
+
+        add(new TV(
+            "A television to see the weather forecast for the day.",
+            1, 1
         ));
     }
 

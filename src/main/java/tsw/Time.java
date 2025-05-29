@@ -1,6 +1,5 @@
 package tsw;
 
-import actions.WateringAction;
 import gui.GamePanel;
 
 public class Time implements Runnable{

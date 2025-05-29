@@ -74,6 +74,8 @@ public class StorePanel extends JPanel {
             buyPrice = ((Recipe) item).getBuyPrice();
         } else if (item instanceof Equipment) {
             buyPrice = ((Equipment) item).getBuyPrice();
+        } else if (item instanceof Furniture) {
+            buyPrice = ((Furniture) item).getBuyPrice();
         }
         int price = (buyPrice != null) ? buyPrice.getGold() : 0;
         JLabel priceLabel = new JLabel("Price: " + price + "g", SwingConstants.CENTER);

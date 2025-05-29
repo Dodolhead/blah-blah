@@ -1,9 +1,9 @@
 package map;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import entities.Furniture;
 import entities.NPCManager;
 import gui.GamePanel;
 import items.*;
@@ -116,6 +116,22 @@ public class Store extends NPCHome {
                 addItemToStore(item, 1);
             }
         }
+        
+        String[] furnitureNames = {
+            "Single Bed",
+            "Queen Bed",
+            "King Bed",
+            "Stove",
+            "Television (TV)"
+        };
+        for (String name : furnitureNames) {
+            Item item = ItemManager.getItem(name);
+            // Jika hirarkinya: Furniture extends Misc extends Item
+            if (item != null && item instanceof Furniture) {
+                addItemToStore(item, 1); // stok 1 per furniture
+            }
+        }
+
     }
 
     public void refillStock() {

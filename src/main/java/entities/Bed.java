@@ -3,13 +3,35 @@ package entities;
 import actions.SleepingAction;
 import map.HouseMap;
 import map.Point;
+import items.*;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.IOException;
 
 public class Bed extends Furniture {
     private int maxPersonSize;
 
     public Bed(String itemID, String furnitureName, String furnitureDescription, int furnitureSizeX, int furnitureSizeY, int maxPersonSize) {
-        super(itemID, furnitureName, furnitureDescription, furnitureSizeX, furnitureSizeY, 'B');
+        super(
+            itemID,
+            furnitureName,
+            furnitureDescription,
+            furnitureSizeX,
+            furnitureSizeY,
+            'B',
+            loadBedImage(),
+            new Gold(100) // atau harga lain sesuai keinginanmu
+        );
         this.maxPersonSize = maxPersonSize;
+    }
+
+    private static BufferedImage loadBedImage() {
+        try {
+            return ImageIO.read(Bed.class.getResourceAsStream("/res/items/furniture/bed.png"));
+        } catch (IOException | IllegalArgumentException e) {
+            System.err.println("Failed to load bed image: " + e.getMessage());
+            return null;
+        }
     }
 
     public int getMaxPersonSize() {
@@ -44,14 +66,12 @@ public class Bed extends Furniture {
         return false;
     }
 
-
     public boolean useBed(Player player, HouseMap houseMap) {
         if (!isNearbyBed(player, houseMap)){
             return false;
         }
 
         SleepingAction sleeping = new SleepingAction();
-
         sleeping.execute(player);
 
         return true;

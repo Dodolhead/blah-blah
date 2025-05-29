@@ -2,6 +2,8 @@ package tile;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -9,6 +11,7 @@ import entities.Bed;
 import entities.Door;
 import entities.Farm;
 import entities.FarmManager;
+import entities.Furniture;
 import entities.Player;
 import entities.Stove;
 import entities.TV;
@@ -184,10 +187,8 @@ public class TileManager {
             drawPond(g2);
         }
         else if(gp.player.getPlayerLocation().getName().equals("House")) {
-            drawBed(g2);
+            drawAllFurniture(g2);
             drawDoor(g2);
-            drawStove(g2);
-            drawTV(g2);
         }
     }
 
@@ -309,48 +310,36 @@ public class TileManager {
             g2.drawImage(pondImage, screenX, screenY, tileSize * 4, tileSize * 3, null);
         }
     }
-    private void drawBed(Graphics2D g2) {
-        Point bedStart = gp.houseMap.getFurnitureStartPoint(Bed.class);
-        int tileSize = gp.tileSize;
-        if (bedStart != null && bedImage != null) {
-            int drawX = bedStart.getX() * tileSize;
-            int drawY = bedStart.getY() * tileSize;
+private void drawAllFurniture(Graphics2D g2) {
+    int tileSize = gp.tileSize;
+    for (Map.Entry<Furniture, List<Point>> entry : gp.houseMap.getFurnitureLocation().entrySet()) {
+        Furniture f = entry.getKey();
+        BufferedImage img = null;
+        int width = tileSize, height = tileSize;
 
+        if (f instanceof Bed) {
+            img = bedImage;
+            width = tileSize * f.getFurnitureSizeX();
+            height = tileSize * f.getFurnitureSizeY();
+        } else if (f instanceof Stove) {
+            img = stoveImage;
+        } else if (f instanceof TV) {
+            img = tvImage;
+        } else if (f instanceof Door) {
+            img = doorImage;
+            width = tileSize;
+        }
+        for (Point start : entry.getValue()) {
+            int drawX = start.getX() * tileSize;
+            int drawY = start.getY() * tileSize;
             int screenX = drawX - gp.player.getPlayerLocation().getCurrentPoint().getX() + gp.player.screenX;
             int screenY = drawY - gp.player.getPlayerLocation().getCurrentPoint().getY() + gp.player.screenY;
-
-            // Misal bed ukuran 2x4 tile
-            g2.drawImage(bedImage, screenX, screenY, tileSize * 2, tileSize * 4, null);
+            if (img != null) {
+                g2.drawImage(img, screenX, screenY, width, height, null);
+            }
         }
     }
-
-    private void drawStove(Graphics2D g2) {
-        Point stoveStart = gp.houseMap.getFurnitureStartPoint(Stove.class);
-        int tileSize = gp.tileSize;
-        if (stoveStart != null && stoveImage != null) {
-            int drawX = stoveStart.getX() * tileSize;
-            int drawY = stoveStart.getY() * tileSize;
-
-            int screenX = drawX - gp.player.getPlayerLocation().getCurrentPoint().getX() + gp.player.screenX;
-            int screenY = drawY - gp.player.getPlayerLocation().getCurrentPoint().getY() + gp.player.screenY;
-
-            g2.drawImage(stoveImage, screenX, screenY, tileSize, tileSize, null);
-        }
-    }
-
-    private void drawTV(Graphics2D g2) {
-        Point tvStart = gp.houseMap.getFurnitureStartPoint(TV.class);
-        int tileSize = gp.tileSize;
-        if (tvStart != null && tvImage != null) {
-            int drawX = tvStart.getX() * tileSize;
-            int drawY = tvStart.getY() * tileSize;
-
-            int screenX = drawX - gp.player.getPlayerLocation().getCurrentPoint().getX() + gp.player.screenX;
-            int screenY = drawY - gp.player.getPlayerLocation().getCurrentPoint().getY() + gp.player.screenY;
-
-            g2.drawImage(tvImage, screenX, screenY, tileSize, tileSize, null);
-        }
-    }
+}
 
     private void drawDoor(Graphics2D g2) {
         // Ambil Door

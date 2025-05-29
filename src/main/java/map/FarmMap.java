@@ -20,6 +20,8 @@ public class FarmMap {
     public Point houseStartPoint;
     public Point shippingBinPoint;
     public Point pondStartPoint;
+    public static final int MIN_DIST_EDGE = 2;
+    public static final int MIN_DIST_POND_TO_HOUSE = 5;
 
 
     public FarmMap(Location playerLocation) {
@@ -69,55 +71,39 @@ public class FarmMap {
 
     private void placeObjectsRandomly() {
         long timeSeed = System.currentTimeMillis();
-        int maxWidth = farmSizeWidth - 1;
-        int maxHeight = farmSizeHeight - 1;
 
-        int maxPondX = maxWidth - 3; // pond width 4
-        int maxPondY = maxHeight - 2; // pond height 3
+        // --- Hitung batas random spawn (min edge & max size)
+        int pondWidth = 4, pondHeight = 3;
+        int houseWidth = 6, houseHeight = 6;
+        int shippingBinWidth = 3, shippingBinHeight = 2;
 
-        int maxHouseX = maxWidth - 5; // house width 6
-        int maxHouseY = maxHeight - 5; // house height 6
+        int minEdge = MIN_DIST_EDGE;
 
-        int maxShippingBinX = maxWidth - 2; // shipping bin width 3
-        int maxShippingBinY = maxHeight - 1; // shipping bin height 2
+        int maxPondX = farmSizeWidth - pondWidth - minEdge;
+        int maxPondY = farmSizeHeight - pondHeight - minEdge;
+        int maxHouseX = farmSizeWidth - houseWidth - minEdge;
+        int maxHouseY = farmSizeHeight - houseHeight - minEdge;
+        int maxShippingBinX = farmSizeWidth - shippingBinWidth - minEdge;
+        int maxShippingBinY = farmSizeHeight - shippingBinHeight - minEdge;
 
         // Check farm size minimal
-        if (maxPondX < 0 || maxPondY < 0 || maxHouseX < 0 || maxHouseY < 0 || maxShippingBinX < 0 || maxShippingBinY < 0) {
-            System.out.println("Farm size terlalu kecil untuk objek");
+        if (maxPondX < minEdge || maxPondY < minEdge || maxHouseX < minEdge || maxHouseY < minEdge 
+            || maxShippingBinX < minEdge || maxShippingBinY < minEdge) {
+            System.out.println("Farm size terlalu kecil untuk objek dengan jarak minimal dari edge!");
             return;
         }
 
-        // Place Pond
-        boolean pondPlaced = false;
-        int pondAttempts = 0;
-        while (!pondPlaced && pondAttempts < 1000) {
-            int pondStartX = (int)(timeSeed % (maxPondX + 1)); // +1 supaya max inclusive
-            int pondStartY = (int)((timeSeed / 1000) % (maxPondY + 1));
-            this.pondStartPoint = new Point(pondStartX, pondStartY);
-
-            if (canPlaceObjectAt("Pond", pondStartX, pondStartY, 4, 3) &&
-                !isNearPlayer(pondStartPoint, 4, 3, playerPositionFarm)) {
-                placeObjectAt("Pond", pondStartPoint, 4, 3);
-                pondPlaced = true;
-            }
-            timeSeed += 1000;
-            pondAttempts++;
-        }
-        if (!pondPlaced) {
-            System.out.println("Gagal tempatkan Pond setelah 1000 percobaan");
-        }
-
-        // Place House
+        // --- Place House dulu (agar pond bisa dicek jarak ke house)
         boolean housePlaced = false;
         int houseAttempts = 0;
         while (!housePlaced && houseAttempts < 1000) {
-            int houseStartX = (int)(timeSeed % (maxHouseX + 1));
-            int houseStartY = (int)((timeSeed / 2000) % (maxHouseY + 1));
+            int houseStartX = minEdge + (int)(timeSeed % (maxHouseX - minEdge + 1));
+            int houseStartY = minEdge + (int)((timeSeed / 2000) % (maxHouseY - minEdge + 1));
             this.houseStartPoint = new Point(houseStartX, houseStartY);
 
-            if (canPlaceObjectAt("House", houseStartX, houseStartY, 6, 6) &&
-                !isNearPlayer(houseStartPoint, 6, 6, playerPositionFarm)) {
-                placeObjectAt("House", houseStartPoint, 6, 6);
+            if (canPlaceObjectAt("House", houseStartX, houseStartY, houseWidth, houseHeight) &&
+                !isNearPlayer(houseStartPoint, houseWidth, houseHeight, playerPositionFarm)) {
+                placeObjectAt("House", houseStartPoint, houseWidth, houseHeight);
                 int doorX = houseStartPoint.getX() + 3;
                 int doorY = houseStartPoint.getY() + 5;
                 farmMapDisplay[doorY][doorX] = 'D';
@@ -125,35 +111,66 @@ public class FarmMap {
                 objectPosition.get("HouseDoor").add(new Point(doorX, doorY));
                 housePlaced = true;
             }
-            timeSeed += 1000;
+            timeSeed += 1234;
             houseAttempts++;
         }
         if (!housePlaced) {
             System.out.println("Gagal tempatkan House setelah 1000 percobaan");
-            // Bisa tambahkan fallback logic jika perlu
-            return; // kalau ga ada house, shipping bin ga bisa ditempatkan
+            return;
         }
 
-        // Place Shipping Bin (di kanan rumah +1 space)
-        int shippingBinStartX = houseStartPoint.getX() + 7; // 6 + 1 space
-        int shippingBinStartY = houseStartPoint.getY();
-        this.shippingBinPoint = new Point(shippingBinStartX, shippingBinStartY);
+        // --- Place Pond, minimal radius ke House
+        boolean pondPlaced = false;
+        int pondAttempts = 0;
+        while (!pondPlaced && pondAttempts < 1000) {
+            int pondStartX = minEdge + (int)(timeSeed % (maxPondX - minEdge + 1));
+            int pondStartY = minEdge + (int)((timeSeed / 1000) % (maxPondY - minEdge + 1));
+            this.pondStartPoint = new Point(pondStartX, pondStartY);
 
-        if (shippingBinStartX <= maxShippingBinX &&
-            canPlaceObjectAt("ShippingBin", shippingBinStartX, shippingBinStartY, 3, 2) &&
-            !isNearPlayer(shippingBinPoint, 3, 2, playerPositionFarm)) {
-            placeObjectAt("ShippingBin", shippingBinPoint, 3, 2);
-        } else {
-            // coba kiri rumah
-            shippingBinStartX = houseStartPoint.getX() - 4;
-            shippingBinPoint = new Point(shippingBinStartX, shippingBinStartY);
-            if (shippingBinStartX >= 0 &&
-                canPlaceObjectAt("ShippingBin", shippingBinStartX, shippingBinStartY, 3, 2) &&
-                !isNearPlayer(shippingBinPoint, 3, 2, playerPositionFarm)) {
-                placeObjectAt("ShippingBin", shippingBinPoint, 3, 2);
-            } else {
-                System.out.println("Gagal tempatkan Shipping Bin");
+            // Cek bounding box jarak min ke house
+            if (canPlaceObjectAt("Pond", pondStartX, pondStartY, pondWidth, pondHeight) &&
+                !isNearPlayer(pondStartPoint, pondWidth, pondHeight, playerPositionFarm) &&
+                isFarFromHouse(pondStartX, pondStartY, pondWidth, pondHeight,
+                               houseStartPoint.getX(), houseStartPoint.getY(), houseWidth, houseHeight,
+                               MIN_DIST_POND_TO_HOUSE)) {
+                placeObjectAt("Pond", pondStartPoint, pondWidth, pondHeight);
+                pondPlaced = true;
             }
+            timeSeed += 987;
+            pondAttempts++;
+        }
+        if (!pondPlaced) {
+            System.out.println("Gagal tempatkan Pond setelah 1000 percobaan");
+        }
+
+        // --- Place Shipping Bin (di kanan rumah +1 space, tapi tetap cek edge & min dist)
+        int shippingBinStartX = houseStartPoint.getX() + houseWidth + 1; // kanan rumah +1
+        int shippingBinStartY = houseStartPoint.getY();
+        boolean shippingBinPlaced = false;
+
+        // Cek kanan rumah
+        if (shippingBinStartX <= maxShippingBinX &&
+            shippingBinStartY >= minEdge && shippingBinStartY <= maxShippingBinY &&
+            canPlaceObjectAt("ShippingBin", shippingBinStartX, shippingBinStartY, shippingBinWidth, shippingBinHeight) &&
+            !isNearPlayer(new Point(shippingBinStartX, shippingBinStartY), shippingBinWidth, shippingBinHeight, playerPositionFarm)) {
+            this.shippingBinPoint = new Point(shippingBinStartX, shippingBinStartY);
+            placeObjectAt("ShippingBin", shippingBinPoint, shippingBinWidth, shippingBinHeight);
+            shippingBinPlaced = true;
+        }
+        // Cek kiri rumah
+        if (!shippingBinPlaced) {
+            shippingBinStartX = houseStartPoint.getX() - shippingBinWidth - 1;
+            if (shippingBinStartX >= minEdge &&
+                shippingBinStartY >= minEdge && shippingBinStartY <= maxShippingBinY &&
+                canPlaceObjectAt("ShippingBin", shippingBinStartX, shippingBinStartY, shippingBinWidth, shippingBinHeight) &&
+                !isNearPlayer(new Point(shippingBinStartX, shippingBinStartY), shippingBinWidth, shippingBinHeight, playerPositionFarm)) {
+                this.shippingBinPoint = new Point(shippingBinStartX, shippingBinStartY);
+                placeObjectAt("ShippingBin", shippingBinPoint, shippingBinWidth, shippingBinHeight);
+                shippingBinPlaced = true;
+            }
+        }
+        if (!shippingBinPlaced) {
+            System.out.println("Gagal tempatkan Shipping Bin");
         }
 
         // Tandai tile yang kosong sebagai Tillable
@@ -164,6 +181,21 @@ public class FarmMap {
                 }
             }
         }
+    }
+
+    // Fungsi helper: bounding box minimal jarak min ke house
+    private boolean isFarFromHouse(int pondX, int pondY, int pondW, int pondH,
+                                   int houseX, int houseY, int houseW, int houseH,
+                                   int minDist) {
+        int pondRight = pondX + pondW - 1;
+        int pondBottom = pondY + pondH - 1;
+        int houseRight = houseX + houseW - 1;
+        int houseBottom = houseY + houseH - 1;
+        // Hitung jarak terdekat axis-aligned bounding box
+        int dx = Math.max(0, Math.max(houseX - pondRight, pondX - houseRight));
+        int dy = Math.max(0, Math.max(houseY - pondBottom, pondY - houseBottom));
+        int minDistance = Math.max(dx, dy); // pakai radius block (bisa juga Math.sqrt(dx*dx + dy*dy) untuk Euclidean)
+        return minDistance >= minDist;
     }
     public char getTileAt(int x, int y) {
         if (x >= 0 && x < farmMapDisplay[0].length && y >= 0 && y < farmMapDisplay.length) {

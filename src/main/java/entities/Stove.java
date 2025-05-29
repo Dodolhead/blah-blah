@@ -4,15 +4,35 @@ import actions.*;
 import items.*;
 import map.HouseMap;
 import map.Point;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.IOException;
 
-public class Stove extends Furniture{
+public class Stove extends Furniture {
     private int fuelRemaining;
     private String currentFuelType;
 
     public Stove() {
-        super("stove", "Stove", "Stove for cooking food", 1, 1, 'S');
+        super(
+            "stove", 
+            "Stove", 
+            "Stove for cooking food", 
+            1, 1, 'S', 
+            loadStoveImage(), // <-- load image
+            new Gold(100)     // misal harga beli 100 gold
+        );
         currentFuelType = "Empty";
         fuelRemaining = 0;
+    }
+
+    // Static helper to load image
+    private static BufferedImage loadStoveImage() {
+        try {
+            return ImageIO.read(Stove.class.getResourceAsStream("/res/items/furniture/stove.png"));
+        } catch (IOException | IllegalArgumentException e) {
+            System.err.println("Failed to load stove image: " + e.getMessage());
+            return null;
+        }
     }
 
     public boolean isNearbyStove(Player player, HouseMap houseMap) {

@@ -110,31 +110,43 @@ public class HouseMap {
     }
 
     public boolean placeFurniture(Furniture furniture, int startX, int startY) {
-        List<Point> occupiedPoints = new ArrayList<>();
-        for (int dx = 0; dx < furniture.getFurnitureSizeX(); dx++) {
-            for (int dy = 0; dy < furniture.getFurnitureSizeY(); dy++) {
-                occupiedPoints.add(new Point(startX + dx, startY + dy));
+        int sizeX = furniture.getFurnitureSizeX();
+        int sizeY = furniture.getFurnitureSizeY();
+
+        // Cek boundaries
+        if (startX < 1 || startY < 1 ||
+            startX + sizeX > houseMapDisplay[0].length - 1 ||
+            startY + sizeY > houseMapDisplay.length - 1) {
+            System.out.println("Furniture placement out of bounds.");
+            return false;
+        }
+
+        // Cek seluruh tile kosong
+        for (int dx = 0; dx < sizeX; dx++) {
+            for (int dy = 0; dy < sizeY; dy++) {
+                int x = startX + dx;
+                int y = startY + dy;
+                if (houseMapDisplay[y][x] != ',') {
+                    System.out.println("Furniture placement blocked at " + x + "," + y + " by '" + houseMapDisplay[y][x] + "'");
+                    return false;
+                }
             }
         }
-        // Validasi
-        for (Point p : occupiedPoints) {
-            int x = p.getX();
-            int y = p.getY();
-            if (x < 1 || x >= houseMapDisplay[0].length - 1 || y < 1 || y >= houseMapDisplay.length - 1) {
-                return false;
-            }
-            if (houseMapDisplay[y][x] != ',') { // baris = y, kolom = x
-                return false;
+
+        // Simpan posisi baru furniture (support multi-instance)
+        furnitureLocation.computeIfAbsent(furniture, f -> new ArrayList<>()).add(new Point(startX, startY));
+
+        // Update map char
+        for (int dx = 0; dx < sizeX; dx++) {
+            for (int dy = 0; dy < sizeY; dy++) {
+                int x = startX + dx;
+                int y = startY + dy;
+                houseMapDisplay[y][x] = furniture.getFurnitureLogo();
             }
         }
-        furnitureLocation.putIfAbsent(furniture, new ArrayList<>());
-        furnitureLocation.get(furniture).add(new Point(startX, startY));
-        for (Point p : occupiedPoints) {
-            houseMapDisplay[p.getY()][p.getX()] = furniture.getFurnitureLogo();
-        }
+        System.out.println("Placed " + furniture.getFurnitureName() + " at (" + startX + "," + startY + ")");
         return true;
     }
-
     public void displayHouse() {
         for (int i = 0; i < houseSizeHeight; i++) {
             for (int j = 0; j < houseSizeWidth; j++) {
