@@ -111,6 +111,10 @@ public class TileManager {
             tile[13].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/floor.png"));
             tile[13].collision = true;
 
+            tile[14] = new Tile();
+            tile[14].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/penghubungair.png"));
+            tile[14].collision = false;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -176,6 +180,7 @@ public class TileManager {
             case 'B' -> 11;
             case 'S' -> 12;
             case 'T' -> 13;
+            case 'q' -> 14;
             default -> 0;
         };
     }
