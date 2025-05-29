@@ -23,7 +23,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <mainClass>main.java.gui.Main</mainClass> <!-- Ganti dengan fully qualified main class-mu -->
+                    <mainClass>gui.Main</mainClass> <!-- Ganti dengan fully qualified main class-mu -->
                 </configuration>
             </plugin>
         </plugins>

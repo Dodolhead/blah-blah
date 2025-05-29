@@ -1,4 +1,4 @@
-package main.java.map;
+package map;
 
 public class ForestRiver {
     final int forestWidth = 24;

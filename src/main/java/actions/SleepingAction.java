@@ -1,7 +1,7 @@
-package main.java.actions;
+package actions;
 
-import main.java.entities.*;
-import main.java.tsw.*;
+import entities.*;
+import tsw.*;
 
 public class SleepingAction implements Action {
     private static final int MAX_ENERGY = 100;

@@ -1,9 +1,9 @@
-package main.java.entities;
+package entities;
 
-import main.java.actions.*;
-import main.java.items.*;
-import main.java.map.HouseMap;
-import main.java.map.Point;
+import actions.*;
+import items.*;
+import map.HouseMap;
+import map.Point;
 
 public class Stove extends Furniture{
     private int fuelRemaining;

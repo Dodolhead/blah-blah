@@ -1,13 +1,13 @@
-package main.java.entities;
+package entities;
 
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
-import main.java.gui.*;
-import main.java.items.*;
-import main.java.map.*;
+import gui.*;
+import items.*;
+import map.*;
 import java.awt.Rectangle;
 import java.awt.Graphics2D;
 

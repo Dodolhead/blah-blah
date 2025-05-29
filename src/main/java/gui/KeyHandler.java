@@ -1,4 +1,4 @@
-package main.java.gui;
+package gui;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
@@ -7,6 +7,7 @@ public class KeyHandler implements KeyListener {
     public boolean till,recoverLand, planting;
     public boolean inventoryToggle;
     public boolean storeToggle;
+    public boolean playerInfoToggle;
     
     @Override
     public void keyTyped(KeyEvent e) {
@@ -69,6 +70,9 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_O) {
             storeToggle = true;
+        }
+        if (code == KeyEvent.VK_V) {
+            playerInfoToggle = true;
         }
     }
 }

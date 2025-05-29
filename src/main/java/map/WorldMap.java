@@ -1,6 +1,6 @@
-package main.java.map;
+package map;
 
-import main.java.entities.*;
+import entities.*;
 
 public class WorldMap {
     private Player player;

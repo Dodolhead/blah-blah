@@ -1,9 +1,9 @@
-package main.java.actions;
+package actions;
 
-import main.java.entities.*;
-import main.java.items.*;
-import main.java.map.*;
-import main.java.tsw.Time;
+import entities.*;
+import items.*;
+import map.*;
+import tsw.Time;
 
 public class TillingAction implements Action {
     private final int ENERGY_COST = 5;

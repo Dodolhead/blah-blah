@@ -1,11 +1,11 @@
-package main.java.actions;
+package actions;
 
 
 import java.util.HashSet;
 import java.util.Map;
-import main.java.tsw.*;
-import main.java.entities.*;
-import main.java.items.*;
+import tsw.*;
+import entities.*;
+import items.*;
 
 public class CookingAction implements Action {
     private Recipe recipe;

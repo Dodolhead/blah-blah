@@ -1,4 +1,4 @@
-package main.java.gui;
+package gui;
 
 import javax.swing.*;
 import java.awt.Dimension;
@@ -11,7 +11,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import main.java.map.*;
+import map.*;
 public class WorldMapPanel extends JPanel implements ActionListener {
     private JButton forrestRiverButton;
     private JButton mountainLakeButton;

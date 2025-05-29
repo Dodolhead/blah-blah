@@ -1,7 +1,7 @@
-package main.java.actions;
+package actions;
 
-import main.java.entities.*;
-import main.java.map.*;
+import entities.*;
+import map.*;
 
 public class ShowLocationAction implements Action {  
     @Override

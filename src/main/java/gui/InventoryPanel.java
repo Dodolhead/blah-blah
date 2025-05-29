@@ -1,4 +1,4 @@
-package main.java.gui;
+package gui;
 
 import javax.swing.*;
 
@@ -8,7 +8,7 @@ import java.util.Map;
 import java.awt.*;
 import javax.imageio.ImageIO;
 import java.io.IOException;
-import main.java.items.*;
+import items.*;
 
 public class InventoryPanel extends JPanel {
     private static final int MAX_ITEMS = 20;

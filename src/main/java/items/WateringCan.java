@@ -1,7 +1,7 @@
-package main.java.items;
+package items;
 
-import main.java.actions.WateringAction;
-import main.java.entities.*;;
+import actions.WateringAction;
+import entities.*;;
 
 public class WateringCan extends Equipment {
     public WateringCan(String wCanName, Gold sellPrice, Gold buyPrice){

@@ -1,4 +1,4 @@
-package main.java.tile;
+package tile;
 import java.awt.image.*;
 
 public class Tile {

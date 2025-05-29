@@ -1,8 +1,8 @@
-package main.java.actions;
+package actions;
 
-import main.java.entities.*;
-import main.java.map.*;
-import main.java.tsw.*;
+import entities.*;
+import map.*;
+import tsw.*;
 
 public class WateringAction implements Action {
     private int ENERGY_COST = 5;

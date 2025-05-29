@@ -1,8 +1,8 @@
-package main.java.entities;
+package entities;
 
 import java.util.Objects;
 
-import main.java.map.*;
+import map.*;
 
 public class Door extends Furniture {
     private int x, y;

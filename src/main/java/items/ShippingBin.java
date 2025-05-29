@@ -1,9 +1,9 @@
-package main.java.items;
+package items;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import main.java.tsw.*;
+import tsw.*;
 
 public class ShippingBin {
     private int MAX_UNIQUE_ITEMS = 16;

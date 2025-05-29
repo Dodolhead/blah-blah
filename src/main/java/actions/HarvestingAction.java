@@ -1,12 +1,12 @@
-package main.java.actions;
+package actions;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import main.java.entities.*;
-import main.java.items.*;
-import main.java.map.*;
-import main.java.tsw.*;
+import entities.*;
+import items.*;
+import map.*;
+import tsw.*;
 
 public class HarvestingAction implements Action {
     private static final int ENERGY_COST = 5;

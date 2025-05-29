@@ -1,6 +1,6 @@
-package main.java.items;
+package items;
 
-import main.java.entities.*;
+import entities.*;
 import java.awt.image.BufferedImage;
 //nanti use abis jadi player aja
 public abstract class Equipment extends Item{

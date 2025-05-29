@@ -1,6 +1,6 @@
-package main.java.actions;
+package actions;
 
-import main.java.entities.Player;
+import entities.Player;
 
 public class OpeningInventoryAction implements Action {
     

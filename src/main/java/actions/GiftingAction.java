@@ -1,7 +1,7 @@
-package main.java.actions;
+package actions;
 
-import main.java.entities.*;
-import main.java.items.*;
+import entities.*;
+import items.*;
 
 public class GiftingAction implements Action {
     private int ENERGY_COST = 5;

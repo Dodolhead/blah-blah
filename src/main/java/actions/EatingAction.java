@@ -1,8 +1,8 @@
-package main.java.actions;
+package actions;
 
-import main.java.entities.*;
-import main.java.items.*;
-import main.java.tsw.*;
+import entities.*;
+import items.*;
+import tsw.*;
 
 public class EatingAction implements Action {
     private Item itemToEat;

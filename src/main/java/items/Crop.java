@@ -1,4 +1,4 @@
-package main.java.items;
+package items;
 import java.awt.image.BufferedImage;
 
 public class Crop extends Item{

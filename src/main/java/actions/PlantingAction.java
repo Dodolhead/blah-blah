@@ -1,9 +1,9 @@
-package main.java.actions;
+package actions;
 
-import main.java.entities.*;
-import main.java.items.*;
-import main.java.map.*;
-import main.java.tsw.*;
+import entities.*;
+import items.*;
+import map.*;
+import tsw.*;
 
 public class PlantingAction implements Action {
     private Seed seedToPlant;

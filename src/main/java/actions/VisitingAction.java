@@ -1,7 +1,7 @@
-package main.java.actions;
+package actions;
 
-import main.java.entities.*;
-import main.java.tsw.Time;
+import entities.*;
+import tsw.Time;
 
 public class VisitingAction implements Action {
     private String destination;

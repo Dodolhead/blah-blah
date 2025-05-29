@@ -1,4 +1,4 @@
-package main.java.items;
+package items;
 
 import java.io.IOException;
 import java.util.*;

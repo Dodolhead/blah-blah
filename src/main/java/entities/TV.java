@@ -1,8 +1,8 @@
-package main.java.entities;
+package entities;
 
-import main.java.map.HouseMap;
-import main.java.map.Point;
-import main.java.actions.*;
+import map.HouseMap;
+import map.Point;
+import actions.*;
 
 public class TV extends Furniture{
     public TV(String furnitureDescription, int furnitureSizeX, int furnitureSizeY) {

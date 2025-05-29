@@ -1,11 +1,11 @@
-package main.java.map;
+package map;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import main.java.items.*;
+import items.*;
 
 
 public class FarmMap {

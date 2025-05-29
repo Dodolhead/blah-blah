@@ -1,4 +1,4 @@
-package main.java.items;
+package items;
 import java.awt.image.BufferedImage;
 public class Misc extends Item {
     private String itemDescription;

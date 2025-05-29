@@ -1,6 +1,6 @@
-package main.java.actions;
+package actions;
 
-import main.java.entities.*;
+import entities.*;
 
 public class ShowingTimeAction implements Action {
     public boolean execute(Player player){

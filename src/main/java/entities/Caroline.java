@@ -1,10 +1,10 @@
-package main.java.entities;
+package entities;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import main.java.map.*;
+import map.*;
 
-import main.java.gui.*;
+import gui.*;
 
 public class Caroline extends NPC{
     public Caroline(GamePanel gp) {

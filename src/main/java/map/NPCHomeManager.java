@@ -1,8 +1,8 @@
-package main.java.map;
+package map;
 
 import java.util.Map;
 
-import main.java.entities.*;
+import entities.*;
 
 import java.util.HashMap;
 

@@ -1,14 +1,14 @@
-package main.java.gui;
+package gui;
 import javax.swing.*;
 
-import main.java.actions.*;
+import actions.*;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import main.java.entities.*;
-import main.java.items.ItemManager;
-import main.java.map.*;
-import main.java.tile.*;
+import entities.*;
+import items.ItemManager;
+import map.*;
+import tile.*;
 
 
 public class GamePanel extends JPanel implements Runnable{

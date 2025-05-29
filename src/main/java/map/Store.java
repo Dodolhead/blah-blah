@@ -1,10 +1,10 @@
-package main.java.map;
+package map;
 
 import java.util.*;
 
-import main.java.entities.NPCManager;
-import main.java.gui.*;
-import main.java.items.*;
+import entities.NPCManager;
+import gui.*;
+import items.*;
 
 public class Store extends NPCHome {
     GamePanel gp;

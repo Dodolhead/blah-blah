@@ -1,7 +1,7 @@
-package main.java.actions;
+package actions;
 
-import main.java.entities.*;
-import main.java.map.NPCHomeManager;
+import entities.*;
+import map.NPCHomeManager;
 
 public class ChattingAction implements Action {
     private NPC npcToChatWith;

@@ -1,12 +1,12 @@
-package main.java.gui;
+package gui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.Map;
-import main.java.items.*;
-import main.java.map.Store;
-import main.java.entities.*;
+import items.*;
+import map.Store;
+import entities.*;
 
 public class StorePanel extends JPanel {
     private Player player;

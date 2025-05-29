@@ -1,7 +1,7 @@
-package main.java.endgame;
+package endgame;
 
-import main.java.entities.*;
-import main.java.tsw.Time;
+import entities.*;
+import tsw.Time;
 
 public class EndGame {
 

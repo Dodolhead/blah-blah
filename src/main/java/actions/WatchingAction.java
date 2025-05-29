@@ -1,7 +1,7 @@
-package main.java.actions;
+package actions;
 
-import main.java.entities.*;
-import main.java.tsw.*;
+import entities.*;
+import tsw.*;
 
 public class WatchingAction implements Action {
     private static final int ENERGY_COST = 5;

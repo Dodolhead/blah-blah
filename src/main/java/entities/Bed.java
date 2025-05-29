@@ -1,8 +1,8 @@
-package main.java.entities;
+package entities;
 
-import main.java.actions.SleepingAction;
-import main.java.map.HouseMap;
-import main.java.map.Point;
+import actions.SleepingAction;
+import map.HouseMap;
+import map.Point;
 
 public class Bed extends Furniture {
     private int maxPersonSize;

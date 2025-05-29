@@ -1,7 +1,7 @@
-package main.java.entities;
-import main.java.gui.*;
+package entities;
+import gui.*;
 import java.io.IOException;
-import main.java.map.*;
+import map.*;
 
 import javax.imageio.ImageIO;
 

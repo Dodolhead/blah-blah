@@ -1,7 +1,7 @@
-package main.java.entities;
+package entities;
 
 import java.util.List;
-import main.java.map.*;
+import map.*;
 import java.util.ArrayList;
 
 public class House {

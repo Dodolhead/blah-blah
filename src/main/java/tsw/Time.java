@@ -1,6 +1,6 @@
-package main.java.tsw;
+package tsw;
 
-import main.java.gui.GamePanel;
+import gui.GamePanel;
 
 public class Time implements Runnable{
     private int hour = 6;

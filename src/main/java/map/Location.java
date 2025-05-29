@@ -1,4 +1,4 @@
-package main.java.map;
+package map;
 
 public class Location {
     private String name;

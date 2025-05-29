@@ -1,4 +1,4 @@
-package main.java.map;
+package map;
 
 public class Point {
     private int x;

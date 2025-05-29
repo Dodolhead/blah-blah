@@ -1,8 +1,8 @@
-package main.java.gui;
+package gui;
 
 import javax.swing.*;
 import java.awt.*;
-import main.java.tsw.Time;
+import tsw.Time;
 
 public class TimeSeasonWeatherPanel extends JPanel {
     private final JLabel infoLabel;

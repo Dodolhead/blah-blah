@@ -1,4 +1,4 @@
-package main.java.entities;
+package entities;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
-import main.java.actions.*;
-import main.java.gui.*;
-import main.java.items.*;
-import main.java.map.*;
+import actions.*;
+import gui.*;
+import items.*;
+import map.*;
 
 public class Player {
     private String playerName;

@@ -1,8 +1,8 @@
-package main.java.entities;
+package entities;
 
-import main.java.gui.GamePanel;
-import main.java.map.*;
-import main.java.tsw.*;
+import gui.GamePanel;
+import map.*;
+import tsw.*;
 
 public class Farm {
     private String farmName;

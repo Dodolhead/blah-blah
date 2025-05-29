@@ -1,7 +1,7 @@
-package main.java.items;
+package items;
 
-import main.java.actions.RecoveringLandAction;
-import main.java.entities.*;
+import actions.RecoveringLandAction;
+import entities.*;
 
 public class Pickaxe extends Equipment {
     public Pickaxe(String pickName, Gold sellPrice, Gold buyPrice){

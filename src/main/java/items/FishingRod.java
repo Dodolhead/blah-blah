@@ -1,9 +1,9 @@
-package main.java.items;
+package items;
 
-import main.java.actions.FishingAction;
-import main.java.entities.*;
-import main.java.map.FarmMap;
-import main.java.map.Point;
+import actions.FishingAction;
+import entities.*;
+import map.FarmMap;
+import map.Point;
 
 public class FishingRod extends Equipment {
     public FishingRod(String rodName, Gold sellPrice, Gold buyPrice){

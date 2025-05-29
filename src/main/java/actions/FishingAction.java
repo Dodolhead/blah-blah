@@ -1,4 +1,4 @@
-package main.java.actions;
+package actions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import main.java.entities.*;
-import main.java.items.*;
-import main.java.tsw.*;
+import entities.*;
+import items.*;
+import tsw.*;
 
 public class FishingAction implements Action {
     private static final Map<String, List<Fish>> fishDatabase = new HashMap<>();

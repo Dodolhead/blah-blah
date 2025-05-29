@@ -1,5 +1,5 @@
-package main.java.map;
-import main.java.entities.*;
+package map;
+import entities.*;
 
 public class NPCHome {
     private String npcHomeName;

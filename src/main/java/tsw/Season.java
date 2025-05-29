@@ -1,4 +1,4 @@
-package main.java.tsw;
+package tsw;
 
 public class Season {
     public enum Seasons {

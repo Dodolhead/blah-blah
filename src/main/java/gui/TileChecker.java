@@ -1,7 +1,7 @@
-package main.java.gui;
+package gui;
 
 import java.awt.Rectangle;
-import main.java.entities.*;
+import entities.*;
 public class TileChecker {
     GamePanel gp;
 

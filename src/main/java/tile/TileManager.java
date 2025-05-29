@@ -1,12 +1,12 @@
-package main.java.tile;
+package tile;
 import java.awt.Graphics2D;
 import java.io.IOException;
-import main.java.map.Point;
+import map.Point;
 
 import javax.imageio.*;
 import java.awt.image.BufferedImage;
-import main.java.entities.*;
-import main.java.gui.*;
+import entities.*;
+import gui.*;
 
 
 public class TileManager {

@@ -1,7 +1,7 @@
-package main.java.items;
+package items;
 
-import main.java.actions.TillingAction;
-import main.java.entities.*;
+import actions.TillingAction;
+import entities.*;
 public class Hoe extends Equipment {
     public Hoe(String hoeName, Gold sellPrice, Gold buyPrice){
         super(hoeName, sellPrice, buyPrice, "Hoe", ItemManager.load("/items/equipment/hoe.png"));

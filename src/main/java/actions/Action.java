@@ -1,5 +1,5 @@
-package main.java.actions;
-import main.java.entities.*;
+package actions;
+import entities.*;
 public interface Action {
     public boolean execute(Player player);
     /* 
