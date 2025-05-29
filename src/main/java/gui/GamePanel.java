@@ -63,6 +63,10 @@ public class GamePanel extends JPanel implements Runnable{
     // TSW
     public TimeSeasonWeatherPanel timePanel;
 
+    // View Player Info
+    private PlayerInfoPanel playerInfoPanel;
+    private boolean isPlayerInfoVisible = false;
+
 
     public GamePanel(String playerName, String gender, String farmName, MainPanel mainPanel){ 
         this.mainPanel = mainPanel;
@@ -110,6 +114,11 @@ public class GamePanel extends JPanel implements Runnable{
         this.setLayout(null);
         this.add(inventoryPanel);
         this.add(storePanel);
+        playerInfoPanel = new PlayerInfoPanel(player);
+        playerInfoPanel.setBounds(460, 50, 300, 200); // Atur posisi & ukuran sesuai keinginan
+        playerInfoPanel.setVisible(false); // Supaya gak langsung kelihatan
+        this.add(playerInfoPanel);
+
     }
 
 
@@ -168,6 +177,13 @@ public class GamePanel extends JPanel implements Runnable{
         }
         if (!player.getPlayerLocation().getName().equals("Store") && storePanel.isVisible()) {
             storePanel.setVisible(false);
+        }
+        if (keyH.playerInfoToggle) {
+                if (!playerInfoPanel.isVisible()) {
+                    playerInfoPanel.updateInfo(); // update dulu sebelum tampil
+                }
+                playerInfoPanel.setVisible(!playerInfoPanel.isVisible());
+                keyH.playerInfoToggle = false;
         }
     }
 
