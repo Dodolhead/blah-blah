@@ -1,96 +1,80 @@
 package gui;
-import java.awt.event.KeyListener;
+
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
     public boolean upPressed, downPressed, leftPressed, rightPressed;
-    public boolean till,recoverLand, planting;
+    public boolean till, recoverLand, planting;
     public boolean inventoryToggle;
     public boolean storeToggle;
     public boolean playerInfoToggle;
-    public boolean interactNPC;
     public boolean fishAction;
+    public boolean interactNPC;
     public boolean harvestAction;
     
     @Override
     public void keyTyped(KeyEvent e) {
         // Not used
     }
+
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
-        if (code == KeyEvent.VK_W) {
-           upPressed = true;
+        // ==== gameState jadi NPC Dialogue Mode ====
+        if (gp.gameState == GamePanel.GameState.NPC_DIALOGUE) {
+            if (gp.chatPanel != null && gp.chatPanel.isShowing()) {
+                switch (code) {
+                    case KeyEvent.VK_N:
+                        gp.chatPanel.hideDialogue();
+                        gp.gameState = GamePanel.GameState.NORMAL;
+                        break;
+                    case KeyEvent.VK_C:
+                    case KeyEvent.VK_G:
+                    case KeyEvent.VK_Q:
+                    case KeyEvent.VK_M:
+                        gp.chatPanel.handleCommand((char) code);
+                        break;
+                }
+            }
+            return; // stop di sini supaya gak lanjut ke gameplay keys
         }
-        if (code == KeyEvent.VK_A) {
-           leftPressed = true;
-        }
-        if (code == KeyEvent.VK_S) {
-           downPressed = true;
-        }
-        if (code == KeyEvent.VK_D) {
-           rightPressed = true;
-        }
-        if (code == KeyEvent.VK_T){
-            till = true;
-        }
-        if (code == KeyEvent.VK_R){
-            recoverLand = true;
-        }
-        if (code == KeyEvent.VK_P){
-            planting = true;
-        }
-        if (code == KeyEvent.VK_N){
-            interactNPC = true;
-        }
-        if (code == KeyEvent.VK_F){
-            fishAction = true;
+
+        // ==== Gameplay Mode ====
+        switch (code) {
+            case KeyEvent.VK_W -> upPressed = true;
+            case KeyEvent.VK_A -> leftPressed = true;
+            case KeyEvent.VK_S -> downPressed = true;
+            case KeyEvent.VK_D -> rightPressed = true;
+            case KeyEvent.VK_T -> till = true;
+            case KeyEvent.VK_R -> recoverLand = true;
+            case KeyEvent.VK_P -> planting = true;
+            case KeyEvent.VK_I -> inventoryToggle = true;
+            case KeyEvent.VK_O -> storeToggle = true;
+            case KeyEvent.VK_V -> playerInfoToggle = true;
+            case KeyEvent.VK_F -> fishAction = true;
+            case KeyEvent.VK_N -> interactNPC = true;
         }
         if (code == KeyEvent.VK_H){
             harvestAction = true;
         }
     }
-    
+
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
 
-        if (code == KeyEvent.VK_W) {
-            upPressed = false;
-        }
-        if (code == KeyEvent.VK_A) {
-            leftPressed = false;
-        }
-        if (code == KeyEvent.VK_S) {
-            downPressed = false;
-        }
-        if (code == KeyEvent.VK_D) {
-            rightPressed = false;
-        }
-        if (code == KeyEvent.VK_T){
-            till = false;
-        }
-        if (code == KeyEvent.VK_R){
-            recoverLand = false;
-        }
-        if (code == KeyEvent.VK_P){
-            planting = false;
-        }
-        if (code == KeyEvent.VK_I) {
-            inventoryToggle = true;
-        }
-        if (code == KeyEvent.VK_O) {
-            storeToggle = true;
-        }
-        if (code == KeyEvent.VK_V) {
-            playerInfoToggle = true;
-        }
-        if (code == KeyEvent.VK_N){
-            interactNPC = false;
-        }
-        if (code == KeyEvent.VK_F){
-            fishAction = false;
+        switch (code) {
+            case KeyEvent.VK_W -> upPressed = false;
+            case KeyEvent.VK_A -> leftPressed = false;
+            case KeyEvent.VK_S -> downPressed = false;
+            case KeyEvent.VK_D -> rightPressed = false;
+            case KeyEvent.VK_T -> till = false;
+            case KeyEvent.VK_R -> recoverLand = false;
+            case KeyEvent.VK_P -> planting = false;
+            case KeyEvent.VK_F -> fishAction = false;
+            case KeyEvent.VK_N -> interactNPC = false;
         }
         if (code == KeyEvent.VK_H){
             harvestAction = false;
