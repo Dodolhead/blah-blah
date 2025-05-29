@@ -1,12 +1,19 @@
 package tile;
 import java.awt.Graphics2D;
-import java.io.IOException;
-import map.Point;
-
-import javax.imageio.*;
 import java.awt.image.BufferedImage;
-import entities.*;
-import gui.*;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import entities.Bed;
+import entities.Door;
+import entities.Farm;
+import entities.FarmManager;
+import entities.Player;
+import entities.Stove;
+import entities.TV;
+import gui.GamePanel;
+import map.Point;
 
 
 public class TileManager {
@@ -76,7 +83,7 @@ public class TileManager {
             tile[4].collision = false;
 
             tile[5] = new Tile();
-            tile[5].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tileijo.png"));
+            tile[5].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/air.png"));
             tile[5].collision = true;
 
             tile[6] = new Tile();
@@ -114,6 +121,22 @@ public class TileManager {
             tile[14] = new Tile();
             tile[14].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/penghubungair.png"));
             tile[14].collision = false;
+
+            tile[15] = new Tile();
+            tile[15].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/airpantai.png"));
+            tile[15].collision = true;
+
+            tile[16] = new Tile();
+            tile[16].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/penghubungairpantai.png"));
+            tile[16].collision = false;
+
+            tile[17] = new Tile();
+            tile[17].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tilepantai.png"));
+            tile[17].collision = false;
+
+            tile[18] = new Tile();
+            tile[18].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tembokstore.png"));
+            tile[18].collision = true;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -181,6 +204,10 @@ public class TileManager {
             case 'S' -> 12;
             case 'T' -> 13;
             case 'q' -> 14;
+            case 'Q' -> 15;
+            case 'L' -> 16;
+            case 'U' -> 17;
+            case ']' -> 18;
             default -> 0;
         };
     }
