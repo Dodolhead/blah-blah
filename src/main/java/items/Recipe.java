@@ -37,11 +37,32 @@ public class Recipe extends Misc {
             int requiredAmount = entry.getValue();
 
             boolean found = false;
-            for (Class<?> cls : Inventory.typeToClassMap.values()) {
-                if (inventory.hasItemOfType(cls, keyword)) {
-                    if (inventory.hasItemTypeWithAmount(cls, requiredAmount)) {
-                        found = true;
-                        break;
+            if (keyword.equalsIgnoreCase("Any Fish")) {
+                // Hitung semua stok Fish
+                int totalFish = 0;
+                for (Class<?> cls : Inventory.typeToClassMap.values()) {
+                    if (Fish.class.isAssignableFrom(cls)) {
+                        Map<Item, Integer> map = inventory.getInventoryStorage().get(cls);
+                        if (map != null) {
+                            for (Map.Entry<Item, Integer> fishEntry : map.entrySet()) {
+                                if (fishEntry.getKey() instanceof Fish) {
+                                    totalFish += fishEntry.getValue();
+                                }
+                            }
+                        }
+                    }
+                }
+                if (totalFish >= requiredAmount) {
+                    found = true;
+                }
+            } else {
+                // Cara lama: cari item by keyword di class manapun
+                for (Class<?> cls : Inventory.typeToClassMap.values()) {
+                    if (inventory.hasItemOfType(cls, keyword)) {
+                        if (inventory.hasItemTypeWithAmount(cls, requiredAmount)) {
+                            found = true;
+                            break;
+                        }
                     }
                 }
             }

@@ -11,6 +11,7 @@ public class HouseMap {
     private char[][] houseMapDisplay;
     private Map<Furniture, List<Point>> furnitureLocation;
     private Location playerLocation;
+    public Stove stove;
     private Point playerPositionHouse;
 
 
@@ -57,7 +58,7 @@ public class HouseMap {
         placeFurniture(singleBed, 1, 1); // (x, y) = (1,1)
 
         // STOVE: ukuran 1x1 di kanan paling atas sebelum wall
-        Stove stove = new Stove(); // konstruktor sesuai yang kamu punya
+        stove = new Stove(); // konstruktor sesuai yang kamu punya
         placeFurniture(stove, newWidth-2, 1); // (x, y) = (25,1) kalau newWidth=26
 
         // TV: ukuran 1x1 di tengah atas sebelum wall
@@ -144,7 +145,7 @@ public class HouseMap {
                 houseMapDisplay[y][x] = furniture.getFurnitureLogo();
             }
         }
-        System.out.println("Placed " + furniture.getFurnitureName() + " at (" + startX + "," + startY + ")");
+        // System.out.println("Placed " + furniture.getFurnitureName() + " at (" + startX + "," + startY + ")");
         return true;
     }
     public void displayHouse() {

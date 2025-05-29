@@ -2,6 +2,8 @@ package gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +13,11 @@ import items.Recipe;
 public class PlayerInfoPanel extends JPanel {
     private Player player;
     private JLabel nameLabel, genderLabel, energyLabel, partnerLabel, favoriteItemLabel, goldLabel;
+    private JLabel selectedRecipeLabel;
     private RecipeSlotLabel[] recipeSlots = new RecipeSlotLabel[11];
+    private RecipeSlotLabel selectedRecipeSlot = null;
+    private Recipe selectedRecipe = null;
+
     // Mapping recipeID ke slot index
     private static final Map<String, Integer> RECIPE_ID_TO_SLOT = new HashMap<>();
     static {
@@ -31,11 +37,15 @@ public class PlayerInfoPanel extends JPanel {
     public PlayerInfoPanel(Player player) {
         this.player = player;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setPreferredSize(new Dimension(320, 260));
+        setPreferredSize(new Dimension(340, 180));
         setBackground(new Color(240, 248, 255));
         setBorder(BorderFactory.createTitledBorder("Player Info"));
 
-        // Info labels
+        // Panel atas untuk info player
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+        topPanel.setOpaque(false);
+
         nameLabel = new JLabel();
         genderLabel = new JLabel();
         energyLabel = new JLabel();
@@ -43,16 +53,18 @@ public class PlayerInfoPanel extends JPanel {
         favoriteItemLabel = new JLabel();
         goldLabel = new JLabel();
 
-        add(nameLabel);
-        add(genderLabel);
-        add(energyLabel);
-        add(partnerLabel);
-        add(favoriteItemLabel);
-        add(goldLabel);
+        topPanel.add(nameLabel);
+        topPanel.add(genderLabel);
+        topPanel.add(energyLabel);
+        topPanel.add(partnerLabel);
+        topPanel.add(favoriteItemLabel);
+        topPanel.add(goldLabel);
 
-        // Space before recipe slots
+        add(topPanel);
+
         add(Box.createVerticalStrut(10));
-        // Left aligned label
+
+        // Judul "Recipes:"
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.X_AXIS));
         leftPanel.setOpaque(false);
@@ -64,17 +76,73 @@ public class PlayerInfoPanel extends JPanel {
         leftPanel.add(Box.createHorizontalGlue());
         add(leftPanel);
 
-        // Panel for recipe slots
+        // Panel slot resep
         JPanel recipePanel = new JPanel(new GridLayout(1, 11, 3, 3));
         recipePanel.setOpaque(false);
 
         for (int i = 0; i < 11; i++) {
-            recipeSlots[i] = new RecipeSlotLabel();
-            recipePanel.add(recipeSlots[i]);
+            RecipeSlotLabel slot = new RecipeSlotLabel();
+            recipeSlots[i] = slot;
+            recipePanel.add(slot);
+
+            slot.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    selectRecipeSlot(slot);
+                }
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    if (slot != selectedRecipeSlot) {
+                        slot.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+                    }
+                }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    if (slot != selectedRecipeSlot) {
+                        slot.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+                    }
+                }
+            });
         }
         add(recipePanel);
 
+        // Label selected recipe di bawah slot, rata kiri
+        selectedRecipeLabel = new JLabel("Selected Recipe: None");
+        selectedRecipeLabel.setFont(selectedRecipeLabel.getFont().deriveFont(Font.ITALIC, 14f));
+        selectedRecipeLabel.setForeground(Color.DARK_GRAY);
+        selectedRecipeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        // Panel agar rata kiri dan ada margin kiri
+        JPanel selectedRecipePanel = new JPanel();
+        selectedRecipePanel.setLayout(new BoxLayout(selectedRecipePanel, BoxLayout.X_AXIS));
+        selectedRecipePanel.setOpaque(false);
+        selectedRecipePanel.add(Box.createHorizontalStrut(6)); // margin kiri seperti judul
+        selectedRecipePanel.add(selectedRecipeLabel);
+        selectedRecipePanel.add(Box.createHorizontalGlue());
+
+        add(Box.createVerticalStrut(6));
+        add(selectedRecipePanel);
+
         updateInfo();
+    }
+
+    private void selectRecipeSlot(RecipeSlotLabel slot) {
+        // Hilangkan border slot sebelumnya (kalau ada)
+        for (RecipeSlotLabel s : recipeSlots) {
+            if (s != slot) {
+                s.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+            }
+        }
+        selectedRecipeSlot = slot;
+        if (slot.getRecipe() != null) {
+            selectedRecipe = slot.getRecipe();
+            slot.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+            selectedRecipeLabel.setText("Selected Recipe: " + selectedRecipe.getItemName());
+        } else {
+            selectedRecipe = null;
+            slot.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+            selectedRecipeLabel.setText("Selected Recipe: None");
+        }
     }
 
     public void updateInfo() {
@@ -86,7 +154,17 @@ public class PlayerInfoPanel extends JPanel {
         goldLabel.setText("Gold         : " + player.getPlayerGold().getGold());
 
         // Kosongkan semua slot dulu
-        for (RecipeSlotLabel slot : recipeSlots) slot.setRecipe(null);
+        for (RecipeSlotLabel slot : recipeSlots) {
+            slot.setRecipe(null);
+            slot.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));  // Reset border semua slot!
+        }
+
+        // Reset selection
+        selectedRecipeSlot = null;
+        selectedRecipe = null;
+        if (selectedRecipeLabel != null) {
+            selectedRecipeLabel.setText("Selected Recipe: None");
+        }
 
         // Update recipe slots by recipeID order
         List<Recipe> recipes = player.getKnownRecipes();
@@ -100,6 +178,10 @@ public class PlayerInfoPanel extends JPanel {
         }
     }
 
+    public Recipe getSelectedRecipe() {
+        return selectedRecipe;
+    }
+
     private String getFavoriteItemName() {
         if (player.getFavoriteItem() != null) {
             return player.getFavoriteItem().getItemName();
@@ -108,8 +190,9 @@ public class PlayerInfoPanel extends JPanel {
         }
     }
 
-    // === Inner class untuk Recipe slot ===
+    // === Inner class untuk Recipe slot yang selectable ===
     private static class RecipeSlotLabel extends JLabel {
+        private Recipe recipe;
         public RecipeSlotLabel() {
             setPreferredSize(new Dimension(28, 28));
             setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
@@ -117,9 +200,10 @@ public class PlayerInfoPanel extends JPanel {
             setVerticalAlignment(CENTER);
             setOpaque(true);
             setBackground(new Color(245, 245, 245));
+            this.recipe = null;
         }
-
         public void setRecipe(Recipe recipe) {
+            this.recipe = recipe;
             if (recipe != null) {
                 if (recipe.image != null) {
                     setIcon(new ImageIcon(recipe.image.getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
@@ -134,6 +218,9 @@ public class PlayerInfoPanel extends JPanel {
                 setText("");
                 setToolTipText(null);
             }
+        }
+        public Recipe getRecipe() {
+            return recipe;
         }
     }
 }

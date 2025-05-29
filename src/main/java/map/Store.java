@@ -107,8 +107,8 @@ public class Store extends NPCHome {
 
         // ========== Recipe List ==========
         String[] recipeNames = {
-            "Fish and Chips",
-            "Fish Sandwich"
+            "Fish and Chips Recipe",
+            "Fish Sandwich Recipe"
         };
         for (String name : recipeNames) {
             Item item = ItemManager.getItem(name);
@@ -116,7 +116,7 @@ public class Store extends NPCHome {
                 addItemToStore(item, 1);
             }
         }
-        
+
         String[] furnitureNames = {
             "Single Bed",
             "Queen Bed",

@@ -5,6 +5,8 @@ import actions.*;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +72,7 @@ public class GamePanel extends JPanel implements Runnable{
     public TimeSeasonWeatherPanel timePanel;
 
     // View Player Info
-    private PlayerInfoPanel playerInfoPanel;
+    public PlayerInfoPanel playerInfoPanel;
     // private boolean isPlayerInfoVisible = false;
 
     // ni buat ngecek doi toggle general atau khusus interact npc
@@ -79,6 +81,7 @@ public class GamePanel extends JPanel implements Runnable{
         NPC_DIALOGUE
     }
     public GameState gameState = GameState.NORMAL;
+    private JLabel selectedItemLabel;
 
 
     public GamePanel(String playerName, String gender, String farmName, MainPanel mainPanel){ 
@@ -92,7 +95,16 @@ public class GamePanel extends JPanel implements Runnable{
         player.getPlayerInventory().addItem(ItemManager.getItem("Parsnip Seeds"), 15);
         player.getPlayerInventory().addItem(ItemManager.getItem("Pickaxe"), 1);
         player.getPlayerInventory().addItem(ItemManager.getItem("Fishing Rod"), 1);
-        player.getPlayerInventory().addItem(ItemManager.getItem("Watering Can"), 1);
+        player.getPlayerInventory().addItem(ItemManager.getItem("Baguette Recipe"), 1);
+        player.getPlayerInventory().addItem(ItemManager.getItem("Wine Recipe"), 1);
+        player.getPlayerInventory().addItem(ItemManager.getItem("Pumpkin Pie Recipe"), 1);
+        player.getPlayerInventory().addItem(ItemManager.getItem("Spakbor Salad Recipe"), 1);
+        // player.getPlayerInventory().addItem(ItemManager.getItem("Fish and Chips Recipe"), 1);
+        // player.getPlayerInventory().addItem(ItemManager.getItem("Wheat"), 10);
+        // player.getPlayerInventory().addItem(ItemManager.getItem("Potato"), 10);
+        // player.getPlayerInventory().addItem(ItemManager.getItem("Carp"), 20);
+        // player.getPlayerInventory().addItem(ItemManager.getItem("Coal"), 20);
+        // player.getPlayerInventory().addItem(ItemManager.getItem("Firewood"), 2);
         farm = new Farm(farmName, player, this);
         houseMap = new HouseMap(player.getPlayerLocation());
         forestRiver = new ForestRiver();
@@ -134,6 +146,17 @@ public class GamePanel extends JPanel implements Runnable{
         playerInfoPanel.setVisible(false); // Supaya gak langsung kelihatan
         this.add(playerInfoPanel);
         chatPanel = new ChatPanel(this, player);
+        selectedItemLabel = new JLabel("Selected item: None");
+        selectedItemLabel.setFont(selectedItemLabel.getFont().deriveFont(Font.ITALIC, 14f));
+        selectedItemLabel.setForeground(Color.DARK_GRAY);
+
+        // Hubungkan ke InventoryPanel
+        inventoryPanel.setSelectedItemLabel(selectedItemLabel);
+        
+        // Tambahkan ke layout GamePanel
+        selectedItemLabel.setBounds(460, 450, 300, 30); // Atur posisi sesuai keinginan
+        selectedItemLabel.setVisible(false);
+        this.add(selectedItemLabel);
     }
 
 
@@ -182,6 +205,7 @@ public class GamePanel extends JPanel implements Runnable{
         inventoryPanel.updateInventoryUI(player.getPlayerInventory());
         if (keyH.inventoryToggle) {
             inventoryPanel.setVisible(!inventoryPanel.isVisible());
+            selectedItemLabel.setVisible(inventoryPanel.isVisible());
             keyH.inventoryToggle = false;
         }
         if (keyH.storeToggle && player.getPlayerLocation().getName().equals("Store")) {

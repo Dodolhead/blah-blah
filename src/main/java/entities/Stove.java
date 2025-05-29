@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 
 public class Stove extends Furniture {
-    private int fuelRemaining;
+    private int fuelRemaining = 0;
     private String currentFuelType;
 
     public Stove() {
@@ -22,7 +22,6 @@ public class Stove extends Furniture {
             new Gold(100)     // misal harga beli 100 gold
         );
         currentFuelType = "Empty";
-        fuelRemaining = 0;
     }
 
     // Static helper to load image
@@ -67,18 +66,19 @@ public class Stove extends Furniture {
         this.currentFuelType = fuelType;
     }
 
-    public boolean addFuel(String fuelName, Player player, HouseMap houseMap) {
-        if (!player.getPlayerInventory().hasItem(fuelName)) return false;
-        
-        if (!isNearbyStove(player, houseMap)){
+    public boolean addFuel(String fuelName, Player player) {
+        if (fuelName == null) {
+            System.out.println("Please select a fuel.");
             return false;
         }
+        if (!player.getPlayerInventory().hasItem(fuelName)) return false;
 
         if (fuelName.equals("Coal")) {
             fuelRemaining += 2;
-        } else if (fuelName.equals("Fire Wood")) {
+        } else if (fuelName.equals("Firewood")) {
             fuelRemaining += 1;
         } else {
+            System.out.println("Invalid fuel type.");
             return false;
         }
 
@@ -106,17 +106,17 @@ public class Stove extends Furniture {
         return currentFuelType;
     }
 
-    public boolean useStove(Player player, HouseMap houseMap, Recipe recipe) {
+    public boolean useStove(Player player, Recipe recipe) {
         CookingAction cookingAction = new CookingAction(recipe);
-        if (!isNearbyStove(player, houseMap)){
-            return false;
-        }
         if (currentFuelType.equals("Empty")) {
             System.out.println("You don't have a fuel to cook.");
             return false;
         }
-        consumeFuel();
-        return cookingAction.execute(player);
+        boolean result = cookingAction.execute(player);
+        if (result) {
+            consumeFuel();
+        }
+        return result;
     }
     
 }

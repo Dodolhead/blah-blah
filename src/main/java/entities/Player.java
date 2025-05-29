@@ -304,6 +304,29 @@ public class Player {
                 keyH.placeFurniture = false;
             }
 
+            if (keyH.addFuel){
+                if (gp.inventoryPanel.getSelectedItem() == null){
+                    System.out.println("Please select a fuel.");
+                }
+                if (gp.cChecker.canCook && gp.inventoryPanel.getSelectedItem() != null){
+                    gp.houseMap.stove.addFuel(gp.inventoryPanel.getSelectedItem().getItemName(),this);
+                    System.out.println("Added Fuel to stove.");
+                }
+                else{
+                    System.out.println("You can't add fuel here");
+                }
+                keyH.addFuel = false;
+            }
+            if (keyH.cookingAction){
+                if (gp.cChecker.canCook){
+                    gp.houseMap.stove.useStove(this, gp.playerInfoPanel.getSelectedRecipe());
+                }
+                else{
+                    System.out.println("You can't cook here");
+                }
+                keyH.cookingAction = false;
+            }
+
             collisionOn = false;
             collisionWithNPC = false;
             gp.cChecker.checkTilePlayer(this);

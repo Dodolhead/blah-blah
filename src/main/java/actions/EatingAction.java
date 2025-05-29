@@ -40,6 +40,9 @@ public class EatingAction implements Action {
         System.out.println("Eating " + itemToEat.getItemName() + "...");
 
         player.addPlayerEnergy(energyToRestore);
+        if (player.getEnergy() > 100){
+            player.setEnergy(100);
+        }
         player.getPlayerInventory().removeItem(itemToEat, 1);
         gameTime.skipTimeMinute(TIME_COST);
 

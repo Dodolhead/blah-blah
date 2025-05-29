@@ -23,6 +23,11 @@ public class CookingAction implements Action {
     public boolean execute(Player player){
         Farm farm = FarmManager.getFarmByName(player.getFarm());
         Time gameTime = farm.getTime();
+
+        if (recipe == null) {
+            System.out.println("Please select a Recipe.");
+            return false;
+        }
         if (!player.getPlayerInventory().hasItem(recipe.getItemName())){
             System.out.println("You don't have the recipe to cook " + recipe.getItemName());
             return false;
