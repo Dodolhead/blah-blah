@@ -72,6 +72,8 @@ public class ItemManager {
         add(new Pickaxe("Pickaxe", new Gold(0), new Gold(0)));
         add(new FishingRod("Fishing Rod", new Gold(0), new Gold(0)));
         add(new WateringCan("Watering Can", new Gold(0), new Gold(0)));
+
+        add(new Misc("Wedding Ring", "A wedding ring", load("/items/misc/ring.png")));
     }
 
     private static void add(Item item) {
