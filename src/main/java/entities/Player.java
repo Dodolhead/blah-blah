@@ -5,7 +5,10 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+
 import javax.imageio.ImageIO;
 import actions.*;
 import gui.*;
@@ -264,7 +267,7 @@ public class Player {
                     new EatingAction((Food) gp.inventoryPanel.getSelectedItem()).execute(this);
                 }
                 else{
-                    System.out.println("Select a food to plant!");
+                    System.out.println("Select a food to eat!");
                 }
                 keyH.eatAction = false;
             }
@@ -366,5 +369,23 @@ public class Player {
             }
         }
         return null;
+    }
+
+    public List<Recipe> getKnownRecipes() {
+        List<Recipe> recipes = new ArrayList<>();
+        Inventory inventory = getPlayerInventory(); // pastikan method ini mengembalikan inventory player
+
+        // Ambil map Misc dari inventory
+        Map<Item, Integer> miscMap = inventory.getInventoryStorage().get(Misc.class);
+        if (miscMap != null) {
+            for (Item item : miscMap.keySet()) {
+                if (item instanceof Recipe) {
+                    recipes.add((Recipe) item);
+                }
+            }
+        }
+        // opsional: urutkan berdasarkan nama, id, atau urutan tertentu
+        recipes.sort(Comparator.comparing(Recipe::getItemName));
+        return recipes;
     }
 }

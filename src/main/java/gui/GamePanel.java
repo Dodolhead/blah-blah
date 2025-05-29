@@ -195,11 +195,11 @@ public class GamePanel extends JPanel implements Runnable{
             storePanel.setVisible(false);
         }
         if (keyH.playerInfoToggle) {
-                if (!playerInfoPanel.isVisible()) {
-                    playerInfoPanel.updateInfo(); // update dulu sebelum tampil
-                }
-                playerInfoPanel.setVisible(!playerInfoPanel.isVisible());
-                keyH.playerInfoToggle = false;
+            if (!playerInfoPanel.isVisible()) {
+                playerInfoPanel.updateInfo(); // update dulu sebelum tampil
+            }
+            playerInfoPanel.setVisible(!playerInfoPanel.isVisible());
+            keyH.playerInfoToggle = false;
         }
     
         if (keyH.interactNPC) {
@@ -208,6 +208,7 @@ public class GamePanel extends JPanel implements Runnable{
                 chatPanel.showDialogue(npc, "Hey, what do you want to do? (C: Chat, G: Gift, Q: Propose, M: Marry)", GameState.NPC_DIALOGUE);
                 gameState = GameState.NPC_DIALOGUE;
             }
+            keyH.interactNPC = false;
         }
     }
 

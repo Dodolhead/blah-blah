@@ -6,12 +6,7 @@ import java.util.Map;
 
 import entities.NPCManager;
 import gui.GamePanel;
-import items.Crop;
-import items.Gold;
-import items.Item;
-import items.ItemManager;
-import items.Misc;
-import items.Seed;
+import items.*;
 
 public class Store extends NPCHome {
     GamePanel gp;
@@ -86,41 +81,40 @@ public class Store extends NPCHome {
         }
 
         // ========== Seed List ==========
-        List<Seed> seeds = List.of(
-            new Seed("Parsnip Seeds", new Gold(20), 1, "SPRING", ItemManager.load("/items/seeds/parsnip-seeds.png")),
-            new Seed("Cauliflower Seeds", new Gold(80), 5, "SPRING", ItemManager.load("/items/seeds/cauli-seeds.png")),
-            new Seed("Potato Seeds", new Gold(50), 3, "SPRING", ItemManager.load("/items/seeds/potato-seeds.png")),
-            new Seed("Wheat Seeds", new Gold(60), 1, "SPRING", ItemManager.load("/items/seeds/wheat-seeds.png")),
-            new Seed("Blueberry Seeds", new Gold(80), 7, "SUMMER", ItemManager.load("/items/seeds/blueberry-seeds.png")),
-            new Seed("Tomato Seeds", new Gold(50), 3, "SUMMER", ItemManager.load("/items/seeds/tomato-seeds.png")),
-            new Seed("Hot Pepper Seeds", new Gold(40), 1, "SUMMER", ItemManager.load("/items/seeds/hotpepper-seeds.png")),
-            new Seed("Melon Seeds", new Gold(80), 4, "SUMMER", ItemManager.load("/items/seeds/melon-seeds.png")),
-            new Seed("Cranberry Seeds", new Gold(100), 2, "FALL", ItemManager.load("/items/seeds/cranberry-seeds.png")),
-            new Seed("Pumpkin Seeds", new Gold(150), 7, "FALL", ItemManager.load("/items/seeds/pumpkin-seeds.png")),
-            new Seed("Grape Seeds", new Gold(60), 3, "FALL", ItemManager.load("/items/seeds/grape-seeds.png"))
-        );
-
-        for (Seed seed : seeds) {
-            addItemToStore(seed, 10); // stok default 10
+        String[] seedNames = {
+            "Parsnip Seeds", "Cauliflower Seeds", "Potato Seeds", "Wheat Seeds",
+            "Blueberry Seeds", "Tomato Seeds", "Hot Pepper Seeds", "Melon Seeds",
+            "Cranberry Seeds", "Pumpkin Seeds", "Grape Seeds"
+        };
+        for (String name : seedNames) {
+            Item item = ItemManager.getItem(name);
+            if (item != null && item instanceof Seed) {
+                addItemToStore(item, 10);
+            }
         }
 
         // ========== Crop List ==========
-        List<Crop> crops = List.of(
-            new Crop("Parsnip", new Gold(50), new Gold(35), 1, ItemManager.load("/items/crops/parsnip.png")),
-            new Crop("Cauliflower", new Gold(200), new Gold(150), 1, ItemManager.load("/items/crops/cauli.png")),
-            new Crop("Potato", new Gold(0), new Gold(80), 1, ItemManager.load("/items/crops/potato.png")),
-            new Crop("Wheat", new Gold(50), new Gold(30), 3, ItemManager.load("/items/crops/wheat.png")),
-            new Crop("Blueberry", new Gold(150), new Gold(40), 3, ItemManager.load("/items/crops/blueberry.png")),
-            new Crop("Tomato", new Gold(90), new Gold(60), 1, ItemManager.load("/items/crops/tomato.png")),
-            new Crop("Hot Pepper", new Gold(0), new Gold(40), 1, ItemManager.load("/items/crops/hotpepper.png")),
-            new Crop("Melon", new Gold(0), new Gold(250), 1, ItemManager.load("/items/crops/melon.png")),
-            new Crop("Cranberry", new Gold(0), new Gold(25), 10, ItemManager.load("/items/crops/cranberry.png")),
-            new Crop("Pumpkin", new Gold(300), new Gold(250), 1, ItemManager.load("/items/crops/pumpkin.png")),
-            new Crop("Grape", new Gold(100), new Gold(10), 20, ItemManager.load("/items/crops/grape.png"))
-        );
+        String[] cropNames = {
+            "Parsnip", "Cauliflower", "Potato", "Wheat", "Blueberry",
+            "Tomato", "Hot Pepper", "Melon", "Cranberry", "Pumpkin", "Grape"
+        };
+        for (String name : cropNames) {
+            Item item = ItemManager.getItem(name);
+            if (item != null && item instanceof Crop) {
+                addItemToStore(item, 10);
+            }
+        }
 
-        for (Crop crop : crops) {
-            addItemToStore(crop, 10); // stok default 10
+        // ========== Recipe List ==========
+        String[] recipeNames = {
+            "Fish and Chips",
+            "Fish Sandwich"
+        };
+        for (String name : recipeNames) {
+            Item item = ItemManager.getItem(name);
+            if (item != null && item instanceof Recipe) {
+                addItemToStore(item, 1);
+            }
         }
     }
 

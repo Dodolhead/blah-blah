@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-    private GamePanel gp;  // ✅ Tambahkan referensi ke GamePanel
+    private GamePanel gp;
 
     public boolean upPressed, downPressed, leftPressed, rightPressed;
     public boolean till, recoverLand, planting;
@@ -14,6 +14,12 @@ public class KeyHandler implements KeyListener {
     public boolean fishAction;
     public boolean interactNPC;
     public boolean harvestAction;
+    public boolean eatAction,waterAction,sleepAction,watchAction;
+    
+
+    public KeyHandler(GamePanel gp) {
+        this.gp = gp;
+    }
     
     @Override
     public void keyTyped(KeyEvent e) {

@@ -88,9 +88,13 @@ public class InventoryPanel extends JPanel {
         int index = 0;
         for (Map<Item, Integer> map : inventory.getInventoryStorage().values()) {
             for (Map.Entry<Item, Integer> entry : map.entrySet()) {
-                if (index >= MAX_ITEMS) break;
                 Item item = entry.getKey();
                 int count = entry.getValue();
+
+                // Skip Recipe items
+                if (item instanceof Recipe) continue;
+
+                if (index >= MAX_ITEMS) break;
 
                 slotItems[index] = item;
 

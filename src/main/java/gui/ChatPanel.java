@@ -156,7 +156,7 @@ public class ChatPanel {
                 break;
 
             case 'G':
-                Item giftItem = player.getPlayerInventory().getFirstItem(); // bisa diganti logika seleksi item
+                Item giftItem = gp.inventoryPanel.getSelectedItem(); // bisa diganti logika seleksi item
                 int amount = 1;
                 if (giftItem == null) {
                     showDialogue(currentNPC, "You have no item to gift.");
