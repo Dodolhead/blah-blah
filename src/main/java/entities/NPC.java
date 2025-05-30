@@ -39,6 +39,10 @@ public abstract class NPC {
     public boolean collisionOn = false;
     public boolean collisionWIthPlayer = false;
     
+    public int chattingFrequency = 0;
+    public int giftingFrequency = 0;
+    public int visitingFrequency = 0;
+    
     public NPC(String npcName, String relationshipStatus, GamePanel gp) {
         this.gp = gp;
         this.npcName = npcName;

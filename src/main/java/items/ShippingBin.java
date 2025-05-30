@@ -59,6 +59,7 @@ public class ShippingBin {
         for (Item item : shippingBinStorage.keySet()) {
             totalValue += item.getSellPrice().getGold() * shippingBinStorage.get(item);
         }
+        player.totalIncome += totalValue;
         player.getPlayerGold().addGold(totalValue);
         shippingBinStorage.clear();
         lastSoldDay = time.getDay();

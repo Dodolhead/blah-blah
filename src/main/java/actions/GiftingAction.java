@@ -70,6 +70,7 @@ public class GiftingAction implements Action {
     
         // Update heartPoints NPC
         recipient.increaseHeartPoints(heartPoints);
+        recipient.giftingFrequency++;
     
         // Berikan item ke NPC
         recipient.receiveGift(giftitem, amount);

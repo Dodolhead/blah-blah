@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +48,11 @@ public class Player {
     public boolean enteringHouse = false;
     boolean isShippingBinPanelOpen = false;
 
+    public int totalIncome = 0;
+    public int totalExpenditure = 0;
+    public int cropsHarvested = 0;
+    public Map<String, Integer> fishCaughtByRarity = new HashMap<>();
+    public Map<String, Integer> fishCaughtByName = new HashMap<>();
 
     public Player(String playerName, String gender, String farmName, GamePanel gp, KeyHandler keyH) {
         this.playerName = playerName;

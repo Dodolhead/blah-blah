@@ -99,7 +99,7 @@ public class StorePanel extends JPanel {
                 player.getPlayerGold().subtractGold(price);
                 store.decreaseStock(item, 1);
                 player.getPlayerInventory().addItem(item, 1);
-
+                player.totalExpenditure += price;
                 stockLabel.setText("Stock: " + store.getStock(item));
                 JOptionPane.showMessageDialog(
                     SwingUtilities.getWindowAncestor(StorePanel.this),

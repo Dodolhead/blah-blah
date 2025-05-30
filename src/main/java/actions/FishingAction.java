@@ -169,15 +169,16 @@ public class FishingAction implements Action {
 
     private String determineFishType() {
         int chance = nextInt(100);
-        
+
         if (chance < 60) {
             return "common";
-        } else if (chance < 95 && chance >= 60) {
+        } else if (chance < 95) {
             return "regular";
         } else {
             return "legendary";
         }
     }
+
     @Override
     public boolean execute(Player player) {
         Farm farm = FarmManager.getFarmByName(player.getFarm());
@@ -224,6 +225,19 @@ public class FishingAction implements Action {
                 if (caught) {
                     showMessage("You caught a " + fishName + "!");
                     player.getPlayerInventory().addItem(caughtFish, 1);
+
+                    // Tambah statistik berdasarkan rarity
+                    String rarity = caughtFish.getRarity(); // atau getRarity()
+                    player.fishCaughtByRarity.put(
+                        rarity,
+                        player.fishCaughtByRarity.getOrDefault(rarity, 0) + 1
+                    );
+                    // Tambah statistik berdasarkan nama ikan
+                    String name = caughtFish.getItemName();
+                    player.fishCaughtByName.put(
+                        name,
+                        player.fishCaughtByName.getOrDefault(name, 0) + 1
+                    );
                 } else {
                     showMessage("The fish got away...");
                 }
@@ -259,7 +273,7 @@ public class FishingAction implements Action {
         Weather.WeatherCondition currentWeather = new Weather().getCurrentWeather();
         int currentHour = gameTime.getHour();
         String fishingLocation = player.getPlayerLocation().getName();
-        
+
         if (fishingLocation.equalsIgnoreCase("Pond") || fishingLocation.equalsIgnoreCase("Farm")) {
             fishingLocation = "Pond";
         }

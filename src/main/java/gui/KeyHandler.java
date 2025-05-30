@@ -18,6 +18,7 @@ public class KeyHandler implements KeyListener {
     public boolean placeFurniture;
     public boolean addFuel;
     public boolean shippingBinToggle;
+    public boolean endGameToggle;
     
 
     public KeyHandler(GamePanel gp) {

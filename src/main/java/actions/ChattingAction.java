@@ -27,6 +27,9 @@ public class ChattingAction implements Action {
         }
 
         npcToChatWith.increaseHeartPoints(HEART_POINTS_GAINED);
+
+        npcToChatWith.chattingFrequency++;
+
         player.setEnergy(player.getEnergy() - ENERGY_COST);
         Farm farm = FarmManager.getFarmByName(player.getFarm());
         farm.getTime().skipTimeMinute(TIME_COST);

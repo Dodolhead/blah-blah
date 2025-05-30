@@ -20,8 +20,18 @@ public class VisitingAction implements Action {
         player.subtractPlayerEnergy(ENERGY_COST);
         gameTime.skipTimeMinute(TIME_COST_MINUTES);
 
-        System.out.println("You visited " + destination);
+        NPC visitedNPC = NPCManager.getNPCFromHome(destination);
+        if (visitedNPC != null) {
+            // Tambah counter visiting
+            visitedNPC.visitingFrequency++;
+            System.out.println("You visited " + visitedNPC.getNpcName());
+        } else {
+            System.out.println("You visited " + destination);
+        }
+
         return true;
+
     }
+
 
 }

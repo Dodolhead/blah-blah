@@ -145,6 +145,7 @@ public class HarvestingAction implements Action {
             System.out.println("No harvestable crops nearby!");
             return false;
         }
+        player.cropsHarvested++;
         return true;
     }
 }

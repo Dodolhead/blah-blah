@@ -30,7 +30,13 @@ public class NPCManager {
         }
         return null;
     }
-
-
     
+    public static NPC getNPCFromHome(String homeName) {
+        for (NPC npc : NPCManager.getNPCList()) {
+            if (npc.npcLocation != null && npc.npcLocation.getName().equalsIgnoreCase(homeName)) {
+                return npc;
+            }
+        }
+        return null;
+    }
 }
