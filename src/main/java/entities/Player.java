@@ -45,6 +45,7 @@ public class Player {
     int spriteCount = 0;
 
     public boolean enteringHouse = false;
+    boolean isShippingBinPanelOpen = false;
 
 
     public Player(String playerName, String gender, String farmName, GamePanel gp, KeyHandler keyH) {
@@ -259,9 +260,13 @@ public class Player {
             if (keyH.fishAction){
                 if (gp.cChecker.canFish){
                     new FishingAction().execute(this);
+                    gp.resetPlayerMovement();
+                }
+                else{
+                    System.out.println("You can't fish here!");
                 }
                 keyH.fishAction = false;
-                gp.resetPlayerMovement();
+                gp.cChecker.canFish = false;
             }
             if (keyH.eatAction){
                 if (gp.inventoryPanel.getSelectedItem() instanceof Food) {
@@ -275,7 +280,7 @@ public class Player {
             if (keyH.sleepAction){
                 if (gp.cChecker.canSleep){
                     new SleepingAction().execute(this);
-                    gp.shippingBin.sellShippingBin(gp.farm.getTime());
+                    gp.shippingBin.sellShippingBin(gp.farm.getTime(), this);
                 }
                 else{
                     System.out.println("You can't sleep here!");
@@ -290,6 +295,7 @@ public class Player {
                     System.out.println("You can't watch here!");
                 }
                 keyH.watchAction = false;
+                gp.cChecker.canWatch = false;
             }
             if (keyH.waterAction){
                 new WateringAction().execute(this);
@@ -327,18 +333,25 @@ public class Player {
                     System.out.println("You can't cook here");
                 }
                 keyH.cookingAction = false;
+                gp.cChecker.canCook = false;
             }
             
-            if (gp.cChecker.canSell) {
-                if (keyH.shippingBinToggle) {
-                    // Toggle panel shipping bin
-                    gp.shippingBinPanel.setVisible(!gp.shippingBinPanel.isVisible());
-                    // (Opsional) update slot/isi setiap kali panel dibuka
-                    if (gp.shippingBinPanel.isVisible()) {
+            if (keyH.shippingBinToggle) {
+                if (!isShippingBinPanelOpen) {
+                    if (gp.cChecker.canSell) {
+                        gp.shippingBinPanel.setVisible(true);
                         gp.shippingBinPanel.updateSlots();
+                        gp.farm.getTime().pauseTime();
+                        isShippingBinPanelOpen = true;
+                    } else {
+                        System.out.println("You need to be near a shipping bin.");
                     }
                 } else {
-                    System.out.println("You need to be near a shipping bin.");
+                    // Panel terbuka, tutup (boleh kapan saja)
+                    gp.shippingBinPanel.setVisible(false);
+                    gp.farm.getTime().resumeTime();
+                    gp.farm.getTime().skipTimeMinute(15); 
+                    isShippingBinPanelOpen = false;
                 }
                 keyH.shippingBinToggle = false;
             }

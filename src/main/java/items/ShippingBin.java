@@ -2,6 +2,8 @@ package items;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import entities.Player;
 import tsw.*;
 
 public class ShippingBin {
@@ -48,7 +50,7 @@ public class ShippingBin {
         return true;
     }
 
-    public int sellShippingBin(Time time) {
+    public int sellShippingBin(Time time, Player player) {
         if (cooldown(time)) {
             System.out.println("You can only sell once per day.");
             return 0;
@@ -57,6 +59,7 @@ public class ShippingBin {
         for (Item item : shippingBinStorage.keySet()) {
             totalValue += item.getSellPrice().getGold() * shippingBinStorage.get(item);
         }
+        player.getPlayerGold().addGold(totalValue);
         shippingBinStorage.clear();
         lastSoldDay = time.getDay();
         System.out.println("Items sold! You earned: " + totalValue + " gold.");

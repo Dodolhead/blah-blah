@@ -164,7 +164,7 @@ public class GamePanel extends JPanel implements Runnable{
         inventoryPanel.setSelectedItemLabel(selectedItemLabel);
         
         // Tambahkan ke layout GamePanel
-        selectedItemLabel.setBounds(460, 450, 300, 30); // Atur posisi sesuai keinginan
+        selectedItemLabel.setBounds(460, 450, 300, 40); // Atur posisi sesuai keinginan
         selectedItemLabel.setVisible(false);
         this.add(selectedItemLabel);
         shippingBinPanel = new ShippingBinPanel(shippingBin, player, inventoryPanel);
@@ -416,7 +416,6 @@ public class GamePanel extends JPanel implements Runnable{
         keyH.downPressed = false;
         keyH.leftPressed = false;
         keyH.rightPressed = false;
-        player.direction = "down"; 
         player.moving = false; 
     }
 

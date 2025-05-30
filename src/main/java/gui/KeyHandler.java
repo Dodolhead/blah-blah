@@ -129,5 +129,10 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_J){
             addFuel = false;
         }
+        if (code == KeyEvent.VK_B){
+            shippingBinToggle = false;
+        }
+            
+
     }
 }

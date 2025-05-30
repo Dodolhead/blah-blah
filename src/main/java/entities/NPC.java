@@ -89,6 +89,8 @@ public abstract class NPC {
 
     public void increaseHeartPoints(int heartPoints) {
         this.heartPoints += heartPoints;
+        if (this.heartPoints < 0) this.heartPoints = 0;
+        if (this.heartPoints > 150) this.heartPoints = 150;
     }
 
     public void decreaseHeartPoints(int heartPoints) {

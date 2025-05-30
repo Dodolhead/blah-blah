@@ -75,74 +75,86 @@ public class ItemManager {
         add(new WateringCan("Watering Can", new Gold(0), new Gold(0)));
 
         add(new Misc("Wedding Ring", "A wedding ring", load("/items/misc/ring.png")));
-        add(new Food("Fish and Chips", 50, new Gold(150), new Gold(135), load("/items/misc/ring.png")));
-        add(new Food("Baguette", 25, new Gold(100), new Gold(80), load("/items/misc/ring.png")));
-        add(new Food("Sashimi", 70, new Gold(300), new Gold(275), load("/items/misc/ring.png")));
-        add(new Food("Fugu", 50, new Gold(0), new Gold(135), load("/items/misc/ring.png")));
-        add(new Food("Wine", 20, new Gold(100), new Gold(90), load("/items/misc/ring.png")));
-        add(new Food("Pumpkin Pie", 35, new Gold(120), new Gold(100), load("/items/misc/ring.png")));
-        add(new Food("Veggie Soup", 40, new Gold(140), new Gold(120), load("/items/misc/ring.png")));
-        add(new Food("Fish Stew", 70, new Gold(280), new Gold(260), load("/items/misc/ring.png")));
-        add(new Food("Spakbor Salad", 70, new Gold(0), new Gold(250), load("/items/misc/ring.png")));
-        add(new Food("Fish Sandwich", 50, new Gold(200), new Gold(180), load("/items/misc/ring.png")));
-        add(new Food("The Legends of Spakbor", 100, new Gold(0), new Gold(2000), load("/items/misc/ring.png")));
-        add(new Food("Cooked Pig's Head", 100, new Gold(1000), new Gold(0), load("/items/misc/ring.png")));
+        add(new Food("Fish and Chips", 50, new Gold(150), new Gold(135), load("/items/foods/fish-n-chips.png")));
+        add(new Food("Baguette", 25, new Gold(100), new Gold(80), load("/items/foods/baguette.png")));
+        add(new Food("Sashimi", 70, new Gold(300), new Gold(275), load("/items/foods/sashimi.png")));
+        add(new Food("Fugu", 50, new Gold(0), new Gold(135), load("/items/foods/fugu.png")));
+        add(new Food("Wine", 20, new Gold(100), new Gold(90), load("/items/foods/wine.png")));
+        add(new Food("Pumpkin Pie", 35, new Gold(120), new Gold(100), load("/items/foods/pumpkin-pie.png")));
+        add(new Food("Veggie Soup", 40, new Gold(140), new Gold(120), load("/items/foods/veggie-soup.png")));
+        add(new Food("Fish Stew", 70, new Gold(280), new Gold(260), load("/items/foods/fish-stew.png")));
+        add(new Food("Spakbor Salad", 70, new Gold(0), new Gold(250), load("/items/foods/spakbor-salad.png")));
+        add(new Food("Fish Sandwich", 50, new Gold(200), new Gold(180), load("/items/foods/fish-sandwich.png")));
+        add(new Food("The Legends of Spakbor", 100, new Gold(0), new Gold(2000), load("/items/foods/legend-spakbor.png")));
+        add(new Food("Cooked Pig's Head", 100, new Gold(1000), new Gold(0), load("/items/foods/cooked-pig-head.png")));
 
         add(new Recipe("Fish and Chips Recipe", "Crispy fried fish with potato chips.", "recipe_1",
                 Map.of("Any Fish", 2, "Wheat", 1, "Potato", 1),
-                new Food("Fish and Chips", 50, new Gold(150), new Gold(135), load("/items/misc/ring.png")),
+                new Food("Fish and Chips", 50, new Gold(150), new Gold(135), load("/items/foods/fish-n-chips.png")),
                 new Gold(50)
         ));
+
         add(new Recipe("Baguette Recipe", "Classic French bread.", "recipe_2",
                 Map.of("Wheat", 3),
-                new Food("Baguette", 25, new Gold(100), new Gold(80), load("/items/misc/ring.png")),
+                new Food("Baguette", 25, new Gold(100), new Gold(80), load("/items/foods/baguette.png")),
                 new Gold(0)
         ));
+
         add(new Recipe("Sashimi Recipe", "Fresh slice of salmon.", "recipe_3",
                 Map.of("Salmon", 3),
-                new Food("Sashimi", 70, new Gold(300), new Gold(275), load("/items/misc/ring.png")),
+                new Food("Sashimi", 70, new Gold(300), new Gold(275), load("/items/foods/sashimi.png")),
                 new Gold(0)
         ));
+
         add(new Recipe("Fugu Recipe", "Exotic pufferfish dish.", "recipe_4",
                 Map.of("Pufferfish", 1),
-                new Food("Fugu", 50, new Gold(0), new Gold(135), load("/items/misc/ring.png")),
+                new Food("Fugu", 50, new Gold(0), new Gold(135), load("/items/foods/fugu.png")),
                 new Gold(0)
         ));
+
         add(new Recipe("Wine Recipe", "Fermented grape beverage.", "recipe_5",
                 Map.of("Grape", 2),
-                new Food("Wine", 20, new Gold(100), new Gold(90), load("/items/misc/ring.png")),
+                new Food("Wine", 20, new Gold(100), new Gold(90), load("/items/foods/wine.png")),
                 new Gold(0)
         ));
+
         add(new Recipe("Pumpkin Pie Recipe", "Sweet pumpkin-filled pie.", "recipe_6",
                 Map.of("Egg", 1, "Wheat", 1, "Pumpkin", 1),
-                new Food("Pumpkin Pie", 35, new Gold(120), new Gold(100), load("/items/misc/ring.png")),
+                new Food("Pumpkin Pie", 35, new Gold(120), new Gold(100), load("/items/foods/pumpkin-pie.png")),
                 new Gold(0)
         ));
+
         add(new Recipe("Veggie Soup Recipe", "Healthy veggie soup.", "recipe_7",
                 Map.of("Cauliflower", 1, "Parsnip", 1, "Potato", 1, "Tomato", 1),
-                new Food("Veggie Soup", 40, new Gold(140), new Gold(120), load("/items/misc/ring.png")),
+                new Food("Veggie Soup", 40, new Gold(140), new Gold(120), load("/items/foods/veggie-soup.png")),
                 new Gold(0)
         ));
+
         add(new Recipe("Fish Stew Recipe", "Rich stew with fish and veggies.", "recipe_8",
                 Map.of("Any Fish", 2, "Hot pepper", 1, "Cauliflower", 2),
-                new Food("Fish Stew", 70, new Gold(280), new Gold(260), load("/items/misc/ring.png")),
+                new Food("Fish Stew", 70, new Gold(280), new Gold(260), load("/items/foods/fish-stew.png")),
                 new Gold(0)
         ));
+
         add(new Recipe("Spakbor Salad Recipe", "Colorful fruit salad.", "recipe_9",
                 Map.of("Melon", 1, "Cranberry", 1, "Blueberry", 1, "Tomato", 1),
-                new Food("Spakbor Salad", 70, new Gold(0), new Gold(250), load("/items/misc/ring.png")),
+                new Food("Spakbor Salad", 70, new Gold(0), new Gold(250), load("/items/foods/spakbor-salad.png")),
                 new Gold(0)
         ));
+
         add(new Recipe("Fish Sandwich Recipe", "Fish fillet sandwich.", "recipe_10",
                 Map.of("Any Fish", 1, "Wheat", 2, "Tomato", 1, "Hot Pepper", 1),
-                new Food("Fish Sandwich", 50, new Gold(200), new Gold(180), load("/items/misc/ring.png")),
+                new Food("Fish Sandwich", 50, new Gold(200), new Gold(180), load("/items/foods/fish-sandwich.png")),
                 new Gold(50)
         ));
+
         add(new Recipe("The Legends of Spakbor Recipe", "Legendary dish for legends.", "recipe_11",
                 Map.of("Legend fish", 1, "Potato", 2, "Parsnip", 1, "Tomato", 1, "Eggplant", 1),
-                new Food("The Legends of Spakbor", 100, new Gold(0), new Gold(2000), load("/items/misc/ring.png")),
+                new Food("The Legends of Spakbor", 100, new Gold(0), new Gold(2000), load("/items/foods/legend-spakbor.png")),
                 new Gold(0)
         ));
+
+        
 
         add(new Bed(
             "bed_1",
