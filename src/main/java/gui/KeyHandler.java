@@ -17,6 +17,7 @@ public class KeyHandler implements KeyListener {
     public boolean eatAction,waterAction,sleepAction,watchAction,cookingAction;
     public boolean placeFurniture;
     public boolean addFuel;
+    public boolean shippingBinToggle;
     
 
     public KeyHandler(GamePanel gp) {
@@ -62,6 +63,7 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_P -> planting = true;
             case KeyEvent.VK_I -> inventoryToggle = true;
             case KeyEvent.VK_O -> storeToggle = true;
+            case KeyEvent.VK_B -> shippingBinToggle = true;
             case KeyEvent.VK_V -> playerInfoToggle = true;
             case KeyEvent.VK_F -> fishAction = true;
             case KeyEvent.VK_N -> interactNPC = true;

@@ -8,6 +8,7 @@ public class TileChecker {
     public boolean canSleep;
     public boolean canWatch;
     public boolean canCook;
+    public boolean canSell;
 
     public TileChecker(GamePanel gp) {
         this.gp = gp;
@@ -135,6 +136,9 @@ public class TileChecker {
         }
         if ((tileChar1 == 'S' || tileChar2 == 'S') && gp.player.getPlayerLocation().getName().equals("House")) {
             canCook = true;
+        }
+        if ((tileChar1 == 's' || tileChar2 == 's') && gp.player.getPlayerLocation().getName().equals("Farm")) {
+            canSell = true;
         }
 
 

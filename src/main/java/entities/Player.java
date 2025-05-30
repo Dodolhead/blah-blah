@@ -275,6 +275,7 @@ public class Player {
             if (keyH.sleepAction){
                 if (gp.cChecker.canSleep){
                     new SleepingAction().execute(this);
+                    gp.shippingBin.sellShippingBin(gp.farm.getTime());
                 }
                 else{
                     System.out.println("You can't sleep here!");
@@ -326,6 +327,20 @@ public class Player {
                     System.out.println("You can't cook here");
                 }
                 keyH.cookingAction = false;
+            }
+            
+            if (gp.cChecker.canSell) {
+                if (keyH.shippingBinToggle) {
+                    // Toggle panel shipping bin
+                    gp.shippingBinPanel.setVisible(!gp.shippingBinPanel.isVisible());
+                    // (Opsional) update slot/isi setiap kali panel dibuka
+                    if (gp.shippingBinPanel.isVisible()) {
+                        gp.shippingBinPanel.updateSlots();
+                    }
+                } else {
+                    System.out.println("You need to be near a shipping bin.");
+                }
+                keyH.shippingBinToggle = false;
             }
 
             collisionOn = false;

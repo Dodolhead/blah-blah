@@ -14,6 +14,7 @@ import java.util.Map;
 import entities.*;
 import items.ItemManager;
 import items.Seed;
+import items.ShippingBin;
 import map.*;
 import tile.*;
 
@@ -83,6 +84,8 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public GameState gameState = GameState.NORMAL;
     private JLabel selectedItemLabel;
+    public ShippingBinPanel shippingBinPanel;
+    public ShippingBin shippingBin = new ShippingBin();
 
 
     public GamePanel(String playerName, String gender, String farmName, MainPanel mainPanel){ 
@@ -126,7 +129,7 @@ public class GamePanel extends JPanel implements Runnable{
         currentMap = farm.getFarmMap().getFarmMapDisplay();
         maxWorldCol = currentMap[0].length;
         maxWorldRow = currentMap.length;
-
+        shippingBinPanel = new ShippingBinPanel(shippingBin, player, inventoryPanel);
         worldWidth = tileSize * maxWorldCol;
         worldHeight = tileSize * maxWorldRow;
         player.setScreenPosition(screenWidth, screenHeight);
@@ -164,6 +167,10 @@ public class GamePanel extends JPanel implements Runnable{
         selectedItemLabel.setBounds(460, 450, 300, 30); // Atur posisi sesuai keinginan
         selectedItemLabel.setVisible(false);
         this.add(selectedItemLabel);
+        shippingBinPanel = new ShippingBinPanel(shippingBin, player, inventoryPanel);
+        shippingBinPanel.setBounds(10, 10, 180, 200); // kiri atas
+        shippingBinPanel.setVisible(false);
+        this.add(shippingBinPanel);
     }
 
 
@@ -233,7 +240,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         if (keyH.playerInfoToggle) {
             if (!playerInfoPanel.isVisible()) {
-                playerInfoPanel.updateInfo(); // update dulu sebelum tampil
+                playerInfoPanel.updateInfo();
             }
             playerInfoPanel.setVisible(!playerInfoPanel.isVisible());
             keyH.playerInfoToggle = false;
@@ -247,6 +254,7 @@ public class GamePanel extends JPanel implements Runnable{
             }
             keyH.interactNPC = false;
         }
+
     }
 
     public void paintComponent(Graphics g){
