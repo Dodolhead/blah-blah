@@ -1,6 +1,9 @@
 package entities;
 
 import gui.*;
+import items.Item;
+import items.ItemManager;
+
 import java.io.IOException;
 import map.*;
 
@@ -14,6 +17,15 @@ public class Perry extends NPC {
 
         getNPCImage();
         npcLocation = new Location("PerryHome", new Point(5 * gp.tileSize, 1 * gp.tileSize));
+        this.addLovedItem(ItemManager.getItem("Cranberry"));
+        this.addLovedItem(ItemManager.getItem("Blueberry"));
+        this.addLikedItem(ItemManager.getItem("Wine"));
+        // Hated: semua item Fish
+        for (Item item : ItemManager.getAllItems()) {
+            if (item instanceof items.Fish) {
+                this.addHatedItem(item);
+            }
+        }
     }
 
     public void getNPCImage() {

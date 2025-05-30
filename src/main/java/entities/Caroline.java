@@ -5,6 +5,7 @@ import javax.imageio.ImageIO;
 import map.*;
 
 import gui.*;
+import items.ItemManager;
 
 public class Caroline extends NPC{
     public Caroline(GamePanel gp) {
@@ -15,6 +16,11 @@ public class Caroline extends NPC{
         getNPCImage();
         npcLocation = new Location("Farm", new Point(2 * gp.tileSize, 3 * gp.tileSize));
         npcLocation = new Location("CarolineHome", new Point(2 * gp.tileSize, 3 * gp.tileSize));
+        this.addLovedItem(ItemManager.getItem("Firewood"));
+        this.addLovedItem(ItemManager.getItem("Coal"));
+        this.addLikedItem(ItemManager.getItem("Potato"));
+        this.addLikedItem(ItemManager.getItem("Wheat"));
+        this.addHatedItem(ItemManager.getItem("Hot Pepper"));
     }
 
     public void getNPCImage(){

@@ -1,5 +1,8 @@
 package entities;
 import gui.*;
+import items.Item;
+import items.ItemManager;
+
 import java.io.IOException;
 import map.*;
 
@@ -13,6 +16,17 @@ public class Emily extends NPC{
 
         getNPCImage();
         npcLocation = new Location("Store", new Point(5 * gp.tileSize, 1 * gp.tileSize));
+        for (Item item : ItemManager.getAllItems()) {
+            if (item instanceof items.Seed) {
+                this.addLovedItem(item);
+            }
+        }
+        this.addLikedItem(ItemManager.getItem("Catfish"));
+        this.addLikedItem(ItemManager.getItem("Salmon"));
+        this.addLikedItem(ItemManager.getItem("Sardine"));
+        this.addHatedItem(ItemManager.getItem("Coal"));
+        this.addHatedItem(ItemManager.getItem("Firewood"));
+        this.addHatedItem(ItemManager.getItem("Wood")); // jika ada
     }
 
     public void getNPCImage(){

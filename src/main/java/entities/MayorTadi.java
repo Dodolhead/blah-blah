@@ -1,6 +1,9 @@
 package entities;
 
 import gui.*;
+import items.Item;
+import items.ItemManager;
+
 import java.io.IOException;
 import map.*;
 
@@ -14,6 +17,21 @@ public class MayorTadi extends NPC {
 
         getNPCImage();
         npcLocation = new Location("MayorTadiHome", new Point(5 * gp.tileSize, 1 * gp.tileSize));
+        this.addLovedItem(ItemManager.getItem("Legend"));
+        this.addLikedItem(ItemManager.getItem("Angler"));
+        this.addLikedItem(ItemManager.getItem("Crimsonfish"));
+        this.addLikedItem(ItemManager.getItem("Glacierfish"));
+        // Hated: Semua item yang bukan loved/liked
+        for (Item item : ItemManager.getAllItems()) {
+            if (
+                !item.getItemName().equals("Legend") &&
+                !item.getItemName().equals("Angler") &&
+                !item.getItemName().equals("Crimsonfish") &&
+                !item.getItemName().equals("Glacierfish")
+            ) {
+                this.addHatedItem(item);
+            }
+        }
     }
 
     public void getNPCImage() {

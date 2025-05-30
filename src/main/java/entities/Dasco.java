@@ -1,6 +1,8 @@
 package entities;
 
 import gui.*;
+import items.ItemManager;
+
 import java.io.IOException;
 import map.*;
 
@@ -14,6 +16,22 @@ public class Dasco extends NPC {
 
         getNPCImage();
         npcLocation = new Location("DascoHome", new Point(5 * gp.tileSize, 1 * gp.tileSize));
+        this.addLovedItem(ItemManager.getItem("The Legends of Spakbor"));
+        this.addLovedItem(ItemManager.getItem("Cooked Pig's Head"));
+        this.addLovedItem(ItemManager.getItem("Wine"));
+        this.addLovedItem(ItemManager.getItem("Fugu"));
+        this.addLovedItem(ItemManager.getItem("Spakbor Salad"));
+        this.addLikedItem(ItemManager.getItem("Fish Sandwich"));
+        this.addLikedItem(ItemManager.getItem("Fish Stew"));
+        this.addLikedItem(ItemManager.getItem("Baguette"));
+        this.addLikedItem(ItemManager.getItem("Fish and Chips"));
+        // Hated: Legend, Grape, Cauliflower, Wheat, Pufferfish, Salmon
+        this.addHatedItem(ItemManager.getItem("Legend"));
+        this.addHatedItem(ItemManager.getItem("Grape"));
+        this.addHatedItem(ItemManager.getItem("Cauliflower"));
+        this.addHatedItem(ItemManager.getItem("Wheat"));
+        this.addHatedItem(ItemManager.getItem("Pufferfish"));
+        this.addHatedItem(ItemManager.getItem("Salmon"));
     }
 
     public void getNPCImage() {
