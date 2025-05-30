@@ -14,6 +14,7 @@ public class Caroline extends NPC{
 
         getNPCImage();
         npcLocation = new Location("Farm", new Point(2 * gp.tileSize, 3 * gp.tileSize));
+        npcLocation = new Location("CarolineHome", new Point(2 * gp.tileSize, 3 * gp.tileSize));
     }
 
     public void getNPCImage(){

@@ -54,13 +54,14 @@ public class GamePanel extends JPanel implements Runnable{
 
     // Current Map
     char[][] currentMap;
+    private String currentLocationName = "Farm"; 
 
     // MainPanel
     MainPanel mainPanel;
 
     // NPC
     NPCManager npcManager = new NPCManager();
-    public ChatPanel chatPanel; //chat NPC
+    public ChatPanel chatPanel; 
 
     // Inventory
     public InventoryPanel inventoryPanel = new InventoryPanel();
@@ -113,6 +114,11 @@ public class GamePanel extends JPanel implements Runnable{
         store = new Store(this);
         store.fillStore();
         storePanel = new StorePanel(store, player, this);
+        NPCHomeManager.addNPCHome(new DascoHome());
+        NPCHomeManager.addNPCHome(new AbigailHome());
+        NPCHomeManager.addNPCHome(new PerryHome());
+        NPCHomeManager.addNPCHome(new CarolineHome());
+        NPCHomeManager.addNPCHome(new MayorTadiHome());
         Point spawn = farm.getFarmMap().getValidRandomSpawnPoint();
         player.getPlayerLocation().setPoint(new Point(spawn.getX() * tileSize, spawn.getY() * tileSize));
 
@@ -193,21 +199,24 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
     
-    public void update(){
+    public void update() {
         player.update();
         for (NPC npc : NPCManager.npcList) {
             if (npc != null) {
                 npc.update();
             }
         }
+
         removeOutOfSeasonCrops(farm.getFarmMap(), farm.getTime().getCurrentSeason().name());
         timePanel.updateDisplay();
         inventoryPanel.updateInventoryUI(player.getPlayerInventory());
+
         if (keyH.inventoryToggle) {
             inventoryPanel.setVisible(!inventoryPanel.isVisible());
             selectedItemLabel.setVisible(inventoryPanel.isVisible());
             keyH.inventoryToggle = false;
         }
+
         if (keyH.storeToggle && player.getPlayerLocation().getName().equals("Store")) {
             if (!storePanel.isVisible()) {
                 storePanel.refreshPanel();
@@ -215,9 +224,11 @@ public class GamePanel extends JPanel implements Runnable{
             storePanel.setVisible(!storePanel.isVisible());
             keyH.storeToggle = false;
         }
+
         if (!player.getPlayerLocation().getName().equals("Store") && storePanel.isVisible()) {
             storePanel.setVisible(false);
         }
+
         if (keyH.playerInfoToggle) {
             if (!playerInfoPanel.isVisible()) {
                 playerInfoPanel.updateInfo(); // update dulu sebelum tampil
@@ -225,7 +236,7 @@ public class GamePanel extends JPanel implements Runnable{
             playerInfoPanel.setVisible(!playerInfoPanel.isVisible());
             keyH.playerInfoToggle = false;
         }
-    
+
         if (keyH.interactNPC) {
             NPC npc = player.getNearbyNPC();
             if (npc != null) {
@@ -249,6 +260,12 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
         chatPanel.draw(g2);
+
+        // Draw current location name
+        g2.setColor(Color.WHITE);
+        g2.setFont(new Font("Arial", Font.BOLD, 20));
+        g2.drawString("Location: " + currentLocationName, 10, 25);
+
         super.paintChildren(g);
         g2.dispose();
     }
@@ -256,21 +273,32 @@ public class GamePanel extends JPanel implements Runnable{
     public void changeMap(String mapName, int playerX, int playerY) {
         if (mapName.equals("Farm")) {
             currentMap = farm.getFarmMap().getFarmMapDisplay();
+            currentLocationName = "Farm";
         }
         else if (mapName.equals("House")) {
             currentMap = houseMap.getHouseMapDisplay();
+            currentLocationName = "House";
         }
         else if (mapName.equals("ForestRiver")) {
             currentMap = forestRiver.getForestRiverDisplay();
+            currentLocationName = "Forest River";
         }
         else if (mapName.equals("Ocean")) {
             currentMap = ocean.getOceanDisplay();
+            currentLocationName = "Ocean";
         }
         else if (mapName.equals("Store")) {
             currentMap = store.getStoreDisplay();
+            currentLocationName = "Store";
         }
-            else if (mapName.equals("MountainLake")) {
+        else if (mapName.equals("MountainLake")) {
             currentMap = mountainLake.getMountainLakeDisplay();
+            currentLocationName = "Mountain Lake";
+        }
+        else if (NPCHomeManager.getNpcHomeStorage().containsKey(mapName)) {
+            NPCHome home = NPCHomeManager.getNPCHomeByName(mapName);
+            currentMap = home.getNpcHomeDisplay();
+            currentLocationName = home.getNpcHomeName();
         }
         else {
             System.out.println("Map " + mapName + " unknown!");
@@ -346,6 +374,24 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
+    public void goToNPCHome(NPCHome home) {
+        if (player.getEnergy() < 10) {
+            System.out.println("You don't have enough energy to visit " + home.getNpc().getNpcName());
+            return;
+        }
+
+        int spawnX = (maxWorldCol / 2) * tileSize; 
+        int spawnY = (maxWorldRow / 2) * tileSize;
+
+        changeMap(home.getNpcHomeName(), spawnX, spawnY);
+        resetPlayerMovement();
+
+        VisitingAction visitingAction = new VisitingAction(home.getNpcHomeName());
+        visitingAction.execute(player);
+        mainPanel.showGame();
+    }
+
+
     public void setCurrentMap(char[][] newMap) {
         this.tileM.mapTiles = newMap;
         this.maxWorldRow = newMap.length;
@@ -360,12 +406,17 @@ public class GamePanel extends JPanel implements Runnable{
         keyH.downPressed = false;
         keyH.leftPressed = false;
         keyH.rightPressed = false;
-        player.direction = "down";
+        player.direction = "down"; 
+        player.moving = false; 
     }
 
     public void setupNpc() {
         new Emily(this);
         new Caroline(this);
+        new Dasco(this);
+        new Perry(this);
+        new MayorTadi(this);
+        new Abigail(this);
     }
 
     public static void removeOutOfSeasonCrops(FarmMap farmMap, String currentSeason) {

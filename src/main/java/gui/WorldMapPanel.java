@@ -1,6 +1,9 @@
 package gui;
 
 import javax.swing.*;
+
+import entities.NPC;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Color;
@@ -8,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -131,7 +135,30 @@ public class WorldMapPanel extends JPanel implements ActionListener {
         } else if (e.getSource() == farmButton) {
             goToLocation("Farm", () -> gp.returnToFarm());
         } else if (e.getSource() == npcHouseButton) {
-            System.out.println("Button NPC clicked");
+            Map<String, NPCHome> npcHomes = NPCHomeManager.getNpcHomeStorage();
+
+            if (npcHomes.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No NPC Homes available.");
+                return;
+            }
+
+            Object[] homeNames = npcHomes.keySet().toArray(); 
+            String selectedHome = (String) JOptionPane.showInputDialog(
+                this,
+                "Choose an NPC Home:",
+                "Go to NPC Home",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                homeNames,
+                homeNames[0]
+            );
+
+            if (selectedHome != null) {
+                NPCHome chosenHome = npcHomes.get(selectedHome);
+                if (chosenHome != null) {
+                    gp.goToNPCHome(chosenHome);
+                }
+            }
         }
     }
 
