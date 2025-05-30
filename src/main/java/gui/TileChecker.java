@@ -124,7 +124,7 @@ public class TileChecker {
             }
         }
 
-        if ((tileChar1 == 'o' || tileChar2 == 'o') || (tileChar1 == 'Q' || tileChar2 == 'Q')) {
+        if ((tileChar1 == 'o' || tileChar2 == 'o') || (tileChar1 == 'Q' || tileChar2 == 'Q') || (tileChar1 == 'O' || tileChar2 == 'O')) {
             canFish = true;
         }
         if ((tileChar1 == 'B' || tileChar2 == 'B') && gp.player.getPlayerLocation().getName().equals("House")) {

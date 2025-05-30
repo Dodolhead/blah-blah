@@ -288,7 +288,7 @@ public class FarmMap {
     private char getObjectChar(String objectType) {
         switch (objectType) {
             case "House": return 'h';
-            case "Pond": return 'o';
+            case "Pond": return 'O';
             case "ShippingBin": return 's';
             case "Tillable": return '.';
             case "Tilled": return 't';
