@@ -98,6 +98,7 @@ public class GamePanel extends JPanel implements Runnable{
         player.getPlayerInventory().addItem(ItemManager.getItem("Fishing Rod"), 1);
         player.getPlayerInventory().addItem(ItemManager.getItem("Baguette Recipe"), 1);
         player.getPlayerInventory().addItem(ItemManager.getItem("Wine Recipe"), 1);
+        player.getPlayerInventory().addItem(ItemManager.getItem("Watering Can"), 1);
         player.getPlayerInventory().addItem(ItemManager.getItem("Pumpkin Pie Recipe"), 1);
         player.getPlayerInventory().addItem(ItemManager.getItem("Spakbor Salad Recipe"), 1);
         // player.getPlayerInventory().addItem(ItemManager.getItem("Fish and Chips Recipe"), 1);
@@ -208,6 +209,7 @@ public class GamePanel extends JPanel implements Runnable{
         }
 
         removeOutOfSeasonCrops(farm.getFarmMap(), farm.getTime().getCurrentSeason().name());
+        removeWitheredCrops(farm.getFarmMap(), farm.getTime().getDay());
         timePanel.updateDisplay();
         inventoryPanel.updateInventoryUI(player.getPlayerInventory());
 
@@ -460,8 +462,33 @@ public class GamePanel extends JPanel implements Runnable{
                 // Jika tile planted ('l'), baru bisa disiram
                 if (map[y][x] == 'l') {
                     map[y][x] = 'w';
+                    farmMap.getLastWateredDay().put(new Point(x, y), farm.getTime().getDay());
                 }
             }
+        }
+    }
+    public static void removeWitheredCrops(FarmMap farmMap, int currentDay) {
+        Map<Point, Seed> plantedSeeds = farmMap.getPlantedSeeds();
+        Map<Point, Integer> plantedDay = farmMap.getPlantedDay();
+        Map<Point, Integer> lastWateredDay = farmMap.getLastWateredDay();
+        char[][] mapDisplay = farmMap.getFarmMapDisplay();
+        List<Point> toRemove = new ArrayList<>();
+
+        for (Map.Entry<Point, Seed> entry : plantedSeeds.entrySet()) {
+            Point point = entry.getKey();
+            int lastWatered = lastWateredDay.getOrDefault(point, plantedDay.getOrDefault(point, currentDay));
+            if (currentDay - lastWatered >= 2) {
+                mapDisplay[point.getY()][point.getX()] = 't';
+                toRemove.add(point);
+                farmMap.getObjectPosition().get("Planted").remove(point);
+                farmMap.getObjectPosition().get("Tilled").add(point);
+                System.out.println("Plant in " + point.getX() + "," + point.getY() + " withered due to lack of watering.");
+            }
+        }
+        for (Point p : toRemove) {
+            plantedSeeds.remove(p);
+            plantedDay.remove(p);
+            lastWateredDay.remove(p);
         }
     }
 

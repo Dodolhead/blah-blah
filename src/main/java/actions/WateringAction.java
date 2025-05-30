@@ -55,6 +55,8 @@ public class WateringAction implements Action {
 
             // Tandai sebagai sudah disiram
             map[y][x] = 'w';
+            // TAMBAHAN: Update lastWateredDay
+            farmMap.getLastWateredDay().put(new Point(x, y), gameTime.getDay());
 
             System.out.println("You watered the land at (" + x + ", " + y + ").");
 

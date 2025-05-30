@@ -17,6 +17,7 @@ public class FarmMap {
     private Point playerPositionFarm;
     private Map<Point, Seed> plantedSeeds;
     private Map<Point, Integer> plantedDay;
+    private Map<Point, Integer> lastWateredDay = new HashMap<>();
     public Point houseStartPoint;
     public Point shippingBinPoint;
     public Point pondStartPoint;
@@ -43,7 +44,10 @@ public class FarmMap {
         placeObjectsRandomly();
         fillTillableLand();
     }
-
+    
+    public Map<Point, Integer> getLastWateredDay() {
+        return lastWateredDay;
+    }
     public Map<Point, Seed> getPlantedSeeds() {
         return plantedSeeds;
     }
