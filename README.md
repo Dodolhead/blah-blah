@@ -1,4 +1,4 @@
-# Tugas Besar IF2010
+# Tugas Besar IF2010 Object Oriented Programming
 > K-06 | Kelompok 4
 
 ![image](https://github.com/user-attachments/assets/388d54d2-18a2-4f7e-9986-b64b5639557f)
