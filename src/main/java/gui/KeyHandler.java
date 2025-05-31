@@ -69,7 +69,7 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_F -> fishAction = true;
             case KeyEvent.VK_N -> interactNPC = true;
             case KeyEvent.VK_H -> harvestAction = true;
-            case KeyEvent.VK_ESCAPE -> menuToggle = true;
+        
         }
         if (code == KeyEvent.VK_E){
             eatAction = true;
@@ -109,7 +109,7 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_F -> fishAction = false;
             case KeyEvent.VK_N -> interactNPC = false;
             case KeyEvent.VK_H -> harvestAction = false;
-            case KeyEvent.VK_ESCAPE -> menuToggle = false;
+            case KeyEvent.VK_ESCAPE -> menuToggle = true;
         }
         if (code == KeyEvent.VK_E){
             eatAction = false;

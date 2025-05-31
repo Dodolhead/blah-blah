@@ -14,7 +14,7 @@ public class EndGamePanel extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        JLabel title = new JLabel("🎉 End Game Statistics 🎉");
+        JLabel title = new JLabel("End Game Statistics");
         title.setFont(new Font("Arial", Font.BOLD, 22));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(title);

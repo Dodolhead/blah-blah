@@ -17,7 +17,6 @@ import items.ShippingBin;
 import map.*;
 import tile.*;
 import actions.*;
-import endgame.EndGame;
 
 
 public class GamePanel extends JPanel implements Runnable{
@@ -89,7 +88,6 @@ public class GamePanel extends JPanel implements Runnable{
     public ShippingBin shippingBin = new ShippingBin();
 
     //EndGame
-    private EndGame endGame = new EndGame();
     ShortcutMenuPanel shortcutMenuPanel;
 
 
@@ -157,7 +155,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.add(inventoryPanel);
         this.add(storePanel);
         playerInfoPanel = new PlayerInfoPanel(player);
-        playerInfoPanel.setBounds(460, 50, 300, 200); // Atur posisi & ukuran sesuai keinginan
+        playerInfoPanel.setBounds(460, 60, 300, 200); // Atur posisi & ukuran sesuai keinginan
         playerInfoPanel.setVisible(false); // Supaya gak langsung kelihatan
         this.add(playerInfoPanel);
         chatPanel = new ChatPanel(this, player);
@@ -171,16 +169,17 @@ public class GamePanel extends JPanel implements Runnable{
         // Tambahkan ke layout GamePanel
         selectedItemLabel.setBounds(460, 450, 300, 40); // Atur posisi sesuai keinginan
         selectedItemLabel.setVisible(false);
+
         this.add(selectedItemLabel);
         shippingBinPanel = new ShippingBinPanel(shippingBin, player, inventoryPanel);
-        shippingBinPanel.setBounds(10, 10, 180, 200); // kiri atas
+        shippingBinPanel.setBounds(10, 60, 180, 200); // kiri atas
         shippingBinPanel.setVisible(false);
         this.add(shippingBinPanel);
 
         //EndGame Panel
         this.setLayout(null);
         shortcutMenuPanel = new ShortcutMenuPanel((JFrame) SwingUtilities.getWindowAncestor(this), player, farm.getTime(), this);
-        shortcutMenuPanel.setBounds(200, 100, 300, 300);
+        shortcutMenuPanel.setBounds(250, 100, 300, 300);
         shortcutMenuPanel.setVisible(false);
         this.add(shortcutMenuPanel);
     }
@@ -267,10 +266,8 @@ public class GamePanel extends JPanel implements Runnable{
             keyH.interactNPC = false;
         }
         if (keyH.menuToggle) {
-            if (shortcutMenuPanel.isVisible()) {
-                shortcutMenuPanel.setVisible(false);
-            } else if (gameState != GameState.NPC_DIALOGUE) {
-                shortcutMenuPanel.setVisible(true);
+            if (gameState != GameState.NPC_DIALOGUE) {
+                shortcutMenuPanel.setVisible(!shortcutMenuPanel.isVisible());
             }
             keyH.menuToggle = false;
         }
@@ -278,7 +275,13 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        ImageIcon image = new ImageIcon(getClass().getResource("/res/gamebackground/night.jpg"));
+        ImageIcon image;
+        if (farm.getTime().isNight()) {
+            image = new ImageIcon(getClass().getResource("/res/gamebackground/night.jpg"));
+        }
+        else {
+            image = new ImageIcon(getClass().getResource("/res/gamebackground/day.jpg"));
+        }
         Graphics2D g2 = (Graphics2D) g;
         g.drawImage(image.getImage(), 0, 0, screenWidth, screenHeight, null);
         tileM.draw(g2);

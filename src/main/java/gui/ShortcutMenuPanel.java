@@ -7,7 +7,6 @@ import tsw.Time;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 public class ShortcutMenuPanel extends JPanel {
 
@@ -34,7 +33,7 @@ public class ShortcutMenuPanel extends JPanel {
         JButton tujuanButton = createButton("Tujuan Permainan");
         tujuanButton.addActionListener(e -> {
             String tujuan = """
-                    🎯 Tujuan Permainan:
+                    Tujuan Permainan:
 
                     - Mengelola lahan pertanian dan melakukan beberapa aksi (lihat menu HELP).
                     - Mencapai milestones seperti memiliki 17.209g dan menikah.
@@ -51,7 +50,7 @@ public class ShortcutMenuPanel extends JPanel {
         JButton helpButton = createButton("HELP");
         helpButton.addActionListener(e -> {
             String helpText = """
-                    🎮 KEYBIND
+                    KEYBIND
 
                     - W A S D : Move
                     - T       : Tilling
@@ -89,7 +88,7 @@ public class ShortcutMenuPanel extends JPanel {
                 frame.setContentPane(panel);
                 frame.revalidate();
             } else {
-                String message = "❌ Milestone belum tercapai!\nBelum bisa melihat statistik akhir.";
+                String message = "Milestone belum tercapai!\nBelum bisa melihat statistik akhir.";
                 JOptionPane.showMessageDialog(this, message, "End Game Gagal", JOptionPane.WARNING_MESSAGE);
                 requestFocusInWindow(); 
             }
@@ -114,17 +113,6 @@ public class ShortcutMenuPanel extends JPanel {
         add(exitButton);
         add(Box.createVerticalStrut(20));
 
-        // Shortcut ESC → Tutup panel & kembali ke game
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"), "closeMenu");
-        getActionMap().put("closeMenu", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ShortcutMenuPanel.this.setVisible(false);
-                frame.setContentPane(gamePanel);
-                frame.revalidate();
-                gamePanel.requestFocusInWindow();
-            }
-        });
     }
 
     // Helper method untuk membuat tombol seragam
@@ -135,4 +123,11 @@ public class ShortcutMenuPanel extends JPanel {
         button.setPreferredSize(BUTTON_SIZE);
         return button;
     }
+
+    // @Override
+    // public void setVisible(boolean aFlag) {
+    //     super.setVisible(aFlag);
+    //     System.out.println("shortcutMenuPanel.setVisible(" + aFlag + ")");
+    //     Thread.dumpStack();
+    // }
 }
