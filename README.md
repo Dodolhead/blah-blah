@@ -1,4 +1,4 @@
-# README Spakbor Hills
+# README
 Spakbor Hills
 Gambaran Umum
 Spakbor Hills adalah permainan simulasi bertani yang dikembangkan dengan Java sebagai bagian dari mata kuliah IF2010 Pemrograman Berorientasi Objek. Permainan ini mengikuti kisah Dr. Asep Spakbor, seorang mantan penjahat yang telah memutuskan untuk memulai kehidupan baru sebagai petani di desa damai Spakbor Hills.
