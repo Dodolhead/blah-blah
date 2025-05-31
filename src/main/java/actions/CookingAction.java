@@ -10,9 +10,11 @@ import items.*;
 public class CookingAction implements Action {
     private Recipe recipe;
     private int ENERGY_COST = 10;
+    Stove stove;
 
-    public CookingAction(Recipe recipe) {
+    public CookingAction(Recipe recipe, Stove stove) {
         this.recipe = recipe;
+        this.stove = stove;
     }
 
     public Recipe getRecipe() {
@@ -106,6 +108,7 @@ public class CookingAction implements Action {
             System.out.println("Your food is ready at " + time.getCurrentTime());
             
             player.getPlayerInventory().addItem(recipe.getFoodProduct(), 1);
+            stove.finishCooking();
         }).start();
     }
 

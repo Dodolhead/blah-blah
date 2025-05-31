@@ -132,6 +132,8 @@ public class Store extends NPCHome {
             }
         }
 
+        addItemToStore(ItemManager.getItem("Wedding Ring"), 1);
+
     }
 
     public void refillStock() {

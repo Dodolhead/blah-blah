@@ -225,6 +225,12 @@ public class FishingAction implements Action {
                 if (caught) {
                     showMessage("You caught a " + fishName + "!");
                     player.getPlayerInventory().addItem(caughtFish, 1);
+                    if (fishName.equalsIgnoreCase("Pufferfish")) {
+                        player.getPlayerInventory().addItem(ItemManager.getItem("Fugu Recipe"), 1);
+                    }
+                    if (fishName.equalsIgnoreCase("Legend")) {
+                        player.getPlayerInventory().addItem(ItemManager.getItem("The Legends of Spakbor Recipe"), 1);
+                    }
 
                     // Tambah statistik berdasarkan rarity
                     String rarity = caughtFish.getRarity(); // atau getRarity()
@@ -238,6 +244,10 @@ public class FishingAction implements Action {
                         name,
                         player.fishCaughtByName.getOrDefault(name, 0) + 1
                     );
+
+                    if (player.fishCaughtByName.size() == 10) {
+                        player.getPlayerInventory().addItem(ItemManager.getItem("Sashimi Recipe"), 1);
+                    }
                 } else {
                     showMessage("The fish got away...");
                 }

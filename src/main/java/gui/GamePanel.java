@@ -89,6 +89,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     //EndGame
     ShortcutMenuPanel shortcutMenuPanel;
+    boolean hasFishStew = false;
 
 
     public GamePanel(String playerName, String gender, String farmName, MainPanel mainPanel){ 
@@ -107,12 +108,12 @@ public class GamePanel extends JPanel implements Runnable{
         player.getPlayerInventory().addItem(ItemManager.getItem("Watering Can"), 1);
         player.getPlayerInventory().addItem(ItemManager.getItem("Pumpkin Pie Recipe"), 1);
         player.getPlayerInventory().addItem(ItemManager.getItem("Spakbor Salad Recipe"), 1);
-        // player.getPlayerInventory().addItem(ItemManager.getItem("Fish and Chips Recipe"), 1);
-        // player.getPlayerInventory().addItem(ItemManager.getItem("Wheat"), 10);
-        // player.getPlayerInventory().addItem(ItemManager.getItem("Potato"), 10);
-        // player.getPlayerInventory().addItem(ItemManager.getItem("Carp"), 20);
-        // player.getPlayerInventory().addItem(ItemManager.getItem("Coal"), 20);
-        // player.getPlayerInventory().addItem(ItemManager.getItem("Firewood"), 2);
+        player.getPlayerInventory().addItem(ItemManager.getItem("Fish and Chips Recipe"), 1);
+        player.getPlayerInventory().addItem(ItemManager.getItem("Wheat"), 10);
+        player.getPlayerInventory().addItem(ItemManager.getItem("Potato"), 10);
+        player.getPlayerInventory().addItem(ItemManager.getItem("Carp"), 20);
+        player.getPlayerInventory().addItem(ItemManager.getItem("Coal"), 20);
+        player.getPlayerInventory().addItem(ItemManager.getItem("Firewood"), 2);
         farm = new Farm(farmName, player, this);
         houseMap = new HouseMap(player.getPlayerLocation());
         forestRiver = new ForestRiver();
@@ -221,10 +222,15 @@ public class GamePanel extends JPanel implements Runnable{
     public void update() {
         player.update();
         for (NPC npc : NPCManager.npcList) {
-            if (npc != null) {
+            if (npc != null) {  
                 npc.update();
             }
         }
+        if (player.getPlayerInventory().hasItem("Hot Pepper") && !hasFishStew) {
+            player.getPlayerInventory().addItem(ItemManager.getItem("Fish Stew Recipe"),1);
+            hasFishStew = true;
+        }
+            
 
         removeOutOfSeasonCrops(farm.getFarmMap(), farm.getTime().getCurrentSeason().name());
         removeWitheredCrops(farm.getFarmMap(), farm.getTime().getDay());
@@ -358,8 +364,6 @@ public class GamePanel extends JPanel implements Runnable{
     public void returnToFarm() {
         Point pintuKeluar = farm.getFarmMap().getObjectPosition().get("HouseDoor").get(0);
         changeMap("Farm", pintuKeluar.getX() * tileSize -24, (pintuKeluar.getY() + 1) * tileSize);
-        VisitingAction visitingAction = new VisitingAction("Farm");
-        visitingAction.execute(player);
         mainPanel.showGame();
     }
 

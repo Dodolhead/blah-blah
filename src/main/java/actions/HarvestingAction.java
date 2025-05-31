@@ -146,6 +146,9 @@ public class HarvestingAction implements Action {
             return false;
         }
         player.cropsHarvested++;
+        if (player.cropsHarvested == 1){
+            player.getPlayerInventory().addItem(ItemManager.getItem("Veggie Soup Recipe"), 1);
+        }
         return true;
     }
 }

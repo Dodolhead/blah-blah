@@ -11,6 +11,8 @@ import java.io.IOException;
 public class Stove extends Furniture {
     private int fuelRemaining = 0;
     private String currentFuelType;
+    private boolean isCooking = false;
+    private Recipe currentCookingRecipe = null;
 
     public Stove() {
         super(
@@ -107,16 +109,28 @@ public class Stove extends Furniture {
     }
 
     public boolean useStove(Player player, Recipe recipe) {
-        CookingAction cookingAction = new CookingAction(recipe);
+        if (isCooking) {
+            System.out.println("This stove is already in use!");
+            return false;
+        }
         if (currentFuelType.equals("Empty")) {
             System.out.println("You don't have a fuel to cook.");
             return false;
         }
+
+        CookingAction cookingAction = new CookingAction(recipe,this);
         boolean result = cookingAction.execute(player);
         if (result) {
             consumeFuel();
+            isCooking = true;
+            currentCookingRecipe = recipe;
         }
         return result;
+    }
+
+    public void finishCooking() {
+        isCooking = false;
+        currentCookingRecipe = null;
     }
     
 }

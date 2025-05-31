@@ -326,9 +326,6 @@ public class Player {
                     gp.houseMap.stove.addFuel(gp.inventoryPanel.getSelectedItem().getItemName(),this);
                     System.out.println("Added Fuel to stove.");
                 }
-                else{
-                    System.out.println("You can't add fuel here");
-                }
                 keyH.addFuel = false;
             }
             if (keyH.cookingAction){
