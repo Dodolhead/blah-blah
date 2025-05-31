@@ -1,0 +1,8 @@
+*.class
+out/
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore Maven or build tool output
+target/
