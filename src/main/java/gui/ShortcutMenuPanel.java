@@ -40,7 +40,7 @@ public class ShortcutMenuPanel extends JPanel {
                     - Menyelesaikan tugas besar OOP mungkin?
                     """;
             JOptionPane.showMessageDialog(this, tujuan, "Tujuan Permainan", JOptionPane.INFORMATION_MESSAGE);
-            requestFocusInWindow(); 
+            gamePanel.requestFocusInWindow(); 
         });
         add(tujuanButton);
         add(Box.createVerticalStrut(20));
@@ -73,7 +73,7 @@ public class ShortcutMenuPanel extends JPanel {
                     - ESC     : Menu Shortcut
                     """;
             JOptionPane.showMessageDialog(this, helpText, "Bantuan", JOptionPane.INFORMATION_MESSAGE);
-            requestFocusInWindow(); 
+            gamePanel.requestFocusInWindow(); 
         });
         add(helpButton);
         add(Box.createVerticalStrut(20));
@@ -90,7 +90,7 @@ public class ShortcutMenuPanel extends JPanel {
             } else {
                 String message = "Milestone belum tercapai!\nBelum bisa melihat statistik akhir.";
                 JOptionPane.showMessageDialog(this, message, "End Game Gagal", JOptionPane.WARNING_MESSAGE);
-                requestFocusInWindow(); 
+                gamePanel.requestFocusInWindow(); 
             }
         });
         add(endGameButton);
@@ -108,7 +108,7 @@ public class ShortcutMenuPanel extends JPanel {
             if (confirm == JOptionPane.YES_OPTION) {
                 System.exit(0);
             }
-            requestFocusInWindow(); 
+            gamePanel.requestFocusInWindow(); 
         });
         add(exitButton);
         add(Box.createVerticalStrut(20));

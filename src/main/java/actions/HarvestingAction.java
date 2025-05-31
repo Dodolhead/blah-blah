@@ -106,7 +106,7 @@ public class HarvestingAction implements Action {
             Point cropLocation = new Point(x, y);
 
             // Cek tile harus planted, seed harus ada, plantedDay harus ada
-            if (mapDisplay[y][x] != 'l') continue;
+            if (mapDisplay[y][x] != 'l' && mapDisplay[y][x] != 'w') continue;
             if (!plantedSeeds.containsKey(cropLocation)) continue;
             Integer plantedDayObj = plantedDayMap.get(cropLocation);
             if (plantedDayObj == null) continue;
