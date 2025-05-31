@@ -31,7 +31,8 @@ Stressdew Valley adalah permainan simulasi bertani yang dikembangkan dengan Java
 
 ## Features
 Technical Features: GUI, mouse input, and keyboard utilization
-Main Features:
+
+Game Features:
 - View Player Info: menampilkan informasi utama Player
 - Farming: tilling, watering, planting, harvesting, recovering
 - Fishing: permainan menebak angka
