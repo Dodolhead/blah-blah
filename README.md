@@ -137,16 +137,25 @@ Sistem manajemen waktu paralel
 Pemrosesan aksi asinkron
 
 # 4. Design Patterns yang Diimplementasikan
-1. Singleton
-Digunakan untuk manajemen status permainan global dan pelacakan waktu
-2. Factory
-Sistem pembuatan item untuk menghasilkan berbagai jenis item
-3. Observer
-Sistem event untuk perubahan status permainan dan notifikasi
-4. Command
-Sistem eksekusi aksi yang memungkinkan fungsionalitas undo/redo
-5. State
-Manajemen status pemain dan NPC
+- Singleton Pattern
+- Observer Pattern
+- Strategy Pattern
+- Command Pattern
+- Composite Pattern
+- State Pattern
+- Template Method Pattern
+- Memento Pattern
+- Facade Pattern
+- Factory Method Pattern
+- Dependency Injection
+- Data Access Object (DAO) Pattern
+- Null Object Pattern
+- BUILDER Pattern
+- Adapter Pattern
+- Chain of Responsibility  Pattern
+- Event Notification  Pattern
+- Proxy Pattern
+- Iterator Pattern
 
 # 5. Tim Pengembang
 - Leonard Arif S.(18223120)
