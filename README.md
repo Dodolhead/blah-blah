@@ -76,39 +76,33 @@ Klik tombol run atau tekan tombol pintas (biasanya Shift+F10 di IntelliJ, Ctrl+F
 - visit [lokasi] = Mengunjungi lokasi
 - sell [item] [jumlah] = Menempatkan barang di shipping bin
 
-Konsep Pemrograman Berorientasi Objek yang Diimplementasikan
-1. Inheritance (Pewarisan)
-
+# 3. Konsep Pemrograman Berorientasi Objek yang Diimplementasikan
+## 1. Inheritance (Pewarisan)
 BaseItem → Hierarki Crop/Seed/Fish/Tool
 BaseNPC → Implementasi NPC individu
 
-2. Abstract Classes / Interfaces (Kelas Abstrak / Antarmuka)
-
+## 2. Abstract Classes / Interfaces (Kelas Abstrak / Antarmuka)
 IInteractable untuk semua objek yang dapat diinteraksi
 AbstractItem sebagai dasar untuk semua jenis item
 Antarmuka ActionHandler untuk semua pemroses aksi
 
-3. Polymorphism (Polimorfisme)
-
+## 3. Polymorphism (Polimorfisme)
 Berbagai jenis item berperilaku berbeda saat digunakan
 Reaksi NPC bervariasi berdasarkan kepribadian dan preferensi hadiah
 
-4. Generics
-
+## 4. Generics
 Implementasi Inventory<T extends Item>
 EventHandler<T extends Event> untuk event permainan
 
-5. Exceptions (Pengecualian)
-
+## 5. Exceptions (Pengecualian)
 Pengecualian khusus untuk aksi yang tidak valid
 Penanganan kesalahan untuk energi/sumber daya yang tidak mencukupi
 
 6. Concurrency (Konkurensi)
-
 Sistem manajemen waktu paralel
 Pemrosesan aksi asinkron
 
-Design Patterns yang Diimplementasikan
+# 4. Design Patterns yang Diimplementasikan
 1. Singleton
 Digunakan untuk manajemen status permainan global dan pelacakan waktu
 2. Factory
@@ -119,13 +113,13 @@ Sistem event untuk perubahan status permainan dan notifikasi
 Sistem eksekusi aksi yang memungkinkan fungsionalitas undo/redo
 5. State
 Manajemen status pemain dan NPC
-Tim Pengembang
 
-Leonard Arif S.(18223120)
-Nicholas Zefanya L.(18223111)
-Kenzie Raffa A.(18223127)
-Anggita Najmi L.(18223122)
-Maria Vransiska P.C.T.D.P.(18223119)
+# 5. Tim Pengembang
+- Leonard Arif S.(18223120)
+- Nicholas Zefanya L.(18223111)
+- Kenzie Raffa A.(18223127)
+- Anggita Najmi L.(18223122)
+- Maria Vransiska P.C.T.D.P.(18223119)
 
 Lisensi
 Proyek ini dikembangkan sebagai bagian dari mata kuliah IF2010 Pemrograman Berorientasi Objek di STI.
