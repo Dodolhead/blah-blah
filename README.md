@@ -10,7 +10,7 @@ Stressdew Valley adalah permainan simulasi bertani yang dikembangkan dengan Java
 |          **Nama**        |  **NIM** |   **Github**   |
 |--------------------------|----------|----------------|
 | Nicholas Zefanya Lamtyo  | 18223111 | [@nicholaszef](https://github.com/nicholaszef)|
-| Maria V.P.C.T.D.P |      | 18223119 | [@MariaVransiska](http://github.com/MariaVransiska)|
+| Maria V.P.C.T.D.P        | 18223119 | [@MariaVransiska](http://github.com/MariaVransiska)|
 | Leonard Arif Sutiono     | 18223120 | [@LeonArif](https://github.com/LeonArif)|
 | Anggita Najmi Layali     | 18223122 | [@gitaa001](https://github.com/gitaa001)|
 | Kenzie Raffa Ardhana     | 18223127 | [@KenzieRafa](https://github.com/KenzieRafa)|
