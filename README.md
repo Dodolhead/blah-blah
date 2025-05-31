@@ -10,11 +10,9 @@ Spakbor Hills adalah permainan simulasi bertani yang dikembangkan dengan Java se
 Karena proyek ini hanya terdiri dari satu file main.java, langkah-langkah untuk kompilasi dan eksekusi sangat sederhana:
 bash
 ## Kompilasi file main.java
-bash
 javac main.java
 
 ## Jalankan program
-bash
 java main
 
 ## Jika Anda menggunakan IDE:
@@ -121,5 +119,13 @@ Manajemen status pemain dan NPC
 - Anggita Najmi L.(18223122)
 - Maria Vransiska P.C.T.D.P.(18223119)
 
-Lisensi
-Proyek ini dikembangkan sebagai bagian dari mata kuliah IF2010 Pemrograman Berorientasi Objek di STI.
+# 6. Referensi
+## Bahasa Pemrograman dan OOP
+- Oracle. (2023). The Java Tutorials. https://docs.oracle.com/javase/tutorial/
+- Bloch, J. (2018). Effective Java (3rd ed.). Addison-Wesley Professional.
+- Horstmann, C. S. (2019). Core Java Volume I—Fundamentals (11th ed.). Pearson.
+
+## Design Patterns:
+- Gamma, E., Helm, R., Johnson, R., & Vlissides, J. (1994). Design Patterns: Elements of Reusable Object-Oriented Software. Addison-Wesley.
+- Freeman, E., Robson, E., Bates, B., & Sierra, K. (2020). Head First Design Patterns (2nd ed.). O'Reilly Media.
+- Refactoring.guru. (2023). Design Patterns. https://refactoring.guru/design-patterns
