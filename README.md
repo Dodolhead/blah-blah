@@ -4,7 +4,7 @@
 ![image](https://github.com/user-attachments/assets/388d54d2-18a2-4f7e-9986-b64b5639557f)
 
 ## Description
-Stressdew Valley adalah permainan simulasi bertani yang dikembangkan dengan Java berbasis GUI Java-Swing yang dirancang untuk menjalankan actions utama bertani: tilling, planting, watering, dan harvesting. Permainan ini juga mendukung actions lain dalam berbagai map yang tersedia.
+Stressdew Valley adalah permainan simulasi bertani yang dikembangkan dengan Java berbasis GUI Java-Swing yang dirancang untuk menjalankan beberapa aksi dalam bertani dan berinteraksi dengan NPC dan mencapai milestones. Permainan ini juga mendukung actions lain dalam berbagai map yang tersedia.
 
 ## Contributors
 |          **Nama**        |  **NIM** |   **Github**   |
