@@ -18,7 +18,7 @@ public class KeyHandler implements KeyListener {
     public boolean placeFurniture;
     public boolean addFuel;
     public boolean shippingBinToggle;
-    public boolean endGameToggle;
+    public boolean menuToggle;
     
 
     public KeyHandler(GamePanel gp) {
@@ -69,6 +69,7 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_F -> fishAction = true;
             case KeyEvent.VK_N -> interactNPC = true;
             case KeyEvent.VK_H -> harvestAction = true;
+            case KeyEvent.VK_ESCAPE -> menuToggle = true;
         }
         if (code == KeyEvent.VK_E){
             eatAction = true;
@@ -108,6 +109,7 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_F -> fishAction = false;
             case KeyEvent.VK_N -> interactNPC = false;
             case KeyEvent.VK_H -> harvestAction = false;
+            case KeyEvent.VK_ESCAPE -> menuToggle = false;
         }
         if (code == KeyEvent.VK_E){
             eatAction = false;

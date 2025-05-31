@@ -14,7 +14,6 @@ public class Caroline extends NPC{
         speed = 1;
 
         getNPCImage();
-        npcLocation = new Location("Farm", new Point(2 * gp.tileSize, 3 * gp.tileSize));
         npcLocation = new Location("CarolineHome", new Point(2 * gp.tileSize, 3 * gp.tileSize));
         this.addLovedItem(ItemManager.getItem("Firewood"));
         this.addLovedItem(ItemManager.getItem("Coal"));

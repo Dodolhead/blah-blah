@@ -1,7 +1,6 @@
 package gui;
 import javax.swing.*;
 
-import actions.*;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -17,6 +16,8 @@ import items.Seed;
 import items.ShippingBin;
 import map.*;
 import tile.*;
+import actions.*;
+import endgame.EndGame;
 
 
 public class GamePanel extends JPanel implements Runnable{
@@ -86,6 +87,10 @@ public class GamePanel extends JPanel implements Runnable{
     private JLabel selectedItemLabel;
     public ShippingBinPanel shippingBinPanel;
     public ShippingBin shippingBin = new ShippingBin();
+
+    //EndGame
+    private EndGame endGame = new EndGame();
+    ShortcutMenuPanel shortcutMenuPanel;
 
 
     public GamePanel(String playerName, String gender, String farmName, MainPanel mainPanel){ 
@@ -171,6 +176,13 @@ public class GamePanel extends JPanel implements Runnable{
         shippingBinPanel.setBounds(10, 10, 180, 200); // kiri atas
         shippingBinPanel.setVisible(false);
         this.add(shippingBinPanel);
+
+        //EndGame Panel
+        this.setLayout(null);
+        shortcutMenuPanel = new ShortcutMenuPanel((JFrame) SwingUtilities.getWindowAncestor(this), player, farm.getTime(), this);
+        shortcutMenuPanel.setBounds(200, 100, 300, 300);
+        shortcutMenuPanel.setVisible(false);
+        this.add(shortcutMenuPanel);
     }
 
 
@@ -254,12 +266,19 @@ public class GamePanel extends JPanel implements Runnable{
             }
             keyH.interactNPC = false;
         }
-
+        if (keyH.menuToggle) {
+            if (shortcutMenuPanel.isVisible()) {
+                shortcutMenuPanel.setVisible(false);
+            } else if (gameState != GameState.NPC_DIALOGUE) {
+                shortcutMenuPanel.setVisible(true);
+            }
+            keyH.menuToggle = false;
+        }
     }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        ImageIcon image = new ImageIcon(getClass().getResource("/res/gamebackground/bg.jpg"));
+        ImageIcon image = new ImageIcon(getClass().getResource("/res/gamebackground/night.jpg"));
         Graphics2D g2 = (Graphics2D) g;
         g.drawImage(image.getImage(), 0, 0, screenWidth, screenHeight, null);
         tileM.draw(g2);
@@ -270,6 +289,9 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
         chatPanel.draw(g2);
+        g2.setFont(new Font("Arial", Font.BOLD, 20));
+        g2.setColor(Color.WHITE);
+        g2.drawString("Press Esc for MENU", 10, 50);
 
         // Draw current location name
         g2.setColor(Color.WHITE);
