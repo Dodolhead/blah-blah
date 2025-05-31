@@ -142,7 +142,7 @@ public class TileManager {
             tile[18].collision = true;
 
             tile[19] = new Tile();
-            tile[19].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tembokstore.png"));
+            tile[19].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/watered.png"));
             tile[19].collision = false;
 
             tile[20] = new Tile();
