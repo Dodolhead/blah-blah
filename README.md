@@ -3,21 +3,57 @@ Spakbor Hills
 Gambaran Umum
 Spakbor Hills adalah permainan simulasi bertani yang dikembangkan dengan Java sebagai bagian dari mata kuliah IF2010 Pemrograman Berorientasi Objek. Permainan ini mengikuti kisah Dr. Asep Spakbor, seorang mantan penjahat yang telah memutuskan untuk memulai kehidupan baru sebagai petani di desa damai Spakbor Hills.
 
-# 1. Persyaratan Teknis
-## Prasyarat
-- Java Development Kit (JDK) 11 atau lebih tinggi
-## Kompilasi dan Eksekusi
-Karena proyek ini hanya terdiri dari satu file main.java, langkah-langkah untuk kompilasi dan eksekusi sangat sederhana:
-bash
-## Kompilasi file main.java
-javac main.java
+kalau gw buat readme nya gini di bagian run bener ga?                                                                                                                                     
 
-## Jalankan program
-java main
+# 1. Instalasi Prasyarat
 
-## Jika Anda menggunakan IDE:
-Buka file main.java di IDE favorit Anda (IntelliJ IDEA, Eclipse, VSCode, dll)
-Klik tombol run atau tekan tombol pintas (biasanya Shift+F10 di IntelliJ, Ctrl+F11 di Eclipse)
+# Instalasi Java Development Kit (JDK)
+Unduh JDK dari situs resmi Oracle atau OpenJDK
+Ikuti petunjuk instalasi untuk sistem operasi Anda
+Setelah instalasi, pastikan JDK berfungsi dengan menjalankan:
+java -version
+
+# Instalasi Maven
+Windows:
+- Unduh Maven dari situs resmi Apache Maven
+-  Ekstrak file ZIP ke lokasi permanen (misalnya C:\Maven\apache-maven-3.9.6)
+- Atur variabel lingkungan:
+Buka Control Panel > System > Advanced System Settings > Environment Variables
+Buat variabel JAVA_HOME baru: C:\Path\To\Your\JDK (tanpa folder bin)
+Buat variabel MAVEN_HOME baru: C:\Maven\apache-maven-3.9.6
+Tambahkan %MAVEN_HOME%\bin ke variabel PATH
+- Verifikasi instalasi dengan membuka Command Prompt baru:
+mvn --version
+
+
+macOS/Linux:
+- Instal menggunakan package manager:
+macOS: brew install maven
+Ubuntu/Debian: sudo apt install maven
+Fedora: sudo dnf install maven
+
+- Atau instal secara manual:
+Unduh dan ekstrak Maven
+Atur variabel lingkungan di ~/.bashrc atau ~/.zshrc:
+export JAVA_HOME=/path/to/your/jdk
+export MAVEN_HOME=/path/to/maven
+export PATH=$PATH:$MAVEN_HOME/bin
+
+- Verifikasi instalasi:
+mvn --version
+
+# Menjalankan Proyek Spakbor Hills dengan Maven
+Metode 1: Menjalankan Main.java Langsung
+Jika proyek hanya terdiri dari file Main.java tunggal:
+bash# Arahkan ke direktori proyek
+cd path/to/spakbor-hills
+
+# Kompilasi dengan Maven
+mvn compile
+
+# Jalankan kelas Main
+mvn exec:java -Dexec.mainClass="Main"
+Metode 2: Menjalankan Proyek Maven
 
 # 2. Fitur Permainan
 ## Mekanik Utama
