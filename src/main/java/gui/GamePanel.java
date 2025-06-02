@@ -137,7 +137,7 @@ public class GamePanel extends JPanel implements Runnable{
         worldWidth = tileSize * maxWorldCol;
         worldHeight = tileSize * maxWorldRow;
         player.setScreenPosition(screenWidth, screenHeight);
-        player.getPlayerGold().addGold(500); // tes
+        player.getPlayerGold().addGold(18500); // tes
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.tileM = new TileManager(this, player);
         setCurrentMap(currentMap);
@@ -179,10 +179,14 @@ public class GamePanel extends JPanel implements Runnable{
 
         //EndGame Panel
         this.setLayout(null);
-        shortcutMenuPanel = new ShortcutMenuPanel((JFrame) SwingUtilities.getWindowAncestor(this), player, farm.getTime(), this);
-        shortcutMenuPanel.setBounds(250, 100, 300, 300);
-        shortcutMenuPanel.setVisible(false);
-        this.add(shortcutMenuPanel);
+        SwingUtilities.invokeLater(() -> {
+            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            shortcutMenuPanel = new ShortcutMenuPanel(parentFrame, player, farm.getTime(), this);
+            shortcutMenuPanel.setBounds(250, 100, 300, 300);
+            shortcutMenuPanel.setVisible(false);
+            this.add(shortcutMenuPanel);
+        });
+
     }
 
 

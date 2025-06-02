@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class EndGamePanel extends JPanel {
 
-    public EndGamePanel(EndGameStats stats) {
+    public EndGamePanel(EndGameStats stats, MainPanel mainPanel) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
@@ -59,5 +59,16 @@ public class EndGamePanel extends JPanel {
         JScrollPane fishScroll = new JScrollPane(fishTable);
         fishScroll.setBorder(BorderFactory.createTitledBorder("Fish Caught by Rarity"));
         add(fishScroll);
+
+        // --- Close Button ---
+        JButton closeButton = new JButton("Back to Game");
+        closeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        closeButton.addActionListener(e -> {
+            if (mainPanel != null) {
+                mainPanel.showGame();
+            }
+        });
+        add(Box.createVerticalStrut(20));
+        add(closeButton);
     }
 }

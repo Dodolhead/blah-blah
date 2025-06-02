@@ -84,9 +84,10 @@ public class ShortcutMenuPanel extends JPanel {
             EndGame endGame = new EndGame();
             if (endGame.checkMilestoneAndShowStats(player)) {
                 EndGameStats stats = new EndGameStats(player, time);
-                EndGamePanel panel = new EndGamePanel(stats);
-                frame.setContentPane(panel);
-                frame.revalidate();
+                EndGamePanel endGamePanel = new EndGamePanel(stats, gamePanel.mainPanel);
+                gamePanel.mainPanel.add(endGamePanel, "endgame");
+                gamePanel.mainPanel.cardLayout.show(gamePanel.mainPanel, "endgame");
+                endGamePanel.requestFocusInWindow();
             } else {
                 String message = "Milestone belum tercapai!\nBelum bisa melihat statistik akhir.";
                 JOptionPane.showMessageDialog(this, message, "End Game Gagal", JOptionPane.WARNING_MESSAGE);
