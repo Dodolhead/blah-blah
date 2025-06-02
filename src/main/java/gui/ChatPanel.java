@@ -153,10 +153,19 @@ public class ChatPanel {
         switch (Character.toUpperCase(commandKey)) {
             case 'C':
                 showDialogue(currentNPC, currentNPC.getRandomDialogue());
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        return;
+                    }
+                    gp.chatPanel.hideDialogue();
+                }).start();
                 break;
 
             case 'G':
-                Item giftItem = gp.inventoryPanel.getSelectedItem(); // bisa diganti logika seleksi item
+                Item giftItem = gp.inventoryPanel.getSelectedItem();
                 int amount = 1;
                 if (giftItem == null) {
                     showDialogue(currentNPC, "You have no item to gift.");
@@ -169,10 +178,19 @@ public class ChatPanel {
                 } else {
                     showDialogue(currentNPC, "I don't really like that...");
                 }
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        return;
+                    }
+                    gp.chatPanel.hideDialogue();
+                }).start();
                 break;
 
             case 'Q':
-                boolean proposed = new ProposingAction(currentNPC).execute(player);
+                boolean proposed = new ProposingAction(currentNPC,gp).execute(player);
                 if (proposed) {
                     showDialogue(currentNPC, "Will you be mine forever?");
                 } else {
@@ -181,7 +199,7 @@ public class ChatPanel {
                 break;
 
             case 'M':
-                boolean married = new MarryingAction(currentNPC).execute(player);
+                boolean married = new MarryingAction(currentNPC,gp).execute(player);
                 if (married) {
                     showDialogue(currentNPC, "We're married now!");
                 } else {

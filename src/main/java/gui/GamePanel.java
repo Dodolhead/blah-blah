@@ -94,8 +94,8 @@ public class GamePanel extends JPanel implements Runnable{
 
     public GamePanel(String playerName, String gender, String farmName, MainPanel mainPanel){ 
         this.mainPanel = mainPanel;
-        setupNpc();
         ItemManager.setItems(); 
+        setupNpc();
         cChecker = new TileChecker(this);
         keyH = new KeyHandler(this);
         player = new Player(playerName, gender, farmName, this, keyH);
@@ -114,6 +114,8 @@ public class GamePanel extends JPanel implements Runnable{
         player.getPlayerInventory().addItem(ItemManager.getItem("Carp"), 20);
         player.getPlayerInventory().addItem(ItemManager.getItem("Coal"), 20);
         player.getPlayerInventory().addItem(ItemManager.getItem("Firewood"), 2);
+        player.getPlayerInventory().addItem(ItemManager.getItem("Catfish"), 10);
+        player.getPlayerInventory().addItem(ItemManager.getItem("Wedding Ring"), 1);
         farm = new Farm(farmName, player, this);
         houseMap = new HouseMap(player.getPlayerLocation());
         forestRiver = new ForestRiver();

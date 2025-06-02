@@ -1,35 +1,52 @@
 package entities;
 
 import gui.*;
+import items.Item;
 import items.ItemManager;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import map.*;
 
 import javax.imageio.ImageIO;
 
 public class Abigail extends NPC {
     public Abigail(GamePanel gp) {
-        super("Abigail", "single", gp);
+        // Konstruktor NPC diberi null/null/null
+        super("Abigail", "single", gp, null, null, null);
         direction = "down";
         speed = 1;
 
+        // Buat dan isi list
+        List<Item> loved = new ArrayList<>();
+        loved.add(ItemManager.getItem("Blueberry"));
+        loved.add(ItemManager.getItem("Melon"));
+        loved.add(ItemManager.getItem("Pumpkin"));
+        loved.add(ItemManager.getItem("Grape"));
+        loved.add(ItemManager.getItem("Cranberry"));
+
+        List<Item> liked = new ArrayList<>();
+        liked.add(ItemManager.getItem("Baguette"));
+        liked.add(ItemManager.getItem("Pumpkin Pie"));
+        liked.add(ItemManager.getItem("Wine"));
+
+        List<Item> hated = new ArrayList<>();
+        hated.add(ItemManager.getItem("Hot Pepper"));
+        hated.add(ItemManager.getItem("Cauliflower"));
+        hated.add(ItemManager.getItem("Parsnip"));
+        hated.add(ItemManager.getItem("Wheat"));
+
+        // Set ke NPC parent
+        setLoved(loved);
+        setLiked(liked);
+        setHated(hated);
+
         getNPCImage();
         npcLocation = new Location("AbigailHome", new Point(5 * gp.tileSize, 1 * gp.tileSize));
-        this.addLovedItem(ItemManager.getItem("Blueberry"));
-        this.addLovedItem(ItemManager.getItem("Melon"));
-        this.addLovedItem(ItemManager.getItem("Pumpkin"));
-        this.addLovedItem(ItemManager.getItem("Grape"));
-        this.addLovedItem(ItemManager.getItem("Cranberry"));
-        this.addLikedItem(ItemManager.getItem("Baguette"));
-        this.addLikedItem(ItemManager.getItem("Pumpkin Pie"));
-        this.addLikedItem(ItemManager.getItem("Wine"));
-        this.addHatedItem(ItemManager.getItem("Hot Pepper"));
-        this.addHatedItem(ItemManager.getItem("Cauliflower"));
-        this.addHatedItem(ItemManager.getItem("Parsnip"));
-        this.addHatedItem(ItemManager.getItem("Wheat"));
     }
 
+    @Override
     public void getNPCImage() {
         try {
             up1 = ImageIO.read(getClass().getResourceAsStream("/res/npc/abigailatas1.png"));

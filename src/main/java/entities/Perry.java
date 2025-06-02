@@ -5,29 +5,43 @@ import items.Item;
 import items.ItemManager;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import map.*;
 
 import javax.imageio.ImageIO;
 
 public class Perry extends NPC {
     public Perry(GamePanel gp) {
-        super("Perry", "single", gp);
+        super("Perry", "single", gp, null, null, null);
         direction = "down";
         speed = 1;
 
-        getNPCImage();
-        npcLocation = new Location("PerryHome", new Point(5 * gp.tileSize, 1 * gp.tileSize));
-        this.addLovedItem(ItemManager.getItem("Cranberry"));
-        this.addLovedItem(ItemManager.getItem("Blueberry"));
-        this.addLikedItem(ItemManager.getItem("Wine"));
-        // Hated: semua item Fish
+        // Inisialisasi dan isi list
+        List<Item> loved = new ArrayList<>();
+        loved.add(ItemManager.getItem("Cranberry"));
+        loved.add(ItemManager.getItem("Blueberry"));
+
+        List<Item> liked = new ArrayList<>();
+        liked.add(ItemManager.getItem("Wine"));
+
+        List<Item> hated = new ArrayList<>();
         for (Item item : ItemManager.getAllItems()) {
             if (item instanceof items.Fish) {
-                this.addHatedItem(item);
+                hated.add(item);
             }
         }
+
+        // Set ke NPC
+        setLoved(loved);
+        setLiked(liked);
+        setHated(hated);
+
+        getNPCImage();
+        npcLocation = new Location("PerryHome", new Point(5 * gp.tileSize, 1 * gp.tileSize));
     }
 
+    @Override
     public void getNPCImage() {
         try {
             up1 = ImageIO.read(getClass().getResourceAsStream("/res/npc/perryatas1.png"));

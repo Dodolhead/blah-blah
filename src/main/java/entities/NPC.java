@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.awt.image.BufferedImage;
 import gui.*;
@@ -43,13 +42,10 @@ public abstract class NPC {
     public int giftingFrequency = 0;
     public int visitingFrequency = 0;
     
-    public NPC(String npcName, String relationshipStatus, GamePanel gp) {
+    public NPC(String npcName, String relationshipStatus, GamePanel gp, List<Item> lovedItem, List<Item> likedItem, List<Item> hatedItem) {
         this.gp = gp;
         this.npcName = npcName;
         this.heartPoints = INITIAL_HEART_POINTS;
-        this.lovedItem = new ArrayList<Item>();
-        this.likedItem = new ArrayList<Item>();
-        this.hatedItem = new ArrayList<Item>();
         this.relationshipStatus = relationshipStatus;
         this.npcItemStorage = new HashMap<>();
         NPCManager.addNPC(this);
@@ -127,6 +123,18 @@ public abstract class NPC {
 
     public void setNPCLocation(Location npcLocation) {
         this.npcLocation = npcLocation;
+    }
+
+    public void setLoved(List<Item> loved){
+        this.lovedItem = loved;
+    }
+
+    public void setLiked(List<Item> liked){
+        this.likedItem = liked;
+    }
+
+    public void setHated(List<Item> hated){
+        this.hatedItem = hated;
     }
 
     public void draw(Graphics2D g2) {

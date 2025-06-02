@@ -1,27 +1,43 @@
 package entities;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
+import java.util.ArrayList;
+import java.util.List;
 import map.*;
 
+import javax.imageio.ImageIO;
 import gui.*;
+import items.Item;
 import items.ItemManager;
 
 public class Caroline extends NPC{
     public Caroline(GamePanel gp) {
-        super("Caroline", "single", gp);
+        // Konstruktor NPC diberi null
+        super("Caroline", "single", gp, null, null, null);
         direction = "down";
         speed = 1;
 
+        // Inisialisasi dan isi list
+        List<Item> loved = new ArrayList<>();
+        loved.add(ItemManager.getItem("Firewood"));
+        loved.add(ItemManager.getItem("Coal"));
+
+        List<Item> liked = new ArrayList<>();
+        liked.add(ItemManager.getItem("Potato"));
+        liked.add(ItemManager.getItem("Wheat"));
+
+        List<Item> hated = new ArrayList<>();
+        hated.add(ItemManager.getItem("Hot Pepper"));
+
+        // Set list ke NPC
+        setLoved(loved);
+        setLiked(liked);
+        setHated(hated);
+
         getNPCImage();
         npcLocation = new Location("CarolineHome", new Point(2 * gp.tileSize, 3 * gp.tileSize));
-        this.addLovedItem(ItemManager.getItem("Firewood"));
-        this.addLovedItem(ItemManager.getItem("Coal"));
-        this.addLikedItem(ItemManager.getItem("Potato"));
-        this.addLikedItem(ItemManager.getItem("Wheat"));
-        this.addHatedItem(ItemManager.getItem("Hot Pepper"));
     }
 
+    @Override
     public void getNPCImage(){
         try {
             up1 = ImageIO.read(getClass().getResourceAsStream("/res/npc/carolineatas1.png"));

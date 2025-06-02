@@ -1,5 +1,6 @@
 package items;
 import java.awt.image.BufferedImage;
+import java.util.Objects;
 
 public class Item {
     private String itemName;
@@ -44,5 +45,16 @@ public class Item {
         this.sellPrice = sellPrice;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Item other = (Item) obj;
+        return Objects.equals(this.getItemName(), other.getItemName());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getItemName());
+    }
 }
